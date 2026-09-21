@@ -145,6 +145,10 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
 .medres{margin-top:9px;background:var(--blue-bg);color:var(--blue);border-radius:var(--r2);
   padding:8px 11px;font-size:12.5px;font-weight:600}
 .medres.vazio{background:var(--bg3);color:var(--text3);font-weight:500}
+.eqprow{margin-top:11px}
+.eqprow label{display:block;font-size:11px;font-weight:700;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.eqprow select{width:100%;padding:11px 10px;border:1.5px solid var(--border2);border-radius:var(--r2);background:#fff;outline:none}
 .slotp{position:relative;aspect-ratio:4/3;max-height:230px;border:2px dashed var(--border2);border-radius:var(--r2);background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
 .slotp.cheio{border-style:solid;border-color:var(--green)}
 .slotp i{font-size:26px;color:var(--text3)}
@@ -427,7 +431,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
    Companheiro do sistema de Relatório Fotográfico. Funciona offline e
    sincroniza pela mesma tabela na nuvem usada pelo computador.
    ====================================================================== */
-const APP_VERSION = '20260921-002';
+const APP_VERSION = '20260921-003';
 
 /* ======================================================================
    CONFIGURAÇÃO DA NUVEM — preencha UMA VEZ, antes de publicar o app.
@@ -444,10 +448,10 @@ const NUVEM = {
 };
 
 /* ------------------------------- BANCO ---------------------------------- */
-const DB_NAME='TESTE_CAMPO_DB', DB_VERSION=5;   /* bump obrigatorio ao somar store */
-const STORES=['furos','relatorios','equipes','servicos','historico','dispositivos','usuarios','fotos','imagens'];
+const DB_NAME='TESTE_CAMPO_DB', DB_VERSION=6;   /* bump obrigatorio ao somar store */
+const STORES=['furos','relatorios','equipes','servicos','equipamentos','equipuso','historico','dispositivos','usuarios','fotos','imagens'];
 /* 'imagens' guarda os bytes das fotos e NUNCA sobe pela tabela: as imagens vao para o Storage. */
-const SYNC_STORES=['furos','relatorios','equipes','servicos','historico','dispositivos','usuarios','fotos'];
+const SYNC_STORES=['furos','relatorios','equipes','servicos','equipamentos','equipuso','historico','dispositivos','usuarios','fotos'];
 const BUCKET='fotos';
 let db=null;
 
@@ -893,7 +897,10 @@ function ir(t){
 
 /* ------------------------------- LISTAS --------------------------------- */
 async function preencherListas(){
-  const [eqs,srvs,furos]=await Promise.all([dbGetAll('equipes'),dbGetAll('servicos'),dbGetAll('furos')]);
+  const [eqs,srvs,furos,eqps]=await Promise.all([dbGetAll('equipes'),dbGetAll('servicos'),
+                                                 dbGetAll('furos'),dbGetAll('equipamentos')]);
+  /* Os equipamentos vêm do escritório pela sincronização — aqui só se escolhe. */
+  window._eqps = eqps.map(q=>q.nome).sort((a,b)=>String(a).localeCompare(String(b)));
   window._srvs = srvs.length ? srvs.map(s=>s.nome) : ['Recomposição de Capa Asfáltica'];
   setSel('s-srv', window._srvs.map(s=>`<option>${esc(s)}</option>`).join(''));
   preencherEquipes('a-eq'); preencherEquipes('s-eq');
@@ -1473,7 +1480,7 @@ async function seqAddFuro(){
     relatorioUid:REL_ATUAL.uid,
     num, data:$('s-data').value,
     rua:$('s-rua').value.trim(), servico:$('s-srv').value, equipe:$('s-eq').value||ID.equipe,
-    comp:'', larg:'', prof:'',
+    comp:'', larg:'', prof:'', equipamento:'',
     origem:'mobile', dispositivo:ID.dispositivo, lancadoPor:ID.nome, lancadoLogin:ID.login,
     status:'Pendente', validadoPor:'', validadoEm:'', motivoDevolucao:''
   });
@@ -1673,7 +1680,8 @@ function medPinta(uid){
     + (medNum(f.prof) ? ` · Volume <b>${medBR(medVolume(f),3)} m³</b>` : ' · falta a profundidade');
 }
 async function medGravar(uid, campo, valor){
-  await seqSetCampo(uid, campo, medNum(valor) || '');
+  await seqSetCampo(uid, campo, campo==='equipamento' ? valor : (medNum(valor) || ''));
+  if(campo==='equipamento') return;
   medPinta(uid);
   medResumoTela(await seqFuros());
 }
@@ -1728,6 +1736,10 @@ async function seqRender(){
           <button class="btn sm" style="width:auto;padding:6px 9px" onclick="seqExcluirFuro('${f.uid}',${f.num})"><i class="ti ti-trash"></i></button></div>
         <div class="fb">
           <div class="fotos">${cels}</div>
+          <div class="eqprow">
+            <label>Equipamento que trabalhou neste buraco</label>
+            <select onchange="medGravar('${f.uid}','equipamento',this.value)">${EQP_OPCOES(f.equipamento)}</select>
+          </div>
           <div class="medrow">
             <div><label>Compr. (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
               data-med="${f.uid}|comp" value="${medNum(f.comp)||''}" placeholder="0,00"
@@ -1869,6 +1881,11 @@ function SRV_OPCOES(sel){
   const base = window._srvs || [];
   return base.map(s=>`<option${s===sel?' selected':''}>${esc(s)}</option>`).join('');
 }
+function EQP_OPCOES(sel){
+  const base = window._eqps || [];
+  return `<option value=""${sel?'':' selected'}>— nenhum —</option>`
+       + base.map(q=>`<option${q===sel?' selected':''}>${esc(q)}</option>`).join('');
+}
 
 /* -------------------- envio das fotos + PDF do relatório ---------------- */
 async function seqEnviarFotos(silencioso){
@@ -2005,7 +2022,11 @@ async function seqGerarPDF(compartilhar){
         const medidos = par.filter(f=>medArea(f)>0).map(f=>
           `${par.length>1?'nº '+f.num+': ':''}${medBR(medNum(f.comp),2)}×${medBR(medNum(f.larg),2)}`
           + (medNum(f.prof)?`×${medBR(medNum(f.prof),2)}`:'') + ` m = ${medBR(medArea(f),2)} m²`);
-        if(medidos.length) linhas.push(['Medição', medidos.join('  /  ')]);
+        /* O bloco tem altura fixa: cabem quatro linhas, nunca cinco. Por isso o
+           equipamento entra junto da medição em vez de abrir linha própria. */
+        const maqs = [...new Set(par.map(f=>f.equipamento).filter(Boolean))].join(' / ');
+        if(medidos.length) linhas.push(['Medição', medidos.join('  /  ') + (maqs ? '  ·  ' + maqs : '')]);
+        else if(maqs) linhas.push(['Equipamento', maqs]);
         doc.setFontSize(6.2);
         linhas.forEach((ln,li)=>{
           const ty = y0 + alturaFotos + li*3.6;
@@ -2061,7 +2082,7 @@ async function seqLinhas(){
         'Data': fmtData(f.data), 'Equipe': f.equipe||'',
         'Furo': f.num, 'Foto': tipo==='antes'?'Antes':'Depois',
         'Bairro/Rua': f.rua||'', 'Bairro (carimbo)': e.bairro||'',
-        'Serviço': f.servico||'',
+        'Serviço': f.servico||'', 'Equipamento': f.equipamento||'',
         'Comprimento (m)': medNum(f.comp)||'', 'Largura (m)': medNum(f.larg)||'',
         'Profundidade (m)': medNum(f.prof)||'',
         'Área (m²)': medArea(f) ? +medArea(f).toFixed(3) : '',

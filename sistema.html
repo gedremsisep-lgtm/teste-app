@@ -90,6 +90,14 @@ pre.sql{background:#1C1F26;color:#D8E0EA;padding:12px 14px;border-radius:var(--r
 .card,.fcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px}
 .card{padding:16px}
 .fcard{padding:16px}
+/* Central de relatorios: um cartao por documento, todos do mesmo tamanho. */
+.admgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.admcard{border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;background:var(--bg2);
+  display:flex;flex-direction:column;gap:7px}
+.admcard .t{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:7px;color:var(--text)}
+.admcard .t i{font-size:18px;color:var(--blue)}
+.admcard p{font-size:12px;color:var(--text2);flex:1;margin:0}
+.admcard .brow{margin:0}
 .card.tw{padding:0;overflow-x:auto}
 .fhead,.sh{font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
 .fhead i,.sh i{font-size:16px}
@@ -395,6 +403,10 @@ table.dt .ar{text-align:right}
     <span class="bdg" id="n-rf-bdg" style="display:none">0</span></div>
   <div class="ni" id="n-med" onclick="go('med')"><i class="ti ti-ruler-measure"></i>Medição por Buraco</div>
   <div class="ns">Administração</div>
+  <div class="ni" id="n-adm" onclick="go('adm')"><i class="ti ti-shield-lock"></i>Área Admin</div>
+  <div class="ni" id="n-hist" onclick="go('hist')"><i class="ti ti-checkup-list"></i>Histórico e Validação
+    <span class="bdg" id="n-hist-bdg" style="display:none">0</span></div>
+  <div class="ni" id="n-eqp" onclick="go('eqp')"><i class="ti ti-backhoe"></i>Equipamentos</div>
   <div class="ni" id="n-eq" onclick="go('eq')"><i class="ti ti-users"></i>Equipes e Funcionários</div>
   <div class="ni" id="n-cfg" onclick="go('cfg')"><i class="ti ti-settings"></i>Configurações</div>
   <div class="sbver" onclick="go('cfg')" title="Ver detalhes da versão">
@@ -451,10 +463,12 @@ table.dt .ar{text-align:right}
         <div class="fg"><label>Data do serviço *</label><input type="date" id="f-data"></div>
         <div class="fg"><label>Equipe</label><select id="f-eq"></select></div>
       </div>
-      <div class="fr2">
+      <div class="fr3">
         <div class="fg"><label>Bairro / Rua *</label><input type="text" id="f-rua" list="dl-ruas" placeholder="Ex.: Rua Farroupilha">
           <datalist id="dl-ruas"></datalist></div>
         <div class="fg"><label>Serviço *</label><select id="f-srv" onchange="medPreviaFuro()"></select></div>
+        <div class="fg"><label>Equipamento</label><select id="f-eqp"></select>
+          <div class="hint">Qual máquina trabalhou neste buraco.</div></div>
       </div>
       <div class="fr"><div class="fg"><label>Observação</label><input type="text" id="f-obs" placeholder="Opcional"></div></div>
     </div>
@@ -1026,17 +1040,6 @@ table.dt .ar{text-align:right}
     <pre class="sql" id="sy-sql"></pre>
   </div>
 
-  <div class="fcard">
-    <div class="fhead"><i class="ti ti-database"></i>Dados do sistema</div>
-    <div class="kg" id="cfg-kpis"></div>
-    <div class="brow">
-      <button class="btn" onclick="backupExport()"><i class="ti ti-download"></i>Exportar backup (.json)</button>
-      <button class="btn" onclick="document.getElementById('bk-file').click()"><i class="ti ti-upload"></i>Importar backup</button>
-      <input type="file" id="bk-file" accept=".json" style="display:none" onchange="backupImport(this)">
-      <button class="btn bd" onclick="zerarTudo()"><i class="ti ti-trash"></i>Apagar todos os dados</button>
-    </div>
-    <div class="al aw" id="cfg-bk"><i class="ti ti-alert-triangle"></i><span></span></div>
-  </div>
 
   <div class="fcard">
     <div class="fhead"><i class="ti ti-versions"></i>Versão</div>
@@ -1094,6 +1097,159 @@ table.dt .ar{text-align:right}
       <th>Serviço</th><th class="ac">Buracos</th><th class="ar">Quantidade medida</th>
       <th class="ar">Preço unitário</th><th class="ar">Valor</th>
     </tr></thead><tbody id="m-tot"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ======================================================= ÁREA ADMIN -->
+<div class="pg" id="pg-adm">
+  <div class="ph"><h1><i class="ti ti-shield-lock"></i>Área Admin</h1>
+    <p>Todos os relatórios da empresa em um lugar só, no período que você escolher. Tela do gestor.</p></div>
+
+  <div class="fcard">
+    <div class="fhead"><i class="ti ti-calendar-stats"></i>Período dos relatórios</div>
+    <div class="fr4">
+      <div class="fg"><label>Data inicial</label><input type="date" id="a-di" onchange="admRender()"></div>
+      <div class="fg"><label>Data final</label><input type="date" id="a-df" onchange="admRender()"></div>
+      <div class="fg"><label>Equipe</label><select id="a-eq" onchange="admRender()"><option value="">Todas as equipes</option></select></div>
+      <div class="fg" style="display:flex;align-items:flex-end">
+        <button class="btn sm" onclick="admLimpar()"><i class="ti ti-eraser"></i>Limpar período</button></div>
+    </div>
+    <div class="al ai show" id="a-resumo"><i class="ti ti-info-circle"></i><span></span></div>
+    <div class="al ag" id="a-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    <div class="al ae" id="a-err"><i class="ti ti-alert-circle"></i><span></span></div>
+  </div>
+
+  <div class="kg" id="a-kpis"></div>
+
+  <div class="fcard">
+    <div class="fhead"><i class="ti ti-files"></i>Central de relatórios</div>
+    <div class="admgrid">
+      <div class="admcard">
+        <div class="t"><i class="ti ti-camera"></i>Relatório Fotográfico</div>
+        <p>O documento do dia, com as fotos de antes e depois de cada furo.</p>
+        <div class="brow"><button class="btn bp sm" onclick="go('rf')"><i class="ti ti-external-link"></i>Abrir a tela</button></div>
+      </div>
+      <div class="admcard">
+        <div class="t"><i class="ti ti-ruler-measure"></i>Folha de Medição por Buraco</div>
+        <p>Cada buraco medido, com área, volume e valor, e o fechamento por serviço.</p>
+        <div class="brow">
+          <button class="btn bp sm" onclick="admFolhaMedicao()"><i class="ti ti-printer"></i>Gerar folha</button>
+          <button class="btn sm" onclick="go('med')"><i class="ti ti-external-link"></i>Abrir a tela</button></div>
+      </div>
+      <div class="admcard">
+        <div class="t"><i class="ti ti-backhoe"></i>Relatório de Equipamentos</div>
+        <p>O que cada máquina fez no período: dias, horas, buracos, ruas e custo pela diária.</p>
+        <div class="brow">
+          <button class="btn bp sm" onclick="admFolhaEquipamentos()"><i class="ti ti-printer"></i>Gerar folha</button>
+          <button class="btn sm" onclick="go('eqp')"><i class="ti ti-external-link"></i>Abrir a tela</button></div>
+      </div>
+      <div class="admcard">
+        <div class="t"><i class="ti ti-users-group"></i>Produtividade por Equipe</div>
+        <p>Furos, metragem e valor de cada equipe, com a média por dia de serviço.</p>
+        <div class="brow"><button class="btn bp sm" onclick="admFolhaProdutividade()"><i class="ti ti-printer"></i>Gerar folha</button></div>
+      </div>
+      <div class="admcard">
+        <div class="t"><i class="ti ti-checkup-list"></i>Histórico, Validação e Auditoria</div>
+        <p>O que cada pessoa lançou, validou ou devolveu, dia a dia.</p>
+        <div class="brow"><button class="btn bp sm" onclick="go('hist')"><i class="ti ti-external-link"></i>Abrir a tela</button></div>
+      </div>
+      <div class="admcard">
+        <div class="t"><i class="ti ti-table-export"></i>Planilha geral do período</div>
+        <p>Todos os furos do período em Excel: rua, serviço, equipe, medidas, valor e situação.</p>
+        <div class="brow"><button class="btn bp sm" onclick="admPlanilha()"><i class="ti ti-download"></i>Exportar planilha</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fcard">
+    <div class="fhead"><i class="ti ti-database"></i>Dados do sistema</div>
+    <div class="kg" id="cfg-kpis"></div>
+    <div class="brow">
+      <button class="btn" onclick="backupExport()"><i class="ti ti-download"></i>Exportar backup (.json)</button>
+      <button class="btn" onclick="document.getElementById('bk-file').click()"><i class="ti ti-upload"></i>Importar backup</button>
+      <input type="file" id="bk-file" accept=".json" style="display:none" onchange="backupImport(this)">
+      <button class="btn bd" onclick="zerarTudo()"><i class="ti ti-trash"></i>Apagar todos os dados</button>
+    </div>
+    <div class="al aw" id="cfg-bk"><i class="ti ti-alert-triangle"></i><span></span></div>
+  </div>
+
+</div>
+
+<!-- ===================================================== EQUIPAMENTOS -->
+<div class="pg" id="pg-eqp">
+  <div class="ph"><h1><i class="ti ti-backhoe"></i>Equipamentos</h1>
+    <p>Máquinas e veículos da empresa, as horas de cada dia e o que isso custa.</p></div>
+
+  <div class="tabs">
+    <div class="tab on" onclick="eqpStab(this,'eqp-cad')"><i class="ti ti-list"></i>Cadastro</div>
+    <div class="tab" onclick="eqpStab(this,'eqp-uso')"><i class="ti ti-clock-hour-4"></i>Horas do dia</div>
+    <div class="tab" onclick="eqpStab(this,'eqp-res')"><i class="ti ti-report-analytics"></i>Uso no período</div>
+  </div>
+
+  <div id="eqp-cad">
+    <div class="fcard">
+      <div class="fhead"><i class="ti ti-plus"></i>Novo equipamento</div>
+      <div class="fr4">
+        <div class="fg"><label>Nome *</label><input type="text" id="q-nome" placeholder="Ex.: Retro 01"></div>
+        <div class="fg"><label>Tipo</label><input type="text" id="q-tipo" list="dl-eqptipo" placeholder="Ex.: Retroescavadeira">
+          <datalist id="dl-eqptipo"></datalist></div>
+        <div class="fg"><label>Placa / Nº de frota</label><input type="text" id="q-ident" placeholder="Ex.: ABC-1D23"></div>
+        <div class="fg"><label>Diária (R$)</label><input type="number" id="q-diaria" step="0.01" min="0" placeholder="0,00">
+          <div class="hint">O custo de um dia de uso.</div></div>
+      </div>
+      <div class="brow"><button class="btn bp" onclick="eqpSave()"><i class="ti ti-device-floppy"></i>Salvar equipamento</button></div>
+      <div class="al ae" id="q-err"><i class="ti ti-alert-circle"></i><span></span></div>
+      <div class="al ag" id="q-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    </div>
+    <div class="card tw"><table class="dt"><thead><tr>
+      <th>Equipamento</th><th>Tipo</th><th>Placa / Nº</th><th class="ar" style="width:150px">Diária</th>
+      <th class="ac" style="width:150px">Situação</th><th class="ac">Ações</th>
+    </tr></thead><tbody id="q-tb"></tbody></table></div>
+  </div>
+
+  <div id="eqp-uso" style="display:none">
+    <div class="fcard">
+      <div class="fhead"><i class="ti ti-clock-plus"></i>Apontar as horas do dia</div>
+      <div class="fr4">
+        <div class="fg"><label>Data *</label><input type="date" id="u-data"></div>
+        <div class="fg"><label>Equipamento *</label><select id="u-eqp"></select></div>
+        <div class="fg"><label>Equipe</label><select id="u-eq"><option value="">—</option></select></div>
+        <div class="fg"><label>Horas trabalhadas</label><input type="number" id="u-horas" step="0.5" min="0" placeholder="Ex.: 8"></div>
+      </div>
+      <div class="fr"><div class="fg"><label>Observação</label><input type="text" id="u-obs" placeholder="Opcional — ex.: manutenção pela manhã"></div></div>
+      <div class="brow"><button class="btn bp" onclick="usoSave()"><i class="ti ti-device-floppy"></i>Lançar apontamento</button></div>
+      <div class="al ae" id="u-err"><i class="ti ti-alert-circle"></i><span></span></div>
+      <div class="al ag" id="u-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    </div>
+    <div class="fcard">
+      <div class="fhead"><i class="ti ti-filter"></i>Apontamentos lançados</div>
+      <div class="fr4">
+        <div class="fg"><label>De</label><input type="date" id="u-fdi" onchange="usoRenderLista()"></div>
+        <div class="fg"><label>Até</label><input type="date" id="u-fdf" onchange="usoRenderLista()"></div>
+        <div class="fg"><label>Equipamento</label><select id="u-feqp" onchange="usoRenderLista()"><option value="">Todos</option></select></div>
+        <div class="fg" style="display:flex;align-items:flex-end"><span id="u-info" style="font-size:12px;color:var(--text2)"></span></div>
+      </div>
+    </div>
+    <div class="card tw"><table class="dt"><thead><tr>
+      <th>Data</th><th>Equipamento</th><th>Equipe</th><th class="ar">Horas</th><th>Observação</th><th class="ac">Ações</th>
+    </tr></thead><tbody id="u-tb"></tbody></table></div>
+  </div>
+
+  <div id="eqp-res" style="display:none">
+    <div class="fcard">
+      <div class="fhead"><i class="ti ti-report-analytics"></i>Uso no período</div>
+      <div class="fr4">
+        <div class="fg"><label>Data inicial</label><input type="date" id="r-rdi" onchange="eqpRenderResumo()"></div>
+        <div class="fg"><label>Data final</label><input type="date" id="r-rdf" onchange="eqpRenderResumo()"></div>
+        <div class="fg"><label>Equipe</label><select id="r-req" onchange="eqpRenderResumo()"><option value="">Todas as equipes</option></select></div>
+        <div class="fg" style="display:flex;align-items:flex-end">
+          <button class="btn bp sm" onclick="admFolhaEquipamentos('r')"><i class="ti ti-printer"></i>Imprimir folha</button></div>
+      </div>
+    </div>
+    <div class="card tw"><table class="dt"><thead><tr>
+      <th>Equipamento</th><th>Tipo</th><th class="ac">Dias</th><th class="ar">Horas</th>
+      <th class="ac">Buracos</th><th class="ac">Ruas</th><th class="ar">Diária</th><th class="ar">Custo do período</th>
+    </tr></thead><tbody id="r-tb"></tbody></table></div>
   </div>
 </div>
 
@@ -1241,15 +1397,15 @@ const LOGO_ORGAO_PADRAO = '';   /* sem brasao: quem usa poe o do proprio cliente
 const PIXEL_VAZIO = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 const LOGO_EMPRESA_PADRAO = "data:image/png;base64,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";
 
-const SYSTEM_VERSION = '20260921-002';
+const SYSTEM_VERSION = '20260921-003';
 
 /* ------------------------------- BANCO ---------------------------------- */
 const DB_NAME = 'TESTE_SIS_DB';
-const DB_VERSION = 6;   /* <-- SEMPRE incrementar ao adicionar store novo */
-const STORES = ['furos','relatorios','equipes','funcionarios','servicos','config','historico','dispositivos','usuarios','fotos'];
+const DB_VERSION = 7;   /* <-- SEMPRE incrementar ao adicionar store novo */
+const STORES = ['furos','relatorios','equipes','funcionarios','servicos','equipamentos','equipuso','config','historico','dispositivos','usuarios','fotos'];
 /* Stores que trafegam na nuvem (config fica sempre local ao aparelho).
    As imagens em si ficam no Storage; aqui trafega só o endereço delas. */
-const SYNC_STORES = ['furos','relatorios','equipes','funcionarios','servicos','historico','dispositivos','usuarios','fotos'];
+const SYNC_STORES = ['furos','relatorios','equipes','funcionarios','servicos','equipamentos','equipuso','historico','dispositivos','usuarios','fotos'];
 let db = null;
 
 function initDB(){
@@ -1780,8 +1936,8 @@ function syncCopiarCodigo(){
 
 /* ------------------------------ PERFIS ---------------------------------- */
 const PERMS = {
-  g:['dash','furo','hist','rf','med','eq','cfg'],
-  a:['dash','furo','hist','rf','med'],
+  g:['dash','furo','hist','rf','med','adm','eqp','eq','cfg'],
+  a:['dash','furo','hist','rf','med','eqp'],
   b:['furo','rf']
 };
 const HOMES = {g:'dash', a:'dash', b:'rf'};
@@ -1807,6 +1963,8 @@ function go(pg){
   if(pg==='hist') histRender();
   if(pg==='rf')   rfRefresh();
   if(pg==='med')  medRender();
+  if(pg==='adm')  admRender();
+  if(pg==='eqp')  eqpRefresh();
   if(pg==='eq')   eqRender();
   if(pg==='cfg')  cfgRender();
 }
@@ -2392,7 +2550,7 @@ function medPeriodoTxt(){
   return datas[0]===datas[datas.length-1] ? fmtData(datas[0])
        : `${fmtData(datas[0])} a ${fmtData(datas[datas.length-1])}`;
 }
-function medCabecalhoFolha(periodo){
+function medCabecalhoFolha(periodo, titulo){
   return `
   <div class="rfhdr-full">
     <div class="rfhdr-line">
@@ -2402,7 +2560,7 @@ function medCabecalhoFolha(periodo){
         <div style="font-size:8pt;font-weight:700">${esc(CFG.orgao)}</div>
         <div style="font-size:7.5pt">${esc(CFG.secretaria)}</div>
         <div style="font-size:7.5pt">${esc(CFG.setor)}</div>
-        <div style="font-size:8pt;font-weight:700;margin-top:.6mm">FOLHA DE MEDIÇÃO POR BURACO</div>
+        <div style="font-size:8pt;font-weight:700;margin-top:.6mm">${esc(titulo || 'FOLHA DE MEDIÇÃO POR BURACO')}</div>
         <div style="font-size:8pt"><b>EMPRESA</b>: ${esc(CFG.empresa)}</div>
         ${CFG.contrato?`<div style="font-size:7pt">${esc(CFG.contrato)}${CFG.cnpj?' · CNPJ '+esc(CFG.cnpj):''}</div>`:''}
       </div>
@@ -2546,6 +2704,351 @@ async function medPlanilha(){
   }catch(err){ alerta('m-err','Erro ao gerar a planilha: '+esc(err.message||err)); }
 }
 
+
+/* ====================================================================== */
+/*                           EQUIPAMENTOS                                  */
+/* ====================================================================== */
+/* Maquina e veiculo da empresa: o cadastro, as horas de cada dia e o custo
+   pela diaria. O furo guarda qual equipamento trabalhou nele, e e por ai que
+   o relatorio junta as duas pontas. */
+const EQP_TIPOS = ['Retroescavadeira','Caminhão basculante','Caminhão pipa','Rolo compactador',
+  'Placa vibratória','Compressor de ar','Fresadora','Motoniveladora','Pá carregadeira','Caminhonete'];
+const EQP_SIT = ['Ativo','Em manutenção','Parado'];
+
+function eqpStab(el,tid){
+  tabSwitch(el,tid,['eqp-cad','eqp-uso','eqp-res']);
+  if(tid==='eqp-cad') eqpRenderCadastro();
+  if(tid==='eqp-uso') usoRenderLista();
+  if(tid==='eqp-res') eqpRenderResumo();
+}
+async function eqpRefresh(){
+  await preencherSelects();
+  if(!$('u-data').value) $('u-data').value = hoje();
+  $('dl-eqptipo').innerHTML = EQP_TIPOS.map(t=>`<option>${esc(t)}</option>`).join('');
+  await eqpRenderCadastro(); await usoRenderLista(); await eqpRenderResumo();
+}
+async function eqpGetAll(){ return await dbGetAll('equipamentos'); }
+
+async function eqpSave(){
+  limpaAlertas('q-err','q-ok');
+  const nome = $('q-nome').value.trim();
+  if(!nome){ alerta('q-err','Informe o nome do equipamento.'); return; }
+  const todos = await eqpGetAll();
+  if(todos.some(x=>String(x.nome).toLowerCase()===nome.toLowerCase())){
+    alerta('q-err','Já existe um equipamento com esse nome.'); return; }
+  await dbAdd('equipamentos',{nome, tipo:$('q-tipo').value.trim(), ident:$('q-ident').value.trim(),
+                              diaria:medNum($('q-diaria').value), situacao:'Ativo'});
+  ['q-nome','q-tipo','q-ident','q-diaria'].forEach(i=>$(i).value='');
+  await histLog('Cadastrou','equipamento', null, `Equipamento ${nome}`, '');
+  alerta('q-ok',`Equipamento <b>${esc(nome)}</b> cadastrado.`);
+  await preencherSelects(); await eqpRenderCadastro();
+}
+async function eqpSetCampo(id, campo, valor){
+  const todos = await eqpGetAll();
+  const q = todos.find(x=>x.id===id); if(!q) return;
+  q[campo] = (campo==='diaria') ? medNum(valor) : valor;
+  await dbPut('equipamentos', q);
+  await preencherSelects(); await eqpRenderCadastro(); await eqpRenderResumo();
+  alerta('q-ok', campo==='diaria'
+    ? `Diária de <b>${esc(q.nome)}</b> gravada em <b>${medRS(q.diaria)}</b>.`
+    : `<b>${esc(q.nome)}</b> agora está como <b>${esc(q.situacao)}</b>.`);
+}
+function eqpExcluir(id, nome){
+  confirmar('Excluir equipamento', `<b>${esc(nome)}</b> sai do cadastro. Os apontamentos já lançados continuam no histórico. Continuar?`,
+    async()=>{ await dbDelete('equipamentos', id); await preencherSelects(); await eqpRenderCadastro(); await eqpRenderResumo(); });
+}
+async function eqpRenderCadastro(){
+  try{
+    const todos = (await eqpGetAll()).sort((a,b)=>String(a.nome).localeCompare(String(b.nome)));
+    $('q-tb').innerHTML = todos.map(q=>{
+      const sit = q.situacao || 'Ativo';
+      const cls = sit==='Ativo' ? 's-ok' : (sit==='Em manutenção' ? 's-wn' : 's-bl');
+      return `<tr>
+        <td><b>${esc(q.nome)}</b></td>
+        <td>${esc(q.tipo||'—')}</td>
+        <td class="mono">${esc(q.ident||'—')}</td>
+        <td class="ar"><input type="number" step="0.01" min="0" value="${medNum(q.diaria)||''}" placeholder="0,00"
+          onchange="eqpSetCampo(${q.id},'diaria',this.value)"
+          style="width:118px;padding:5px 7px;border:1px solid var(--border2);border-radius:var(--radius-sm);text-align:right"></td>
+        <td class="ac"><select onchange="eqpSetCampo(${q.id},'situacao',this.value)"
+          style="width:100%;padding:5px 7px;border:1px solid var(--border2);border-radius:var(--radius-sm)">
+          ${EQP_SIT.map(s=>`<option${s===sit?' selected':''}>${s}</option>`).join('')}</select>
+          <span class="st ${cls}" style="display:none"></span></td>
+        <td class="ac"><button class="btn ic sm" title="Excluir" onclick="eqpExcluir(${q.id},'${jsArg(q.nome)}')"><i class="ti ti-trash"></i></button></td>
+      </tr>`;
+    }).join('') || `<tr><td colspan="6"><div class="empty"><i class="ti ti-backhoe"></i>
+      Nenhum equipamento cadastrado. Cadastre as máquinas para apontar horas e ligá-las aos buracos.</div></td></tr>`;
+  }catch(err){ erroRender('q-tb', err, 'os equipamentos'); }
+}
+
+/* ---------------------------- apontamento diário ----------------------- */
+async function usoSave(){
+  limpaAlertas('u-err','u-ok');
+  const data = $('u-data').value, eqp = $('u-eqp').value;
+  if(!data){ alerta('u-err','Informe a data.'); return; }
+  if(!eqp){ alerta('u-err','Escolha o equipamento. Se a lista está vazia, cadastre um na aba Cadastro.'); return; }
+  const horas = medNum($('u-horas').value);
+  const todos = await dbGetAll('equipuso');
+  const igual = todos.find(x=>x.data===data && x.equipamento===eqp && (x.equipe||'')===($('u-eq').value||''));
+  if(igual){ alerta('u-err','Já existe apontamento desse equipamento nesse dia e equipe. Apague o antigo ou mude os dados.'); return; }
+  await dbAdd('equipuso',{data, equipamento:eqp, equipe:$('u-eq').value, horas, obs:$('u-obs').value.trim(),
+                          lancadoPor: usuarioNome()});
+  $('u-horas').value=''; $('u-obs').value='';
+  await histLog('Apontou','equipamento', null, `${eqp} · ${fmtData(data)} · ${nBR(horas,1)} h`, '');
+  alerta('u-ok',`Apontamento de <b>${esc(eqp)}</b> em ${fmtData(data)} lançado.`);
+  await usoRenderLista(); await eqpRenderResumo();
+}
+function usoExcluir(id, txt){
+  confirmar('Excluir apontamento', `${esc(txt)} será apagado. Continuar?`,
+    async()=>{ await dbDelete('equipuso', id); await usoRenderLista(); await eqpRenderResumo(); });
+}
+async function usoFiltrados(){
+  const todos = await dbGetAll('equipuso');
+  const di=$('u-fdi').value, df=$('u-fdf').value, eqp=$('u-feqp').value;
+  return todos.filter(x=>{
+    if(di && (x.data||'') < di) return false;
+    if(df && (x.data||'') > df) return false;
+    if(eqp && x.equipamento !== eqp) return false;
+    return true;
+  }).sort((a,b)=> String(b.data||'').localeCompare(String(a.data||'')));
+}
+async function usoRenderLista(){
+  try{
+    const lista = await usoFiltrados();
+    const horas = lista.reduce((t,x)=>t+medNum(x.horas),0);
+    $('u-info').innerHTML = `<b>${lista.length}</b> apontamento(s) · <b>${nBR(horas,1)} h</b>`;
+    $('u-tb').innerHTML = lista.map(x=>`<tr>
+        <td>${fmtData(x.data)}</td>
+        <td><b>${esc(x.equipamento)}</b></td>
+        <td>${esc(x.equipe||'—')}</td>
+        <td class="ar">${medNum(x.horas)?nBR(medNum(x.horas),1)+' h':'—'}</td>
+        <td>${esc(x.obs||'')}</td>
+        <td class="ac"><button class="btn ic sm" title="Excluir"
+          onclick="usoExcluir(${x.id},'${jsArg(x.equipamento+' em '+fmtData(x.data))}')"><i class="ti ti-trash"></i></button></td>
+      </tr>`).join('') || `<tr><td colspan="6"><div class="empty"><i class="ti ti-clock-off"></i>
+      Nenhum apontamento no recorte.</div></td></tr>`;
+  }catch(err){ erroRender('u-tb', err, 'os apontamentos'); }
+}
+
+/* ------------------- resumo: o que cada máquina fez no período ---------- */
+async function eqpResumo(di, df, equipe){
+  const [eqps, usos, furos] = await Promise.all([eqpGetAll(), dbGetAll('equipuso'), dbGetAll('furos')]);
+  const dentro = (d)=> (!di || (d||'') >= di) && (!df || (d||'') <= df);
+  const linhas = eqps.map(q=>{
+    const us = usos.filter(u=>u.equipamento===q.nome && dentro(u.data) && (!equipe || (u.equipe||'')===equipe));
+    const fu = furos.filter(f=>f.equipamento===q.nome && dentro(f.data) && (!equipe || (f.equipe||'')===equipe));
+    const dias = new Set(us.map(u=>u.data)).size;
+    const horas = us.reduce((t,u)=>t+medNum(u.horas),0);
+    const ruas = new Set(fu.map(f=>f.rua).filter(Boolean)).size;
+    const diaria = medNum(q.diaria);
+    return {nome:q.nome, tipo:q.tipo||'', ident:q.ident||'', situacao:q.situacao||'Ativo',
+            dias, horas, furos:fu.length, ruas, diaria, custo:dias*diaria};
+  });
+  /* equipamento apontado que não está mais no cadastro não some do relatório */
+  const conhecidos = new Set(eqps.map(q=>q.nome));
+  const orfaos = new Map();
+  usos.filter(u=>!conhecidos.has(u.equipamento) && dentro(u.data) && (!equipe || (u.equipe||'')===equipe))
+      .forEach(u=>{
+        const r = orfaos.get(u.equipamento) || {nome:u.equipamento, tipo:'(fora do cadastro)', ident:'',
+                                               situacao:'', dias:0, horas:0, furos:0, ruas:0, diaria:0, custo:0, _dias:new Set()};
+        r._dias.add(u.data); r.horas += medNum(u.horas); r.dias = r._dias.size;
+        orfaos.set(u.equipamento, r);
+      });
+  return linhas.concat([...orfaos.values()]).sort((a,b)=> b.custo-a.custo || b.dias-a.dias || a.nome.localeCompare(b.nome));
+}
+async function eqpRenderResumo(){
+  try{
+    const lista = await eqpResumo($('r-rdi').value, $('r-rdf').value, $('r-req').value);
+    $('r-tb').innerHTML = lista.map(r=>`<tr>
+        <td><b>${esc(r.nome)}</b>${r.ident?` <span class="mono" style="color:var(--text3)">${esc(r.ident)}</span>`:''}</td>
+        <td>${esc(r.tipo||'—')}</td>
+        <td class="ac">${r.dias||'—'}</td>
+        <td class="ar">${r.horas?nBR(r.horas,1)+' h':'—'}</td>
+        <td class="ac">${r.furos||'—'}</td>
+        <td class="ac">${r.ruas||'—'}</td>
+        <td class="ar">${r.diaria?medRS(r.diaria):'<span class="st s-wn">sem diária</span>'}</td>
+        <td class="ar"><b>${r.custo?medRS(r.custo):'—'}</b></td>
+      </tr>`).join('') || `<tr><td colspan="8"><div class="empty"><i class="ti ti-backhoe"></i>
+      Nenhum equipamento no período.</div></td></tr>`;
+  }catch(err){ erroRender('r-tb', err, 'o uso dos equipamentos'); }
+}
+
+/* ====================================================================== */
+/*                             ÁREA ADMIN                                  */
+/* ====================================================================== */
+function admLimpar(){ ['a-di','a-df','a-eq'].forEach(i=>$(i).value=''); admRender(); }
+function admPeriodoTxt(){
+  const di=$('a-di').value, df=$('a-df').value;
+  if(di && df) return `${fmtData(di)} a ${fmtData(df)}`;
+  if(di) return `a partir de ${fmtData(di)}`;
+  if(df) return `até ${fmtData(df)}`;
+  return 'todo o período lançado';
+}
+async function admFuros(){
+  const furos = await dbGetAll('furos');
+  const di=$('a-di').value, df=$('a-df').value, eq=$('a-eq').value;
+  return furos.filter(f=>{
+    if(di && (f.data||'') < di) return false;
+    if(df && (f.data||'') > df) return false;
+    if(eq && (f.equipe||'') !== eq) return false;
+    return true;
+  }).sort((a,b)=> String(a.data||'').localeCompare(String(b.data||'')) || ((parseInt(a.num)||0)-(parseInt(b.num)||0)));
+}
+async function admRender(){
+  try{
+    limpaAlertas('a-err');
+    await preencherSelects();
+    const lista = await admFuros();
+    const dias = new Set(lista.map(f=>f.data).filter(Boolean)).size;
+    const area = lista.reduce((t,f)=>t+medArea(f),0);
+    const valor = lista.reduce((t,f)=>t+medValor(f, MED_SRV.get(f.servico)),0);
+    const pend = lista.filter(f=>furoStatus(f)!=='Validado').length;
+    const uso = await eqpResumo($('a-di').value, $('a-df').value, $('a-eq').value);
+    const maqs = uso.filter(r=>r.dias>0).length;
+    const custoEqp = uso.reduce((t,r)=>t+r.custo,0);
+
+    $('a-kpis').innerHTML =
+      kpi('Buracos no período', lista.length, dias?`em ${dias} dia(s) de serviço`:'', 'bl') +
+      kpi('Área medida', nBR(area,2)+' m²', '', 'gn') +
+      kpi('Valor da medição', medRS(valor), '', 'gn') +
+      kpi('Equipamentos em uso', maqs, custoEqp?`${medRS(custoEqp)} de diárias`:'sem diária lançada', 'pu') +
+      kpi('Aguardando validação', pend, pend?'entram no documento com tarja':'tudo validado', pend?'am':'gn');
+
+    $('a-resumo').querySelector('span').innerHTML =
+      `Os relatórios abaixo saem com o recorte <b>${esc(admPeriodoTxt())}</b>`
+      + ($('a-eq').value ? ` · equipe <b>${esc($('a-eq').value)}</b>` : ' · todas as equipes') + '.';
+    await cfgKpis();
+  }catch(err){ erroRender('a-kpis', err, 'a área admin'); }
+}
+
+/* Uma folha A4 no mesmo padrão da medição, para os relatórios desta tela. */
+function admFolha(titulo, corpo){
+  const marca = CFG.logoEmpresa ? `<div class="rfmarca" style="background-image:url('${CFG.logoEmpresa}')"></div>` : '';
+  return MED_ESTILO + `<div class="rfpage">${marca}${medCabecalhoFolha(admPeriodoTxt(), titulo)}
+    ${corpo}${rfRodape(1,1)}</div>`;
+}
+/* A folha de medição do período, sem sair daqui. */
+async function admFolhaMedicao(){
+  limpaAlertas('a-err','a-ok');
+  try{
+    $('m-di').value = $('a-di').value; $('m-df').value = $('a-df').value;
+    $('m-eq').value = $('a-eq').value; $('m-rua').value = '';
+    $('m-soval').checked = false; $('m-somed').checked = false;
+    await medRender();
+    if(!MED_LISTA.length){ alerta('a-err','Nenhum buraco nesse período.'); return; }
+    rfMostrarImpressao(medMontarHTML(MED_LISTA, medPeriodoTxt()));
+  }catch(err){ alerta('a-err','Erro ao montar a folha: '+esc(err.message||err)); }
+}
+/* qual = 'a' (Área Admin) ou 'r' (tela de Equipamentos) */
+async function admFolhaEquipamentos(qual){
+  const naTela = qual === 'r';
+  const erro = naTela ? 'q-err' : 'a-err';
+  limpaAlertas('a-err','a-ok','q-err','q-ok');
+  try{
+    const di = naTela ? $('r-rdi').value : $('a-di').value;
+    const df = naTela ? $('r-rdf').value : $('a-df').value;
+    const eq = naTela ? $('r-req').value : $('a-eq').value;
+    if(naTela){ $('a-di').value = di; $('a-df').value = df; $('a-eq').value = eq; }
+    const lista = (await eqpResumo(di, df, eq)).filter(r=>r.dias || r.furos || r.horas);
+    if(!lista.length){ alerta(erro,'Nenhum equipamento com apontamento ou buraco nesse período.'); return; }
+    const tot = lista.reduce((t,r)=>({dias:t.dias+r.dias, horas:t.horas+r.horas,
+      furos:t.furos+r.furos, custo:t.custo+r.custo}), {dias:0,horas:0,furos:0,custo:0});
+    const corpo = `
+      <table class="medtot"><thead><tr>
+        <th>Equipamento</th><th>Tipo</th><th>Placa / Nº</th><th class="ac">Dias</th>
+        <th class="ar">Horas</th><th class="ac">Buracos</th><th class="ac">Ruas</th>
+        <th class="ar">Diária</th><th class="ar">Custo</th>
+      </tr></thead><tbody>
+      ${lista.map(r=>`<tr><td>${esc(r.nome)}</td><td>${esc(r.tipo||'—')}</td><td>${esc(r.ident||'—')}</td>
+        <td class="ac">${r.dias||'—'}</td><td class="ar">${r.horas?nBR(r.horas,1):'—'}</td>
+        <td class="ac">${r.furos||'—'}</td><td class="ac">${r.ruas||'—'}</td>
+        <td class="ar">${r.diaria?medRS(r.diaria):'—'}</td><td class="ar">${r.custo?medRS(r.custo):'—'}</td></tr>`).join('')}
+      <tr><td colspan="3"><b>TOTAL</b></td><td class="ac"><b>${tot.dias}</b></td>
+        <td class="ar"><b>${nBR(tot.horas,1)}</b></td><td class="ac"><b>${tot.furos}</b></td>
+        <td class="ac">—</td><td class="ar">—</td><td class="ar"><b>${medRS(tot.custo)}</b></td></tr>
+      </tbody></table>
+      <div class="medtit">Como ler</div>
+      <div style="font-size:7.6pt;line-height:1.7">
+        <b>Dias</b> e <b>horas</b> vêm do apontamento diário. <b>Buracos</b> e <b>ruas</b> vêm dos furos em que
+        o equipamento foi indicado no lançamento. O <b>custo</b> é a diária cadastrada multiplicada pelos dias apontados.
+      </div>
+      <div class="medass"><div>Encarregado da equipe</div><div>${esc(CFG.empresa)}</div><div>Fiscal do contrato</div></div>`;
+    rfMostrarImpressao(admFolha('RELATÓRIO DE EQUIPAMENTOS', corpo));
+  }catch(err){ alerta(erro,'Erro ao montar a folha: '+esc(err.message||err)); }
+}
+async function admFolhaProdutividade(){
+  limpaAlertas('a-err','a-ok');
+  try{
+    const lista = await admFuros();
+    if(!lista.length){ alerta('a-err','Nenhum buraco nesse período.'); return; }
+    const m = new Map();
+    lista.forEach(f=>{
+      const nome = f.equipe || '— sem equipe —';
+      const r = m.get(nome) || {nome, furos:0, medidos:0, area:0, vol:0, valor:0, dias:new Set()};
+      r.furos++; if(medTem(f)) r.medidos++;
+      r.area += medArea(f); r.vol += medVolume(f);
+      r.valor += medValor(f, MED_SRV.get(f.servico));
+      if(f.data) r.dias.add(f.data);
+      m.set(nome, r);
+    });
+    const linhas = [...m.values()].sort((a,b)=>b.furos-a.furos);
+    const tot = linhas.reduce((t,r)=>({furos:t.furos+r.furos, medidos:t.medidos+r.medidos,
+      area:t.area+r.area, vol:t.vol+r.vol, valor:t.valor+r.valor}), {furos:0,medidos:0,area:0,vol:0,valor:0});
+    const corpo = `
+      <table class="medtot"><thead><tr>
+        <th>Equipe</th><th class="ac">Dias de serviço</th><th class="ac">Buracos</th><th class="ac">Com medida</th>
+        <th class="ar">Área m²</th><th class="ar">Volume m³</th><th class="ac">Buracos/dia</th><th class="ar">Valor</th>
+      </tr></thead><tbody>
+      ${linhas.map(r=>`<tr><td>${esc(r.nome)}</td><td class="ac">${r.dias.size}</td>
+        <td class="ac">${r.furos}</td><td class="ac">${r.medidos}</td>
+        <td class="ar">${nBR(r.area,2)}</td><td class="ar">${nBR(r.vol,3)}</td>
+        <td class="ac">${r.dias.size?nBR(r.furos/r.dias.size,1):'—'}</td>
+        <td class="ar">${medRS(r.valor)}</td></tr>`).join('')}
+      <tr><td><b>TOTAL</b></td><td class="ac">—</td><td class="ac"><b>${tot.furos}</b></td>
+        <td class="ac"><b>${tot.medidos}</b></td><td class="ar"><b>${nBR(tot.area,2)}</b></td>
+        <td class="ar"><b>${nBR(tot.vol,3)}</b></td><td class="ac">—</td>
+        <td class="ar"><b>${medRS(tot.valor)}</b></td></tr>
+      </tbody></table>
+      <div class="medass"><div>Encarregado da equipe</div><div>${esc(CFG.empresa)}</div><div>Fiscal do contrato</div></div>`;
+    rfMostrarImpressao(admFolha('PRODUTIVIDADE POR EQUIPE', corpo));
+  }catch(err){ alerta('a-err','Erro ao montar a folha: '+esc(err.message||err)); }
+}
+async function admPlanilha(){
+  limpaAlertas('a-err','a-ok');
+  try{
+    const lista = await admFuros();
+    if(!lista.length){ alerta('a-err','Nenhum buraco nesse período para exportar.'); return; }
+    const linhas = lista.map(f=>{
+      const srv = MED_SRV.get(f.servico);
+      return {'Data':fmtData(f.data), 'Furo':f.num, 'Bairro/Rua':f.rua||'', 'Serviço':f.servico||'',
+        'Equipe':f.equipe||'', 'Equipamento':f.equipamento||'',
+        'Comprimento (m)':medNum(f.comp)||'', 'Largura (m)':medNum(f.larg)||'', 'Profundidade (m)':medNum(f.prof)||'',
+        'Área (m²)': medTem(f)?+medArea(f).toFixed(3):'', 'Volume (m³)': medNum(f.prof)?+medVolume(f).toFixed(4):'',
+        'Valor (R$)': +medValor(f, srv).toFixed(2), 'Situação':furoStatus(f),
+        'Lançado por':f.lancadoPor||'', 'Origem': f.origem==='mobile'?'Celular':'Computador'};
+    });
+    const uso = (await eqpResumo($('a-di').value, $('a-df').value, $('a-eq').value))
+      .map(r=>({'Equipamento':r.nome, 'Tipo':r.tipo, 'Placa/Nº':r.ident, 'Dias':r.dias,
+                'Horas':+r.horas.toFixed(1), 'Buracos':r.furos, 'Ruas':r.ruas,
+                'Diária (R$)':r.diaria||'', 'Custo (R$)':+r.custo.toFixed(2)}));
+    const base = 'Relatorio_Teste_'+hoje().replace(/-/g,'');
+    try{
+      const XLSX = await carregarXLSX();
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(linhas), 'Furos do período');
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(uso), 'Equipamentos');
+      const buf = XLSX.write(wb,{bookType:'xlsx', type:'array'});
+      baixarArquivo(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), base+'.xlsx');
+      alerta('a-ok',`Planilha gerada com <b>${linhas.length}</b> buraco(s) e <b>${uso.length}</b> equipamento(s).`);
+    }catch(e){
+      const cab = Object.keys(linhas[0]);
+      const csv = '﻿' + [cab.join(';')].concat(linhas.map(l=>cab.map(k=>csvEscapa(l[k])).join(';'))).join('\n');
+      baixarArquivo(new Blob([csv],{type:'text/csv;charset=utf-8'}), base+'.csv');
+      alerta('a-ok','Sem internet para o gerador de .xlsx — a planilha saiu em CSV, que o Excel abre igual.');
+    }
+  }catch(err){ alerta('a-err','Erro ao gerar a planilha: '+esc(err.message||err)); }
+}
+
 /* ================================== FUROS =============================== */
 let FURO_FOTOS = [null,null];
 let FURO_EDIT = null;
@@ -2615,6 +3118,7 @@ async function furoSave(seguirProximo){
     num:num, data:dt, rua:rua, servico:srv,
     equipe:$('f-eq').value,
     comp:medNum($('f-comp').value)||'', larg:medNum($('f-larg').value)||'', prof:medNum($('f-prof').value)||'',
+    equipamento:$('f-eqp').value,
     obs:$('f-obs').value.trim(), fotos:[FURO_FOTOS[0], FURO_FOTOS[1]],
     origem: anterior ? (anterior.origem||'desktop') : 'desktop',
     dispositivo: anterior ? (anterior.dispositivo||'') : '',
@@ -2655,6 +3159,7 @@ function furoReset(){
   FURO_FOTOS = [null,null];
   furoPintaSlot(0); furoPintaSlot(1);
   ['f-rua','f-obs','f-comp','f-larg','f-prof'].forEach(i=>$(i).value='');
+  if($('f-eqp')) $('f-eqp').value = '';
   medPreviaFuro();
   if(!$('f-data').value) $('f-data').value = hoje();
   $('f-btn-cancel').style.display='none';
@@ -2670,6 +3175,7 @@ async function furoEditar(id){
   $('f-num').value = f.num; $('f-data').value = f.data||'';
   $('f-rua').value = f.rua||''; $('f-srv').value = f.servico||''; $('f-eq').value = f.equipe||'';
   $('f-obs').value = f.obs||'';
+  $('f-eqp').value = f.equipamento||'';
   $('f-comp').value = medNum(f.comp)||''; $('f-larg').value = medNum(f.larg)||'';
   $('f-prof').value = medNum(f.prof)||''; medPreviaFuro();
   FURO_FOTOS = [ (f.fotos||[])[0]||null, (f.fotos||[])[1]||null ];
@@ -2727,6 +3233,7 @@ async function furoRenderLista(){
           <div class="ln"><span>Rua</span><b>${esc(f.rua)}</b></div>
           <div class="ln"><span>Serviço</span>${esc(f.servico)}</div>
           ${medLinhaCard(f)}
+          ${f.equipamento?`<div class="ln"><span>Equipamento</span>${esc(f.equipamento)}</div>`:''}
           <div class="ln"><span>Data</span>${fmtData(f.data)}</div>
           ${f.origem==='mobile'?`<div class="ln"><span>Origem</span><span class="dtag"><i class="ti ti-device-mobile"></i>${esc(furoOrigemTxt(f))}</span></div>`:''}
           ${furoStatus(f)==='Devolvido'&&f.motivoDevolucao?`<div class="al ae show" style="margin-top:6px;padding:6px 9px;font-size:11.5px"><i class="ti ti-arrow-back-up"></i><span>${esc(f.motivoDevolucao)}</span></div>`:''}
@@ -2822,6 +3329,16 @@ async function preencherSelects(){
   setSel('m-eq','<option value="">Todas as equipes</option>'+optEq);
   setSel('m-srv','<option value="">Todos os serviços</option>'+optSrv);
   MED_SRV = new Map(srvs.map(s=>[s.nome, s]));
+
+  /* equipamentos: lançamento do furo, apontamento de horas e filtros */
+  const eqps = (await eqpGetAll()).sort((a,b)=>String(a.nome).localeCompare(String(b.nome)));
+  const optEqp = eqps.map(q=>`<option value="${esc(q.nome)}">${esc(q.nome)}${q.tipo?' · '+esc(q.tipo):''}</option>`).join('');
+  setSel('f-eqp','<option value="">— nenhum —</option>'+optEqp);
+  setSel('u-eqp', optEqp || '<option value="">— cadastre um equipamento —</option>');
+  setSel('u-feqp','<option value="">Todos</option>'+optEqp);
+  setSel('u-eq','<option value="">—</option>'+optEq);
+  setSel('a-eq','<option value="">Todas as equipes</option>'+optEq);
+  setSel('r-req','<option value="">Todas as equipes</option>'+optEq);
 }
 function setSel(id, html){
   const el = $(id); if(!el) return;
