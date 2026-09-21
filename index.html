@@ -416,6 +416,26 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
   </div>
 </div>
 
+<div class="ov" id="ov-med">
+  <div class="sheet">
+    <div style="font-size:17px;font-weight:800;margin-bottom:4px" id="md-tit">Medida do buraco</div>
+    <div style="font-size:13.5px;color:var(--text2);margin-bottom:14px" id="md-sub">
+      Foto guardada. Meça o buraco agora, enquanto ele está na sua frente.</div>
+    <div class="medrow" style="margin-top:0">
+      <div><label>Compr. (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+        id="md-comp" placeholder="0,00" oninput="medSheetPinta()"></div>
+      <div><label>Largura (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+        id="md-larg" placeholder="0,00" oninput="medSheetPinta()"></div>
+      <div><label>Prof. (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+        id="md-prof" placeholder="0,00" oninput="medSheetPinta()"></div>
+    </div>
+    <div class="medres vazio" id="md-res" style="margin-bottom:14px">
+      Comprimento e largura em metros — 80 cm é 0,80.</div>
+    <button class="btn p" onclick="medSheetSalvar()"><i class="ti ti-check"></i>Salvar medida</button>
+    <button class="btn" style="margin-top:9px" onclick="medSheetFechar()">Agora não</button>
+  </div>
+</div>
+
 <div class="ov" id="ov-conf">
   <div class="sheet">
     <div style="font-size:17px;font-weight:800;margin-bottom:6px" id="ov-tit"></div>
@@ -431,7 +451,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
    Companheiro do sistema de Relatório Fotográfico. Funciona offline e
    sincroniza pela mesma tabela na nuvem usada pelo computador.
    ====================================================================== */
-const APP_VERSION = '20260921-003';
+const APP_VERSION = '20260921-004';
 
 /* ======================================================================
    CONFIGURAÇÃO DA NUVEM — preencha UMA VEZ, antes de publicar o app.
@@ -1638,6 +1658,9 @@ async function seqRecebeuFoto(input){
     else await _rawAdd('imagens', linha);
 
     await seqRender();
+    /* Foto guardada: se o buraco ainda não tem medida, o app pede agora. */
+    const depois = (await dbGetAll('furos')).find(x=>x.uid===furoUid);
+    if(depois && !medArea(depois)) medSheetAbrir(furoUid);
   }catch(err){
     console.error(err);
     alerta('s-err','Não deu para guardar a foto: '+esc(err.message||err));
@@ -1679,6 +1702,43 @@ function medPinta(uid){
   box.innerHTML = `Área <b>${medBR(a,2)} m²</b>`
     + (medNum(f.prof) ? ` · Volume <b>${medBR(medVolume(f),3)} m³</b>` : ' · falta a profundidade');
 }
+/* A medida pedida na hora da foto: quem está na rua tem o buraco na frente,
+   e depois ninguém volta lá para medir. Dá para pular — os mesmos três campos
+   continuam no cartão do furo, e o escritório também consegue corrigir. */
+let MED_SHEET_UID = null;
+async function medSheetAbrir(uid){
+  const f = (await dbGetAll('furos')).find(x=>x.uid===uid); if(!f) return;
+  MED_SHEET_UID = uid;
+  $('md-tit').textContent = 'Medida do furo ' + f.num;
+  $('md-sub').innerHTML = medArea(f)
+    ? 'Confira ou corrija a medida deste buraco.'
+    : 'Foto guardada. Meça o buraco agora, enquanto ele está na sua frente.';
+  $('md-comp').value = medNum(f.comp)||''; $('md-larg').value = medNum(f.larg)||'';
+  $('md-prof').value = medNum(f.prof)||'';
+  medSheetPinta();
+  $('ov-med').style.display = 'flex';
+  setTimeout(()=>{ try{ $('md-comp').focus(); }catch(e){} }, 200);
+}
+function medSheetPinta(){
+  const box = $('md-res'); if(!box) return;
+  const f = {comp:$('md-comp').value, larg:$('md-larg').value, prof:$('md-prof').value};
+  const a = medArea(f);
+  if(!a){ box.className='medres vazio'; box.textContent='Comprimento e largura em metros — 80 cm é 0,80.'; return; }
+  box.className='medres';
+  box.innerHTML = `Área <b>${medBR(a,2)} m²</b>`
+    + (medNum(f.prof) ? ` · Volume <b>${medBR(medVolume(f),3)} m³</b>` : ' · falta a profundidade');
+}
+function medSheetFechar(){ $('ov-med').style.display='none'; MED_SHEET_UID = null; }
+async function medSheetSalvar(){
+  const uid = MED_SHEET_UID; if(!uid) return medSheetFechar();
+  const f = (await dbGetAll('furos')).find(x=>x.uid===uid);
+  if(f) await dbPut('furos', {...f,
+    comp: medNum($('md-comp').value)||'', larg: medNum($('md-larg').value)||'',
+    prof: medNum($('md-prof').value)||''});
+  medSheetFechar();
+  await seqRender();
+}
+
 async function medGravar(uid, campo, valor){
   await seqSetCampo(uid, campo, campo==='equipamento' ? valor : (medNum(valor) || ''));
   if(campo==='equipamento') return;
@@ -1751,7 +1811,8 @@ async function seqRender(){
               data-med="${f.uid}|prof" value="${medNum(f.prof)||''}" placeholder="0,00"
               oninput="medPinta('${f.uid}')" onchange="medGravar('${f.uid}','prof',this.value)"></div>
           </div>
-          <div class="medres vazio" id="md-${f.uid}">Meça o buraco: comprimento e largura em metros.</div>
+          <div class="medres vazio" id="md-${f.uid}" onclick="medSheetAbrir('${f.uid}')"
+            title="Tocar para medir">Meça o buraco: comprimento e largura em metros.</div>
         </div></div>`;
     }).join('');
 
