@@ -451,7 +451,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
    Companheiro do sistema de Relatório Fotográfico. Funciona offline e
    sincroniza pela mesma tabela na nuvem usada pelo computador.
    ====================================================================== */
-const APP_VERSION = '20260921-004';
+const APP_VERSION = '20260921-005';
 
 /* ======================================================================
    CONFIGURAÇÃO DA NUVEM — preencha UMA VEZ, antes de publicar o app.
@@ -563,7 +563,7 @@ async function entrar(){
     if(!us.length){
       alerta('lg-err', conectado()
         ? 'Este aparelho ainda não recebeu a lista de usuários. Toque em <b>Baixar usuários agora</b> para ver o que está impedindo.'
-        : 'Este app ainda não foi ligado ao sistema do escritório. Toque 5 vezes em “versão”, no rodapé, para configurar.', 0);
+        : 'Este aparelho ainda não tem nenhum usuário. Feche e abra o app: ele cria o usuário <b>Teste</b> (senha <b>Teste</b>) para demonstração.', 0);
       pintarDiagnostico(false);
       return;
     }
@@ -581,6 +581,18 @@ async function entrar(){
     pintarQuem(); ir('inicio');
   }catch(err){ alerta('lg-err','Erro ao entrar: '+esc(err.message||err)); }
   finally{ btn.disabled=false; btn.innerHTML='<i class="ti ti-login-2"></i>Entrar'; }
+}
+/* Enquanto o app não estiver ligado a um escritório, ele nasce com um único
+   usuário, guardado só neste aparelho e nunca enviado para lugar nenhum.
+   Assim que a nuvem é configurada, quem manda é a lista do escritório. */
+const USR_DEMO = {uid:'usr_teste', login:'teste', nome:'Teste', perfil:'g', equipe:'',
+                  salt:'teste-2026-seed', ativo:true, demo:true,
+                  criadoEm:'2026-01-01T00:00:00.000Z'};
+async function seedUsuarioDemo(){
+  if(conectado()) return;                       /* com escritório, a lista vem de lá */
+  const us = await dbGetAll('usuarios');
+  if(us.some(u=>(u.login||'').toLowerCase()===USR_DEMO.login)) return;
+  await _rawAdd('usuarios', {...USR_DEMO, hash: hashSenha('Teste', USR_DEMO.salt), _ts:Date.now()});
 }
 async function restaurarSessao(){
   const login=localStorage.getItem('tstapp_sessao'); if(!login) return false;
@@ -614,7 +626,10 @@ function carregarCfg(){
 }
 function salvarCfg(){ localStorage.setItem(CFG_KEY, JSON.stringify({sync:SYNC,id:ID})); }
 function conectado(){ return !!(SYNC.url && SYNC.key); }
-function pronto(){ return conectado() && !!USUARIO; }
+/* Entrar é uma coisa; sincronizar é outra. O app abre e trabalha com o
+   usuário que já está no aparelho, mesmo sem nuvem configurada — é assim que
+   ele roda numa demonstração e quando a internet cai no meio da rua. */
+function pronto(){ return !!USUARIO; }
 
 function fila(store,uid,del){
   if(!SYNC_STORES.includes(store)||!uid) return;
@@ -844,7 +859,8 @@ function mostrarLogin(){
   $('lg-user').value=localStorage.getItem('tstapp_login_ultimo')||'';
   $('lg-pass').value='';
   if(!conectado()){
-    alerta('lg-info','Este app ainda não foi ligado ao sistema do escritório. Toque 5 vezes em “versão”, no rodapé, para configurar.',0);
+    alerta('lg-info','Modo demonstração: sem escritório ligado. Entre com <b>Teste</b> e senha <b>Teste</b> — '
+      + 'o que for lançado fica guardado só neste aparelho.',0);
   } else {
     dbGetAll('usuarios').then(us=>{
       if(!us.length) pintarDiagnostico(false);
@@ -2665,6 +2681,7 @@ async function baixarRelatorio(uid){
     $('s-data').value=hoje();
     /* Puxa os usuários antes do login: senha trocada no escritório já vale aqui. */
     if(conectado() && navigator.onLine){ try{ await baixar(); }catch(e){ console.warn('sem nuvem no login',e); } }
+    await seedUsuarioDemo();
     await restaurarSessao();
     await relMigrar();
     await preencherListas();
