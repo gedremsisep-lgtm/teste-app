@@ -1162,6 +1162,20 @@ table.dt .ar{text-align:right}
   </div>
 
   <div class="fcard">
+    <div class="fhead"><i class="ti ti-presentation"></i>Demonstração</div>
+    <p style="font-size:12.5px;color:var(--text2);margin-bottom:11px">
+      Enche o sistema com um exemplo pronto — três equipes, serviços com preço, três equipamentos com
+      horas apontadas e doze buracos medidos em três dias. Serve para apresentar as telas e os relatórios
+      cheios. Depois, um botão só tira tudo de volta. As fotos não entram aqui: essas você tira na hora, pelo celular.</p>
+    <div class="brow">
+      <button class="btn bp" onclick="admDemoCarregar()"><i class="ti ti-wand"></i>Carregar demonstração</button>
+      <button class="btn bd" onclick="admDemoLimpar()"><i class="ti ti-eraser"></i>Apagar a demonstração</button>
+    </div>
+    <div class="al ag" id="a-demo-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    <div class="al ae" id="a-demo-err"><i class="ti ti-alert-circle"></i><span></span></div>
+  </div>
+
+  <div class="fcard">
     <div class="fhead"><i class="ti ti-database"></i>Dados do sistema</div>
     <div class="kg" id="cfg-kpis"></div>
     <div class="brow">
@@ -1397,7 +1411,7 @@ const LOGO_ORGAO_PADRAO = '';   /* sem brasao: quem usa poe o do proprio cliente
 const PIXEL_VAZIO = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 const LOGO_EMPRESA_PADRAO = "data:image/png;base64,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";
 
-const SYSTEM_VERSION = '20260921-004';
+const SYSTEM_VERSION = '20260922-001';
 
 /* ------------------------------- BANCO ---------------------------------- */
 const DB_NAME = 'TESTE_SIS_DB';
@@ -1716,8 +1730,9 @@ async function salvarTrocaSenha(){
 /* Nuvem propria do Teste: enquanto a URL e a chave estiverem em branco o
    sistema roda sozinho, so nesta maquina. Quem for usar preenche em
    Configuracoes -> Sincronizacao, com o script SQL que a propria tela entrega. */
-const SYNC_PADRAO = {url:'', key:'',
-                     tabela:'teste_registros', org:'TESTE', ativo:false};
+const SYNC_PADRAO = {url:'https://wfcblpogqfbdamhbdahy.supabase.co',
+                     key:'sb_publishable_MqtHd48UMs6ynegxXif0uw_5Jkb-bNS',
+                     tabela:'teste_registros', org:'TESTE', ativo:true};
 let SYNC = {...SYNC_PADRAO};
 const SYNC_CFG_KEY='tst_sync_cfg', FILA_KEY='tst_sync_fila', PULL_KEY='tst_sync_ultimo';
 let SYNC_OCUPADO = false, SYNC_TIMER = null;
@@ -3047,6 +3062,109 @@ async function admPlanilha(){
       alerta('a-ok','Sem internet para o gerador de .xlsx — a planilha saiu em CSV, que o Excel abre igual.');
     }
   }catch(err){ alerta('a-err','Erro ao gerar a planilha: '+esc(err.message||err)); }
+}
+
+
+/* --------------------------- DEMONSTRAÇÃO ------------------------------
+   Um exemplo completo, criado e apagado por botão. Tudo o que nasce aqui
+   leva a marca demo:true — é só isso que o botão de limpar remove, então
+   nenhum lançamento de verdade corre risco. */
+const DEMO_PRECOS = {
+  'Tapa Buraco':                      {unid:'m2', preco:85},
+  'Recomposição de Capa Asfáltica':   {unid:'m2', preco:92},
+  'Remendo Profundo':                 {unid:'m3', preco:480},
+  'Fresagem':                         {unid:'m2', preco:38}
+};
+const DEMO_EQUIPAMENTOS = [
+  {nome:'Retro 01',     tipo:'Retroescavadeira',    ident:'ABC-1D23', diaria:900},
+  {nome:'Caminhão 02',  tipo:'Caminhão basculante', ident:'DEF-4G56', diaria:650},
+  {nome:'Rolo 03',      tipo:'Rolo compactador',    ident:'HIJ-7K89', diaria:420}
+];
+const DEMO_FUROS = [
+  /* dia, equipe, rua, serviço, comprimento, largura, profundidade, equipamento */
+  [2,'Equipe I',  'Rua Farroupilha',      'Tapa Buraco',                    1.20,0.80,0.10,'Retro 01'],
+  [2,'Equipe I',  'Rua Farroupilha',      'Tapa Buraco',                    2.50,1.00,0.12,'Retro 01'],
+  [2,'Equipe I',  'Rua Farroupilha',      'Remendo Profundo',               1.80,1.20,0.25,'Retro 01'],
+  [2,'Equipe I',  'Rua Farroupilha',      'Tapa Buraco',                    0.90,0.70,0.08,'Caminhão 02'],
+  [2,'Equipe II', 'Avenida Bandeirantes', 'Recomposição de Capa Asfáltica', 3.20,1.50,0.07,'Rolo 03'],
+  [1,'Equipe II', 'Avenida Bandeirantes', 'Recomposição de Capa Asfáltica', 4.00,1.60,0.07,'Rolo 03'],
+  [1,'Equipe II', 'Avenida Bandeirantes', 'Fresagem',                       6.00,2.00,0.05,'Rolo 03'],
+  [1,'Equipe II', 'Rua das Acácias',      'Tapa Buraco',                    1.10,0.90,0.10,'Caminhão 02'],
+  [1,'Equipe III','Rua São Benedito',     'Tapa Buraco',                    1.40,0.85,0.09,'Retro 01'],
+  [0,'Equipe I',  'Rua Projetada A',      'Remendo Profundo',               2.20,1.10,0.30,'Retro 01'],
+  [0,'Equipe I',  'Rua Projetada A',      'Tapa Buraco',                    1.00,0.80,0.10,'Retro 01'],
+  [0,'Equipe III','Rua São Benedito',     'Tapa Buraco',                    1.60,1.00,0.11,'Caminhão 02']
+];
+function demoData(diasAtras){
+  const d = new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate() - diasAtras);
+  return d.toISOString().slice(0,10);
+}
+async function admDemoCarregar(){
+  limpaAlertas('a-demo-ok','a-demo-err');
+  confirmar('Carregar demonstração',
+    'O sistema vai receber <b>12 buracos medidos</b>, três equipamentos com horas e os serviços com preço. '
+    + 'Tudo fica marcado como demonstração e sai com um clique depois. Continuar?',
+    async()=>{
+      try{
+        /* preço nos serviços que já existem */
+        for(const s of await srvGetAll()){
+          const p = DEMO_PRECOS[s.nome];
+          if(p && !medNum(s.preco)) await dbPut('servicos', {...s, unid:p.unid, preco:p.preco});
+        }
+        /* equipamentos */
+        const jaEqp = new Set((await eqpGetAll()).map(q=>q.nome));
+        for(const q of DEMO_EQUIPAMENTOS){
+          if(!jaEqp.has(q.nome)) await dbAdd('equipamentos', {...q, situacao:'Ativo', demo:true});
+        }
+        /* horas dos equipamentos nos três dias */
+        for(const dia of [2,1,0]){
+          for(const q of DEMO_EQUIPAMENTOS){
+            await dbAdd('equipuso', {data:demoData(dia), equipamento:q.nome,
+              equipe: q.nome==='Rolo 03' ? 'Equipe II' : 'Equipe I',
+              horas: q.nome==='Rolo 03' ? 6 : 8, obs:'', lancadoPor:usuarioNome(), demo:true});
+          }
+        }
+        /* buracos, numerados por dia e equipe */
+        const conta = {};
+        for(const [dia, equipe, rua, servico, comp, larg, prof, equipamento] of DEMO_FUROS){
+          const data = demoData(dia);
+          const chave = data+'|'+equipe;
+          conta[chave] = (conta[chave]||0) + 1;
+          await dbAdd('furos', {
+            num: conta[chave], data, rua, servico, equipe, equipamento,
+            comp, larg, prof, obs:'', fotos:[null,null],
+            origem:'desktop', dispositivo:'', lancadoPor: usuarioNome(),
+            lat:null, lng:null, status:'Validado',
+            validadoPor: usuarioNome(), validadoEm: new Date().toISOString(),
+            motivoDevolucao:'', demo:true
+          });
+        }
+        await histLog('Carregou','demonstração', null, `${DEMO_FUROS.length} buracos de exemplo`, '');
+        await preencherSelects();
+        await admRender();
+        alerta('a-demo-ok', `Demonstração pronta: <b>${DEMO_FUROS.length}</b> buracos medidos em 3 dias, `
+          + `<b>${DEMO_EQUIPAMENTOS.length}</b> equipamentos e os serviços com preço. `
+          + `Abra <b>Medição por Buraco</b> ou gere os relatórios aqui de cima.`);
+      }catch(err){ alerta('a-demo-err','Não deu para carregar: '+esc(err.message||err)); }
+    });
+}
+async function admDemoLimpar(){
+  limpaAlertas('a-demo-ok','a-demo-err');
+  confirmar('Apagar a demonstração',
+    'Sai tudo o que foi criado pelo botão de demonstração. O que você lançou à mão <b>fica</b>. Continuar?',
+    async()=>{
+      try{
+        let n = 0;
+        for(const store of ['furos','equipuso','equipamentos']){
+          for(const r of await dbGetAll(store)){
+            if(r.demo){ await dbDelete(store, r.id); n++; }
+          }
+        }
+        await preencherSelects();
+        await admRender();
+        alerta('a-demo-ok', `<b>${n}</b> registro(s) de demonstração apagados.`);
+      }catch(err){ alerta('a-demo-err','Não deu para apagar: '+esc(err.message||err)); }
+    });
 }
 
 /* ================================== FUROS =============================== */
