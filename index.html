@@ -264,7 +264,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
     </div>
     <div class="f2">
       <div class="fg"><label>Bairro / Rua</label><input type="text" id="s-rua" list="dl-ruas" placeholder="Ex.: Rua Farroupilha">
-        <div class="hint">Repetida em cada furo novo.</div></div>
+        <div class="hint">Repetida em cada buraco novo.</div></div>
       <div class="fg"><label>Serviço</label><select id="s-srv"></select></div>
     </div>
     <div id="s-relbar"></div>
@@ -275,7 +275,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
   <div id="s-lista"></div>
 
   <button class="btn o" id="s-add" onclick="seqAddFuro()" style="margin-bottom:9px">
-    <i class="ti ti-plus"></i><span id="s-add-txt">Adicionar furo (2 fotos)</span></button>
+    <i class="ti ti-plus"></i><span id="s-add-txt">Adicionar buraco (2 a 4 fotos)</span></button>
   <button class="btn" id="s-rua-btn" onclick="abrirTrocaRua()" style="margin-bottom:12px">
     <i class="ti ti-road"></i><span id="s-rua-txt">Trocar rua</span></button>
 
@@ -321,14 +321,14 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
     <div class="al ag" id="e-ok"><i class="ti ti-circle-check"></i><span></span></div>
     <div class="al ae" id="e-err"><i class="ti ti-alert-circle"></i><span></span></div>
     <p style="font-size:13px;color:var(--text2);margin-top:12px">
-      Você pode lançar furos sem internet o dia inteiro — tudo fica guardado no aparelho e sobe assim que a conexão voltar.</p>
+      Você pode lançar buracos sem internet o dia inteiro — tudo fica guardado no aparelho e sobe assim que a conexão voltar.</p>
   </div>
   <div class="card">
     <div class="sh"><i class="ti ti-info-circle"></i>Como funciona a validação</div>
     <p style="font-size:13.5px;color:var(--text2)">
-      Todo furo enviado chega ao escritório como <b>Pendente</b>. O gestor confere as fotos e
+      Todo buraco enviado chega ao escritório como <b>Pendente</b>. O gestor confere as fotos e
       <b>valida</b> — só então ele conta no relatório do dia. Se algo estiver errado, ele
-      <b>devolve com o motivo</b>, e o furo aparece aqui em vermelho para você corrigir e reenviar.</p>
+      <b>devolve com o motivo</b>, e o buraco aparece aqui em vermelho para você corrigir e reenviar.</p>
   </div>
 </div>
 
@@ -399,7 +399,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
   <div class="sheet">
     <div style="font-size:17px;font-weight:800;margin-bottom:4px">Trocar de rua</div>
     <div style="font-size:13.5px;color:var(--text2);margin-bottom:14px">
-      Os furos já lançados continuam com a rua antiga. Os próximos saem com a nova.</div>
+      Os buracos já lançados continuam com a rua antiga. Os próximos saem com a nova.</div>
     <div class="fg"><label>Nova rua</label>
       <input type="text" id="ru-nome" list="dl-ruas" placeholder="Ex.: Rua Bahia"></div>
     <div class="fg"><label>Serviço (opcional)</label><select id="ru-srv"></select></div>
@@ -455,7 +455,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
    Companheiro do sistema de Relatório Fotográfico. Funciona offline e
    sincroniza pela mesma tabela na nuvem usada pelo computador.
    ====================================================================== */
-const APP_VERSION = '20260928-001';
+const APP_VERSION = '20260928-002';
 
 /* ======================================================================
    CONFIGURAÇÃO DA NUVEM — preencha UMA VEZ, antes de publicar o app.
@@ -1413,10 +1413,10 @@ async function relNaoValidado(data, equipe){
 /* O que a tela diz sobre o documento que está trancando a abertura de outro. */
 function relPorqueTrancado(p){
   const partes = [];
-  if(p.semDepois)  partes.push(`<b>${p.semDepois}</b> furo(s) ainda esperando a foto do <b>Depois</b>`);
-  if(p.devolvidos) partes.push(`<b>${p.devolvidos}</b> furo(s) <b>devolvidos para correção</b>`);
+  if(p.semDepois)  partes.push(`<b>${p.semDepois}</b> buraco(s) ainda esperando a foto do <b>Depois</b>`);
+  if(p.devolvidos) partes.push(`<b>${p.devolvidos}</b> buraco(s) <b>devolvidos para correção</b>`);
   const val = p.total - p.pendentes;
-  partes.push(`<b>${val}</b> de <b>${p.total}</b> furo(s) validados pelo escritório`);
+  partes.push(`<b>${val}</b> de <b>${p.total}</b> buraco(s) validados pelo escritório`);
   return partes.join(' · ');
 }
 /* Acha o relatório aberto do dia/equipe; cria quando for preciso. */
@@ -1439,7 +1439,7 @@ async function relAtualDoDia(criar){
     REL_ATUAL = atual;
     alerta('s-aviso', `Retomando o relatório <b>${esc(relCod(atual))}</b> — ele ainda não foi
       validado pelo escritório: ${relPorqueTrancado(pend)}.
-      ${pend.semDepois ? 'Toque no quadro vazio de cada furo para a foto do <b>Depois</b>. ' : ''}
+      ${pend.semDepois ? 'Toque no quadro vazio de cada buraco para a foto do <b>Depois</b>. ' : ''}
       O próximo documento só abre depois que este for validado.`, 0);
     return atual;
   }
@@ -1534,8 +1534,8 @@ async function seqSetCampo(uid, campo, valor){
   await dbPut('furos', {...f, [campo]: valor});
 }
 function seqExcluirFuro(uid, num){
-  confirmarSheet('Excluir furo '+num,
-    'O furo e as fotos dele saem deste aparelho <b>e do escritório</b> na próxima sincronização. Não dá para desfazer.',
+  confirmarSheet('Excluir buraco '+num,
+    'O buraco e as fotos dele saem deste aparelho <b>e do escritório</b> na próxima sincronização. Não dá para desfazer.',
     async()=>{
       const todos = await dbGetAll('furos');
       const f = todos.find(x=>x.uid===uid);
@@ -1555,7 +1555,7 @@ function seqExcluirFuro(uid, num){
 /* apagar um relatório inteiro, com os furos e as fotos dele */
 function excluirRelatorio(uid){
   confirmarSheet('Excluir relatório',
-    'O relatório, os furos e as fotos dele são apagados neste aparelho <b>e no escritório</b> na próxima sincronização. Não dá para desfazer.',
+    'O relatório, os buracos e as fotos dele são apagados neste aparelho <b>e no escritório</b> na próxima sincronização. Não dá para desfazer.',
     async()=>{
       const furos = await relFuros(uid);
       for(const f of furos){
@@ -1659,7 +1659,7 @@ async function seqRecebeuFoto(input){
     const ja = fotosDoFuro.find(x=>x.tipo===tipo);
     const registro = {
       relatorioUid:furo.relatorioUid, furoUid, furoNum:furo.num, tipo,
-      rotulo:`Furo ${furo.num} ${fotoRot(tipo)}`,
+      rotulo:`Buraco ${furo.num} ${fotoRot(tipo)}`,
       dataHora:meta.dataHora, lat:meta.lat, lng:meta.lng, alt:meta.alt, precisao:meta.precisao,
       heading:meta.heading, direcao:meta.direcao, indice:meta.indice,
       endereco:meta.endereco, enderecoOk, temMapa:!!meta.mapa,
@@ -1739,7 +1739,7 @@ let MED_SHEET_UID = null;
 async function medSheetAbrir(uid){
   const f = (await dbGetAll('furos')).find(x=>x.uid===uid); if(!f) return;
   MED_SHEET_UID = uid;
-  $('md-tit').textContent = 'Medida do furo ' + f.num;
+  $('md-tit').textContent = 'Medida do buraco ' + f.num;
   $('md-sub').innerHTML = medArea(f)
     ? 'Confira ou corrija a medida deste buraco.'
     : 'Foto guardada. Meça o buraco agora, enquanto ele está na sua frente.';
@@ -1805,7 +1805,7 @@ async function seqRender(){
       const livre = FOTO_TIPOS.find(t => !FOTO_OBRIGATORIAS.includes(t) && !mapaF.has(f.uid+'|'+t));
       const cels = tiposDoFuro.map(tipo=>{
         const fo = mapaF.get(f.uid+'|'+tipo);
-        const rot = `FURO ${f.num}<br>${FOTO_CURTO[tipo]}`;
+        const rot = `BURACO ${f.num}<br>${FOTO_CURTO[tipo]}`;
         if(!fo) return `<div class="slotp" data-slot="${f.uid}|${tipo}" onclick="seqTirar('${f.uid}','${tipo}')">
             <i class="ti ti-camera-plus"></i><div class="rot">${rot}</div></div>`;
         nFotos++;
@@ -1826,7 +1826,7 @@ async function seqRender(){
       const completo = mapaF.has(f.uid+'|antes') && mapaF.has(f.uid+'|depois');
       const nDoFuro = FOTO_TIPOS.filter(t=>mapaF.has(f.uid+'|'+t)).length;
       return `<div class="fcard-furo${completo?' ok':''}">
-        <div class="fh"><b>Furo ${f.num}</b>
+        <div class="fh"><b>Buraco ${f.num}</b>
           ${f.rua?`<span style="font-size:11.5px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.rua)}</span>`:'<span style="flex:1"></span>'}
           <span class="st ${completo?'s-ok':'s-wn'}">${completo?nDoFuro+' fotos':'faltam as 2 obrigatórias'}</span>
           <button class="btn sm" style="width:auto;padding:6px 9px" onclick="seqExcluirFuro('${f.uid}',${f.num})"><i class="ti ti-trash"></i></button></div>
@@ -1853,14 +1853,14 @@ async function seqRender(){
     }).join('');
 
     $('s-lista').innerHTML = html || `<div class="empty"><i class="ti ti-camera-off"></i>
-      Nenhum furo lançado neste relatório. Toque em <b>Adicionar furo</b> para começar.</div>`;
+      Nenhum buraco lançado neste relatório. Toque em <b>Adicionar buraco</b> para começar.</div>`;
     $('s-add-txt').textContent = furos.length
-      ? `Adicionar furo ${furos.length+1} (2 a 4 fotos)` : 'Adicionar furo 1 (2 a 4 fotos)';
+      ? `Adicionar buraco ${furos.length+1} (2 a 4 fotos)` : 'Adicionar buraco 1 (2 a 4 fotos)';
     const rua = $('s-rua').value.trim();
     $('s-rua-txt').innerHTML = rua ? `Trocar rua — hoje: <b>${esc(rua)}</b>` : 'Definir a rua';
 
     $('s-kpis').innerHTML =
-      `<div class="kc"><div class="kl">Furos</div><div class="kv">${furos.length}</div></div>
+      `<div class="kc"><div class="kl">Buracos</div><div class="kv">${furos.length}</div></div>
        <div class="kc gn"><div class="kl">Fotos</div><div class="kv">${nFotos}</div></div>
        <div class="kc ${aEnviar?'am':'gn'}"><div class="kl">A enviar</div><div class="kv">${aEnviar}</div></div>
        <div class="kc ${semEnd?'am':'gn'}"><div class="kl">Sem endereço</div><div class="kv">${semEnd}</div></div>
@@ -1870,9 +1870,9 @@ async function seqRender(){
 
     pintarPosRelatorio(furos.length);
     const partes = [];
-    if(!furos.length) partes.push('Comece adicionando o primeiro furo.');
+    if(!furos.length) partes.push('Comece adicionando o primeiro buraco.');
     else{
-      partes.push(`<b>${furos.length}</b> furos e <b>${nFotos}</b> fotos neste relatório.`);
+      partes.push(`<b>${furos.length}</b> buracos e <b>${nFotos}</b> fotos neste relatório.`);
       if(aEnviar) partes.push(`<b>${aEnviar}</b> foto(s) ainda não foram enviadas.`);
       if(semEnd) partes.push(`<b>${semEnd}</b> sem endereço no carimbo — o app completa quando houver internet.`);
       if(semGps) partes.push(`<span style="color:var(--red)"><b>${semGps}</b> sem GPS.</span>`);
@@ -1884,7 +1884,7 @@ function pintarRelBar(){
   const box = $('s-relbar'); if(!box) return;
   if(!REL_ATUAL){
     box.innerHTML = `<div class="relbar"><i class="ti ti-file-plus"></i>
-      <span>Nenhum relatório aberto neste dia. Ele é criado sozinho quando você adicionar o primeiro furo.</span></div>`;
+      <span>Nenhum relatório aberto neste dia. Ele é criado sozinho quando você adicionar o primeiro buraco.</span></div>`;
     return;
   }
   const r = REL_ATUAL, fim = r.status==='Concluído';
@@ -1903,7 +1903,7 @@ function pintarPosRelatorio(qtdFuros){
     if(bt) bt.style.display = 'none';
     box.innerHTML = `<div class="card" style="margin:0 0 10px;padding:12px;background:var(--bg2)">
       <div style="font-size:13.5px;color:var(--text2);margin-bottom:10px">
-        Relatório <b>${esc(relCod(REL_ATUAL))}</b> concluído com <b>${qtdFuros}</b> furo(s) —
+        Relatório <b>${esc(relCod(REL_ATUAL))}</b> concluído com <b>${qtdFuros}</b> buraco(s) —
         um único documento com todas as fotos.</div>
       <button class="btn o" onclick="seqNovoRelatorio()"><i class="ti ti-file-plus"></i>Gerar novo relatório</button>
       <div class="brow" style="margin-top:9px">
@@ -1938,7 +1938,7 @@ async function confirmarTrocaRua(){
   if(REL_ATUAL) await relGravar(REL_ATUAL.uid, {rua:nova, servico:$('s-srv').value});
   $('ov-rua').style.display = 'none';
   await seqRender();
-  alerta('s-ok','Agora lançando na <b>'+esc(nova)+'</b>. Toque em <b>Adicionar furo</b> para o primeiro furo desta rua.',0);
+  alerta('s-ok','Agora lançando na <b>'+esc(nova)+'</b>. Toque em <b>Adicionar buraco</b> para o primeiro buraco desta rua.',0);
   const b = $('s-add'); if(b) b.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
@@ -1957,14 +1957,14 @@ async function seqNovoRelatorio(){
     alerta('s-err', `Ainda não dá para abrir documento novo: o relatório
       <b>${esc(relCod(REL_ATUAL))}</b> não foi validado pelo escritório.
       ${relPorqueTrancado(pend)}.<br>
-      Continue neste mesmo documento${pend.semDepois ? ' — toque no quadro vazio de cada furo para a foto do <b>Depois</b>' : ''}.
+      Continue neste mesmo documento${pend.semDepois ? ' — toque no quadro vazio de cada buraco para a foto do <b>Depois</b>' : ''}.
       Assim que o escritório validar, o próximo abre.`, 0);
     window.scrollTo({top:0, behavior:'smooth'});
     return;
   }
   await relCriar(data, equipe);
   await seqRender();
-  alerta('s-ok','Relatório <b>'+esc(relCod(REL_ATUAL))+'</b> aberto. Adicione os furos deste novo documento.');
+  alerta('s-ok','Relatório <b>'+esc(relCod(REL_ATUAL))+'</b> aberto. Adicione os buracos deste novo documento.');
   window.scrollTo({top:0, behavior:'smooth'});
 }
 async function seqReabrir(){
@@ -2058,7 +2058,7 @@ async function seqGerarPDF(compartilhar){
   limpa('s-err','s-ok','s-aviso');
   try{
     const furos = await seqFuros();
-    if(!furos.length){ alerta('s-err','Não há furos lançados neste dia.'); return null; }
+    if(!furos.length){ alerta('s-err','Não há buracos lançados neste dia.'); return null; }
     alerta('s-prog','Montando o relatório...',0);
     const jsPDF = await carregarJsPDF();
     const doc = new jsPDF({unit:'mm', format:'a4', orientation:'portrait', compress:true});
@@ -2113,7 +2113,7 @@ async function seqGerarPDF(compartilhar){
         const rot = par.length===2 ? `${par[0].num} e ${par[1].num}` : `${par[0].num}`;
         const ruas = [...new Set(par.map(f=>f.rua).filter(Boolean))].join(' / ') || '—';
         const srvs = [...new Set(par.map(f=>f.servico).filter(Boolean))].join(' / ') || '—';
-        const linhas = [['Furo',rot],['Bairro/Rua',ruas],['Serviço',srvs]];
+        const linhas = [['Buraco',rot],['Bairro/Rua',ruas],['Serviço',srvs]];
         /* A medição do buraco entra no papel logo abaixo do serviço — só quando
            existe, para não abrir uma linha vazia no bloco. */
         const medidos = par.filter(f=>medArea(f)>0).map(f=>
@@ -2177,7 +2177,7 @@ async function seqLinhas(){
       const e = (fo && fo.endereco) || {};
       linhas.push({
         'Data': fmtData(f.data), 'Equipe': f.equipe||'',
-        'Furo': f.num, 'Foto': fotoRot(tipo),
+        'Buraco': f.num, 'Foto': fotoRot(tipo),
         'Bairro/Rua': f.rua||'', 'Bairro (carimbo)': e.bairro||'',
         'Serviço': f.servico||'', 'Equipamento': f.equipamento||'',
         'Comprimento (m)': medNum(f.comp)||'', 'Largura (m)': medNum(f.larg)||'',
@@ -2201,13 +2201,13 @@ async function seqPlanilha(){
   limpa('s-err','s-ok','s-aviso');
   try{
     const linhas = await seqLinhas();
-    if(!linhas.length){ alerta('s-err','Não há furos lançados neste dia.'); return; }
+    if(!linhas.length){ alerta('s-err','Não há buracos lançados neste dia.'); return; }
     const base = `Planilha_${($('s-data').value||'').replace(/-/g,'')}`;
     /* resumo por furo, que é o que vai para a medição */
     const porFuro = {};
     linhas.forEach(l=>{
-      const k = l['Furo'];
-      if(!porFuro[k]) porFuro[k] = {'Furo':k,'Bairro/Rua':l['Bairro/Rua'],'Serviço':l['Serviço'],
+      const k = l['Buraco'];
+      if(!porFuro[k]) porFuro[k] = {'Buraco':k,'Bairro/Rua':l['Bairro/Rua'],'Serviço':l['Serviço'],
                                     'Área (m²)':0,'Volume (m³)':0,'Fotos':0};
       if(l['Área (m²)']) porFuro[k]['Área (m²)'] = +(porFuro[k]['Área (m²)'] + Number(l['Área (m²)'])).toFixed(3);
       if(l['Volume (m³)']) porFuro[k]['Volume (m³)'] = +(porFuro[k]['Volume (m³)'] + Number(l['Volume (m³)'])).toFixed(4);
@@ -2218,7 +2218,7 @@ async function seqPlanilha(){
       const XLSX = await carregarXLSX();
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(linhas), 'Fotos');
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumo), 'Resumo por furo');
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumo), 'Resumo por buraco');
       const buf = XLSX.write(wb, {bookType:'xlsx', type:'array'});
       await compartilharArquivo(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), base+'.xlsx');
     }catch(e){
@@ -2258,7 +2258,7 @@ async function compartilharPDF(blob, nome){
 async function seqConcluir(){
   limpa('s-err','s-ok','s-aviso');
   const furos = await seqFuros();
-  if(!furos.length){ alerta('s-err','Não há furos lançados neste dia.'); return; }
+  if(!furos.length){ alerta('s-err','Não há buracos lançados neste dia.'); return; }
   const semFoto = [];
   const fotos = await dbGetAll('fotos');
   furos.forEach(f=>{
@@ -2281,11 +2281,11 @@ async function seqConcluir(){
     await seqGerarPDF(true);   /* um único PDF, com todas as fotos do relatório */
     await seqRender();
     alerta('s-ok','Relatório <b>'+(REL_ATUAL?esc(relCod(REL_ATUAL)):'')+'</b> concluído — um documento só, com as '
-      +'fotos de todos os furos. Toque em <b>Planilha</b> para mandar também os dados das dimensões.',0);
+      +'fotos de todos os buracos. Toque em <b>Planilha</b> para mandar também os dados das dimensões.',0);
   };
   if(semFoto.length){
-    confirmarSheet('Furos incompletos',
-      `Os furos <b>${semFoto.slice(0,12).join(', ')}</b>${semFoto.length>12?'...':''} estão sem as duas fotos obrigatórias (Antes e Concluído).
+    confirmarSheet('Buracos incompletos',
+      `Os buracos <b>${semFoto.slice(0,12).join(', ')}</b>${semFoto.length>12?'...':''} estão sem as duas fotos obrigatórias (Antes e Concluído).
        Eles entram no relatório com o espaço vazio. Continuar mesmo assim?`, seguir);
   } else seguir();
 }
@@ -2294,13 +2294,13 @@ async function seqConcluir(){
 async function editarFuro(id){
   const furos = await dbGetAll('furos');
   const f = furos.find(x=>x.id===id); if(!f) return;
-  if(f.status==='Validado'){ alerta('m-st','Este furo já foi validado pelo escritório.'); return; }
+  if(f.status==='Validado'){ alerta('m-st','Este buraco já foi validado pelo escritório.'); return; }
   ir('seq');
   setTimeout(async()=>{
     if(f.data) $('s-data').value = f.data;
     await seqRender();
     const el = [...document.querySelectorAll('#s-lista .fcard-furo')]
-      .find(x=>x.querySelector('b') && x.querySelector('b').textContent === 'Furo '+f.num);
+      .find(x=>x.querySelector('b') && x.querySelector('b').textContent === 'Buraco '+f.num);
     if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
   }, 250);
 }
@@ -2483,7 +2483,7 @@ async function inicioRender(){
     cartoes.push(`<div class="acard p" onclick="novoRelatorioFotografico()">
       <div class="ai"><i class="ti ti-camera-plus"></i></div>
       <div><div class="at">Novo Relatório Fotográfico</div>
-        <div class="as">Abre a tela de lançamento para começar os furos e as fotos do dia</div></div>
+        <div class="as">Abre a tela de lançamento para começar os buracos e as fotos do dia</div></div>
       <div class="ac"><i class="ti ti-chevron-right"></i></div></div>`);
 
     if(r.aberto && r.abertoFuros){
@@ -2491,7 +2491,7 @@ async function inicioRender(){
         <div class="ai"><i class="ti ti-player-play"></i></div>
         <div><div class="at">Continuar o relatório ${esc(relCod(r.aberto))}</div>
           <div class="as">${fmtData(r.aberto.data)} · ${esc(r.aberto.equipe||'sem equipe')} ·
-            ${r.abertoFuros} furo(s) lançado(s)</div></div>
+            ${r.abertoFuros} buraco(s) lançado(s)</div></div>
         <div class="ac"><i class="ti ti-chevron-right"></i></div></div>`);
     }
 
@@ -2526,7 +2526,7 @@ async function novoRelatorioFotografico(){
     await seqRender();
     limpa('s-err','s-aviso');
     alerta('s-ok','Relatório <b>'+esc(relCod(REL_ATUAL))+'</b> aberto. Confira a data, a equipe e a rua, '
-      +'e toque em <b>Adicionar furo</b>.',0);
+      +'e toque em <b>Adicionar buraco</b>.',0);
     window.scrollTo({top:0, behavior:'smooth'});
   }, 220);
 }
@@ -2609,7 +2609,7 @@ async function renderMeus(){
         <div class="th">${[0,1].map(i=>l.capas[i]?`<img src="${l.capas[i]}">`:`<div class="vz">sem foto</div>`).join('')}</div>
         <div class="ib">
           <div class="ln"><span>Equipe</span><b>${esc(r.equipe||'—')}</b></div>
-          <div class="ln"><span>Furos / fotos</span><b>${l.fs.length}</b> furo(s) · <b>${l.nFotos}</b> foto(s)</div>
+          <div class="ln"><span>Buracos / fotos</span><b>${l.fs.length}</b> buraco(s) · <b>${l.nFotos}</b> foto(s)</div>
           <div class="ln"><span>Rua</span>${esc(r.rua || (l.fs[0]&&l.fs[0].rua) || '—')}</div>
           <div class="ln"><span>Serviço</span>${esc(r.servico || (l.fs[0]&&l.fs[0].servico) || '—')}</div>
           <div class="ln"><span>Documento</span>${r.status==='Concluído'?'concluído e enviado':'em andamento'}</div>

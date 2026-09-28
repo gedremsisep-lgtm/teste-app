@@ -204,7 +204,7 @@ table.dt .ar{text-align:right}
 .modal-overlay{position:fixed;inset:0;background:rgba(20,24,32,.62);z-index:200;display:none;align-items:flex-start;justify-content:center}
 .modal-box{background:#fff;border-radius:var(--radius);width:min(560px,94vw);margin:60px auto;padding:20px;max-height:80vh;overflow-y:auto}
 
-/* ===== FURO CARD (lançamento) ===== */
+/* ===== BURACO CARD (lançamento) ===== */
 .furolist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
 .furocard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .furocard .fh{background:var(--bg3);padding:7px 11px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
@@ -427,7 +427,7 @@ table.dt .ar{text-align:right}
 <!-- ============================================================ DASHBOARD -->
 <div class="pg on" id="pg-dash">
   <div class="ph"><h1><i class="ti ti-layout-dashboard"></i>Resumo Geral</h1>
-    <p>Panorama das medições, furos executados e produtividade das equipes.</p></div>
+    <p>Panorama das medições, buracos executados e produtividade das equipes.</p></div>
 
   <div class="fcard">
     <div class="fhead"><i class="ti ti-filter"></i>Filtros</div>
@@ -442,10 +442,10 @@ table.dt .ar{text-align:right}
   <div class="kg" id="d-kpis"></div>
 
   <div class="chgrid">
-    <div class="card"><div class="sh"><i class="ti ti-road"></i>Furos por Rua / Bairro</div><div id="d-ch-rua"></div></div>
-    <div class="card"><div class="sh"><i class="ti ti-tools"></i>Furos por Serviço</div><div id="d-ch-srv"></div></div>
-    <div class="card"><div class="sh"><i class="ti ti-users-group"></i>Furos por Equipe</div><div id="d-ch-eq"></div></div>
-    <div class="card"><div class="sh"><i class="ti ti-calendar-stats"></i>Furos por Dia (últimos 14 registros)</div><div id="d-ch-dia"></div></div>
+    <div class="card"><div class="sh"><i class="ti ti-road"></i>Buracos por Rua / Bairro</div><div id="d-ch-rua"></div></div>
+    <div class="card"><div class="sh"><i class="ti ti-tools"></i>Buracos por Serviço</div><div id="d-ch-srv"></div></div>
+    <div class="card"><div class="sh"><i class="ti ti-users-group"></i>Buracos por Equipe</div><div id="d-ch-eq"></div></div>
+    <div class="card"><div class="sh"><i class="ti ti-calendar-stats"></i>Buracos por Dia (últimos 14 registros)</div><div id="d-ch-dia"></div></div>
   </div>
 
 </div>
@@ -453,19 +453,19 @@ table.dt .ar{text-align:right}
 <!-- ============================================================ MEDIÇÕES -->
 <!-- ============================================================ FUROS -->
 <div class="pg" id="pg-furo">
-  <div class="ph"><h1><i class="ti ti-map-pin-plus"></i>Furos / Serviços</h1>
-    <p>Lançamento individual de cada furo com as fotos que compõem o relatório.</p></div>
+  <div class="ph"><h1><i class="ti ti-map-pin-plus"></i>Buracos / Serviços</h1>
+    <p>Lançamento individual de cada buraco com as fotos que compõem o relatório.</p></div>
 
   <div class="tabs">
-    <div class="tab on" onclick="furoStab(this,'furo-form')"><i class="ti ti-plus"></i>Lançar Furo</div>
-    <div class="tab" onclick="furoStab(this,'furo-lista')"><i class="ti ti-list"></i>Furos Lançados</div>
+    <div class="tab on" onclick="furoStab(this,'furo-form')"><i class="ti ti-plus"></i>Lançar Buraco</div>
+    <div class="tab" onclick="furoStab(this,'furo-lista')"><i class="ti ti-list"></i>Buracos Lançados</div>
   </div>
 
   <div id="furo-form">
     <div class="fcard">
       <div class="fhead"><i class="ti ti-clipboard-data"></i>Identificação</div>
       <div class="fr4">
-        <div class="fg"><label>Nº do Furo *</label><input type="number" id="f-num" min="1">
+        <div class="fg"><label>Nº do Buraco *</label><input type="number" id="f-num" min="1">
           <div class="hint">Numeração automática · sequencial no dia</div></div>
         <div class="fg"><label>Data do serviço *</label><input type="date" id="f-data"></div>
         <div class="fg"><label>Equipe</label><select id="f-eq"></select></div>
@@ -499,7 +499,7 @@ table.dt .ar{text-align:right}
     </div>
 
     <div class="fcard">
-      <div class="fhead"><i class="ti ti-camera"></i>Registro Fotográfico do Furo</div>
+      <div class="fhead"><i class="ti ti-camera"></i>Registro Fotográfico do Buraco</div>
       <p style="font-size:12px;color:var(--text2);margin-bottom:11px">De duas a quatro fotos por buraco.
         <b>Antes</b> e <b>Concluído</b> são as obrigatórias; as duas de <b>Durante</b> são opcionais.
         É exatamente o quadro que sai no relatório impresso. As imagens são reduzidas automaticamente
@@ -523,7 +523,7 @@ table.dt .ar{text-align:right}
         </div>
       </div>
       <div class="brow" style="margin-top:14px">
-        <button class="btn bp" id="f-btn-save" onclick="furoSave()"><i class="ti ti-device-floppy"></i>Salvar Furo</button>
+        <button class="btn bp" id="f-btn-save" onclick="furoSave()"><i class="ti ti-device-floppy"></i>Salvar Buraco</button>
         <button class="btn bgo" onclick="furoSaveENovo()"><i class="ti ti-player-track-next"></i>Salvar e Lançar Próximo</button>
         <button class="btn" onclick="furoReset()"><i class="ti ti-eraser"></i>Limpar</button>
         <button class="btn" id="f-btn-cancel" style="display:none" onclick="furoCancelEdit()"><i class="ti ti-x"></i>Cancelar edição</button>
@@ -557,7 +557,7 @@ table.dt .ar{text-align:right}
 
   <div class="tabs">
     <div class="tab on" onclick="histStab(this,'hist-dia')"><i class="ti ti-calendar-check"></i>Diário por Dia / Equipe</div>
-    <div class="tab" onclick="histStab(this,'hist-furo')"><i class="ti ti-list-check"></i>Validação por Furo</div>
+    <div class="tab" onclick="histStab(this,'hist-furo')"><i class="ti ti-list-check"></i>Validação por Buraco</div>
     <div class="tab" onclick="histStab(this,'hist-aud')"><i class="ti ti-history"></i>Auditoria</div>
   </div>
 
@@ -574,7 +574,7 @@ table.dt .ar{text-align:right}
     <div class="card tw">
       <table class="dt"><thead><tr>
         <th>Data</th><th>Equipe</th><th>Ruas</th>
-        <th class="ac">Furos</th><th class="ac">Fotos</th>
+        <th class="ac">Buracos</th><th class="ac">Fotos</th>
         <th class="ac">Pend.</th><th class="ac">Valid.</th><th class="ac">Devol.</th>
         <th class="ac">Situação do dia</th><th class="ac">Ações</th>
       </tr></thead><tbody id="h-tb-dia"></tbody></table>
@@ -604,7 +604,7 @@ table.dt .ar{text-align:right}
     <div class="card tw">
       <table class="dt"><thead><tr>
         <th style="width:34px" class="ac"><input type="checkbox" id="hf-all" onchange="histSelTodos(this.checked)"></th>
-        <th class="ac">Fotos</th><th class="ac">Furo</th><th>Data</th><th>Bairro / Rua</th><th>Serviço</th>
+        <th class="ac">Fotos</th><th class="ac">Buraco</th><th>Data</th><th>Bairro / Rua</th><th>Serviço</th>
         <th>Equipe</th><th>Lançado por</th><th class="ac">Situação</th><th class="ac">Ações</th>
       </tr></thead><tbody id="h-tb-furo"></tbody></table>
     </div>
@@ -613,7 +613,7 @@ table.dt .ar{text-align:right}
   <div id="hist-aud" style="display:none">
     <div class="fcard">
       <div class="sbar">
-        <div class="fg"><label>Buscar na auditoria</label><input type="text" id="ha-busca" oninput="histRenderAuditoria()" placeholder="furo, usuário, motivo..."></div>
+        <div class="fg"><label>Buscar na auditoria</label><input type="text" id="ha-busca" oninput="histRenderAuditoria()" placeholder="buraco, usuário, motivo..."></div>
         <div class="fg"><label>Ação</label><select id="ha-acao" onchange="histRenderAuditoria()"><option value="">Todas</option></select></div>
         <div></div><div></div>
         <div><button class="btn sm" onclick="histRenderAuditoria()"><i class="ti ti-refresh"></i>Atualizar</button></div>
@@ -626,7 +626,7 @@ table.dt .ar{text-align:right}
 <!-- ============================================================ RELATÓRIO FOTOGRÁFICO -->
 <div class="pg" id="pg-rf">
   <div class="ph"><h1><i class="ti ti-camera"></i>Relatório Fotográfico — TESTE</h1>
-    <p>Furos com documentação fotográfica.</p></div>
+    <p>Buracos com documentação fotográfica.</p></div>
 
   <div class="kg" id="rf-kpis"></div>
 
@@ -677,7 +677,7 @@ table.dt .ar{text-align:right}
       <div class="fhead"><i class="ti ti-file-plus"></i>Nova demanda</div>
       <p style="font-size:12.5px;color:var(--text2);margin-bottom:12px">
         Lançamento pelo computador. O que vem do celular já chega aqui pela sincronização.</p>
-      <div class="brow"><button class="btn bp" onclick="go('furo')"><i class="ti ti-map-pin-plus"></i>Abrir o lançamento de furo</button></div>
+      <div class="brow"><button class="btn bp" onclick="go('furo')"><i class="ti ti-map-pin-plus"></i>Abrir o lançamento de buraco</button></div>
     </div>
   </div>
 
@@ -687,21 +687,21 @@ table.dt .ar{text-align:right}
       <div class="fhead"><i class="ti ti-adjustments"></i>Parâmetros do Relatório</div>
       <div class="fr4">
         <div class="fg"><label>Data do relatório</label><input type="date" id="r-data" onchange="rfPreview()">
-          <div class="hint">Vazio = usa a data de cada furo</div></div>
+          <div class="hint">Vazio = usa a data de cada buraco</div></div>
         <div class="fg"><label>Dia de serviço</label><select id="r-fdata" onchange="rfPreview()"><option value="">Todos os dias</option></select>
           <div class="hint">É o que separa um relatório do outro</div></div>
         <div class="fg"><label>Equipe</label><select id="r-feq" onchange="rfPreview()"><option value="">Todas as equipes</option></select>
           <div class="hint">Um relatório por dia e por equipe</div></div>
         <div class="fg"><label>Blocos por página</label><select id="r-bpp" onchange="rfPreview()">
-          <option value="8" selected>8 (padrão · 16 furos)</option>
-          <option value="6">6 (12 furos)</option>
-          <option value="4">4 (8 furos)</option>
-          <option value="2">2 (4 furos · foto inteira)</option>
-          <option value="1">1 (2 furos · foto inteira maior)</option>
+          <option value="8" selected>8 (padrão · 16 buracos)</option>
+          <option value="6">6 (12 buracos)</option>
+          <option value="4">4 (8 buracos)</option>
+          <option value="2">2 (4 buracos · foto inteira)</option>
+          <option value="1">1 (2 buracos · foto inteira maior)</option>
         </select></div>
       </div>
       <div class="fr4">
-        <div class="fg"><label>Intervalo de furos — de</label><input type="number" id="r-de" min="1" oninput="rfPreview()" placeholder="1"></div>
+        <div class="fg"><label>Intervalo de buracos — de</label><input type="number" id="r-de" min="1" oninput="rfPreview()" placeholder="1"></div>
         <div class="fg"><label>até</label><input type="number" id="r-ate" min="1" oninput="rfPreview()" placeholder="último"></div>
         <div class="fg"><label>Altura da foto (mm)</label><input type="number" id="r-hf" value="24" min="14" max="40" oninput="rfPreview()"></div>
         <div class="fg" style="display:flex;align-items:flex-end"><label style="display:flex;align-items:center;gap:7px;text-transform:none;font-size:12px">
@@ -709,8 +709,8 @@ table.dt .ar{text-align:right}
       </div>
       <div class="fr2">
         <div class="fg"><label style="display:flex;align-items:center;gap:7px;text-transform:none;font-size:12.5px">
-          <input type="checkbox" id="r-soval" onchange="rfPreview()" style="width:auto"> Imprimir <b>somente furos validados</b></label>
-          <div class="hint">Desmarcado: imprime tudo, e o furo ainda não validado sai com tarja no bloco.</div></div>
+          <input type="checkbox" id="r-soval" onchange="rfPreview()" style="width:auto"> Imprimir <b>somente buracos validados</b></label>
+          <div class="hint">Desmarcado: imprime tudo, e o buraco ainda não validado sai com tarja no bloco.</div></div>
         <div class="fg"><label style="display:flex;align-items:center;gap:7px;text-transform:none;font-size:12.5px">
           <input type="checkbox" id="r-tarja" checked onchange="rfPreview()" style="width:auto"> Marcar no documento o que <b>não está validado</b></label>
           <div class="hint">Tarja “AGUARDANDO VALIDAÇÃO” / “DEVOLVIDO” sobre o bloco.</div></div>
@@ -745,7 +745,7 @@ table.dt .ar{text-align:right}
       </div>
       <div class="brow" style="padding:12px 16px;margin:0">
         <button class="btn bp" onclick="rfAbrirImpressao()"><i class="ti ti-printer"></i>Imprimir relatório do dia</button>
-        <button class="btn bgo" onclick="abrirEditor(rfDiaAtual(),rfEqAtual())"><i class="ti ti-edit"></i>Editar os furos deste dia</button>
+        <button class="btn bgo" onclick="abrirEditor(rfDiaAtual(),rfEqAtual())"><i class="ti ti-edit"></i>Editar os buracos deste dia</button>
         <button class="btn" onclick="rfPreview()"><i class="ti ti-refresh"></i>Atualizar prévia</button>
       </div>
     </div>
@@ -807,14 +807,14 @@ table.dt .ar{text-align:right}
   <div class="modal-box" style="width:min(860px,96vw);padding:0;overflow:hidden;display:flex;flex-direction:column;max-height:90vh">
     <div style="background:var(--dark);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px">
       <i class="ti ti-arrows-join" style="font-size:19px;color:var(--gold)"></i>
-      <div><b style="font-size:15px">Casar as fotos de Depois com os furos do Antes</b>
+      <div><b style="font-size:15px">Casar as fotos de Depois com os buracos do Antes</b>
         <div style="font-size:12px;color:#C9D0DA;margin-top:2px" id="pa-tit">—</div></div>
       <button class="btn sm" style="margin-left:auto" onclick="paFechar()"><i class="ti ti-x"></i>Fechar</button>
     </div>
     <div style="padding:12px 16px;border-bottom:1px solid var(--linha,#DDE1E8)">
       <div style="font-size:12.5px;color:var(--text2);line-height:1.45">
-        Estas fotos de <b>Depois</b> foram lançadas como furos novos, em vez de completar o furo do
-        <b>Antes</b>. O sistema aproxima cada uma do furo mais perto pela <b>coordenada do carimbo</b>.
+        Estas fotos de <b>Depois</b> foram lançadas como buracos novos, em vez de completar o buraco do
+        <b>Antes</b>. O sistema aproxima cada uma do buraco mais perto pela <b>coordenada do carimbo</b>.
         Confira a distância antes de aplicar — linha em vermelho é longe demais para confiar sem olhar.
       </div>
       <div class="sbar" style="grid-template-columns:auto 1fr auto;margin-top:10px;align-items:end">
@@ -882,7 +882,7 @@ table.dt .ar{text-align:right}
       <div class="al ag" id="eq-ok"><i class="ti ti-circle-check"></i><span></span></div>
     </div>
     <div class="card tw"><table class="dt"><thead><tr>
-      <th>Equipe</th><th>Encarregado</th><th>Região</th><th class="ac">Furos lançados</th><th class="ac">Ações</th>
+      <th>Equipe</th><th>Encarregado</th><th>Região</th><th class="ac">Buracos lançados</th><th class="ac">Ações</th>
     </tr></thead><tbody id="eq-tb"></tbody></table></div>
   </div>
 
@@ -940,7 +940,7 @@ table.dt .ar{text-align:right}
         <div class="fg"><label>Usuário de acesso *</label><input type="text" id="u-login" class="mono" autocapitalize="none" placeholder="maria.souza">
           <div class="hint">Letras minúsculas, números, ponto e hífen.</div></div>
         <div class="fg"><label>Perfil *</label><select id="u-perfil">
-          <option value="b">Apontador — lança furos e imprime</option>
+          <option value="b">Apontador — lança buracos e imprime</option>
           <option value="a">Encarregado — sem administração</option>
           <option value="g">Gestor — acesso total, valida e administra</option>
         </select></div>
@@ -1084,9 +1084,9 @@ table.dt .ar{text-align:right}
       <div class="fg"><label>Bairro / Rua</label><input type="text" id="m-rua" oninput="medRender()" placeholder="Parte do nome da rua"></div>
       <div class="fg" style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap">
         <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text2)">
-          <input type="checkbox" id="m-soval" onchange="medRender()" style="width:auto">Somente furos validados</label>
+          <input type="checkbox" id="m-soval" onchange="medRender()" style="width:auto">Somente buracos validados</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text2)">
-          <input type="checkbox" id="m-somed" onchange="medRender()" style="width:auto">Esconder furos sem medida</label>
+          <input type="checkbox" id="m-somed" onchange="medRender()" style="width:auto">Esconder buracos sem medida</label>
       </div>
     </div>
     <div class="brow">
@@ -1103,7 +1103,7 @@ table.dt .ar{text-align:right}
 
   <div class="card tw">
     <table class="dt"><thead><tr>
-      <th>Data</th><th class="ac">Furo</th><th>Bairro / Rua</th><th>Serviço</th><th>Equipe</th>
+      <th>Data</th><th class="ac">Buraco</th><th>Bairro / Rua</th><th>Serviço</th><th>Equipe</th>
       <th class="ac">Compr. (m)</th><th class="ac">Larg. (m)</th><th class="ac">Prof. (m)</th>
       <th class="ar">Área (m²)</th><th class="ar">Volume (m³)</th><th class="ar">Medição</th><th class="ar">Valor</th>
     </tr></thead><tbody id="m-tb"></tbody></table>
@@ -1144,7 +1144,7 @@ table.dt .ar{text-align:right}
     <div class="admgrid">
       <div class="admcard">
         <div class="t"><i class="ti ti-camera"></i>Relatório Fotográfico</div>
-        <p>O documento do dia, com as fotos de antes e depois de cada furo.</p>
+        <p>O documento do dia, com as fotos de antes e depois de cada buraco.</p>
         <div class="brow"><button class="btn bp sm" onclick="go('rf')"><i class="ti ti-external-link"></i>Abrir a tela</button></div>
       </div>
       <div class="admcard">
@@ -1163,7 +1163,7 @@ table.dt .ar{text-align:right}
       </div>
       <div class="admcard">
         <div class="t"><i class="ti ti-users-group"></i>Produtividade por Equipe</div>
-        <p>Furos, metragem e valor de cada equipe, com a média por dia de serviço.</p>
+        <p>Buracos, metragem e valor de cada equipe, com a média por dia de serviço.</p>
         <div class="brow"><button class="btn bp sm" onclick="admFolhaProdutividade()"><i class="ti ti-printer"></i>Gerar folha</button></div>
       </div>
       <div class="admcard">
@@ -1173,7 +1173,7 @@ table.dt .ar{text-align:right}
       </div>
       <div class="admcard">
         <div class="t"><i class="ti ti-table-export"></i>Planilha geral do período</div>
-        <p>Todos os furos do período em Excel: rua, serviço, equipe, medidas, valor e situação.</p>
+        <p>Todos os buracos do período em Excel: rua, serviço, equipe, medidas, valor e situação.</p>
         <div class="brow"><button class="btn bp sm" onclick="admPlanilha()"><i class="ti ti-download"></i>Exportar planilha</button></div>
       </div>
     </div>
@@ -1304,7 +1304,7 @@ table.dt .ar{text-align:right}
   <div class="modal-box" style="width:min(1180px,96vw);margin:34px auto">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:3px">
       <i class="ti ti-edit" style="color:var(--gold);font-size:20px"></i>
-      <div><b style="font-size:16px" id="ed-tit">Furos do dia</b>
+      <div><b style="font-size:16px" id="ed-tit">Buracos do dia</b>
         <div style="font-size:12.5px;color:var(--text2)" id="ed-sub"></div></div>
       <button class="btn sm" style="margin-left:auto" onclick="document.getElementById('ed-modal').style.display='none'">
         <i class="ti ti-x"></i>Fechar</button>
@@ -1316,8 +1316,8 @@ table.dt .ar{text-align:right}
 
     <div id="ed-pane-fotos">
       <p style="font-size:12.5px;color:var(--text2);margin:8px 0 11px">
-        Os furos no formato do documento. <b>Arraste uma foto de um quadro para o outro</b> para
-        trocá-la de lugar — no mesmo furo ela vira Antes ou Depois; em outro furo ela muda de furo.
+        Os buracos no formato do documento. <b>Arraste uma foto de um quadro para o outro</b> para
+        trocá-la de lugar — no mesmo buraco ela vira Antes ou Depois; em outro buraco ela muda de buraco.
         Se o quadro de destino já tiver foto, as duas trocam. O <b>X</b> vermelho apaga a foto e o
         ícone ao lado troca por outra do computador. Quadro vazio tem <b>Adicionar foto</b>.
         Sem mouse: toque na foto para pegá-la e toque no quadro de destino.</p>
@@ -1331,12 +1331,12 @@ table.dt .ar{text-align:right}
       <p style="font-size:12.5px;color:var(--text2);margin:8px 0 11px">
         Altere direto na tabela — cada campo é salvo ao sair dele.</p>
       <div style="overflow-x:auto"><table class="dt" style="font-size:12px"><thead><tr>
-        <th class="ac">Furo</th><th>Bairro / Rua</th><th>Serviço</th><th>Equipe</th>
+        <th class="ac">Buraco</th><th>Bairro / Rua</th><th>Serviço</th><th>Equipe</th>
         <th class="ac">Fotos</th><th class="ac">Ações</th>
       </tr></thead><tbody id="rf-ed-tb"></tbody></table></div>
     </div>
     <div class="brow" style="margin-top:12px">
-      <button class="btn bp sm" onclick="rfDiaAddFuro()"><i class="ti ti-plus"></i>Adicionar furo neste dia</button>
+      <button class="btn bp sm" onclick="rfDiaAddFuro()"><i class="ti ti-plus"></i>Adicionar buraco neste dia</button>
       <button class="btn sm" onclick="edImprimir()"><i class="ti ti-printer"></i>Imprimir este relatório</button>
       <span id="rf-ed-info" style="font-size:12px;color:var(--text2);align-self:center"></span>
     </div>
@@ -1381,14 +1381,14 @@ table.dt .ar{text-align:right}
         <option>Falta foto do antes ou do depois</option>
         <option>Bairro/Rua incorreto</option>
         <option>Serviço incorreto</option>
-        <option>Furo duplicado</option>
+        <option>Buraco duplicado</option>
         <option>Data do serviço incorreta</option>
         <option>Serviço não executado / não confere no campo</option>
         <option value="Outro">Outro (descrever abaixo)</option>
       </select></div>
     <div class="fg" style="margin-top:10px"><label>Descrição para o apontador</label>
       <textarea id="dv-txt" placeholder="O que precisa ser corrigido"></textarea>
-      <div class="hint">O apontador vê este texto no celular e reenvia o furo corrigido.</div></div>
+      <div class="hint">O apontador vê este texto no celular e reenvia o buraco corrigido.</div></div>
     <div class="brow" style="justify-content:flex-end;margin-top:14px">
       <button class="btn" onclick="document.getElementById('dv-modal').style.display='none'">Cancelar</button>
       <button class="btn bd" id="dv-ok"><i class="ti ti-send"></i>Devolver</button>
@@ -1399,7 +1399,7 @@ table.dt .ar{text-align:right}
 <!-- ================= AUDITORIA DO FURO ================= -->
 <div id="au-modal" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
   <div class="modal-box" style="width:min(640px,94vw)">
-    <div style="font-size:15px;font-weight:700;margin-bottom:2px" id="au-tit">Auditoria do furo</div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:2px" id="au-tit">Auditoria do buraco</div>
     <div style="font-size:12.5px;color:var(--text2);margin-bottom:14px" id="au-sub"></div>
     <div id="au-corpo"></div>
     <div class="brow" style="justify-content:flex-end;margin-top:14px">
@@ -1429,7 +1429,7 @@ const LOGO_ORGAO_PADRAO = '';   /* sem brasao: quem usa poe o do proprio cliente
 const PIXEL_VAZIO = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 const LOGO_EMPRESA_PADRAO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAAC6CAYAAABFoUP8AAAPGUlEQVR4nO3de3SU5YHH8e/MJJPJPWhIBGKGBIiaSLlfgiSZhFVxd1tRi5Zd67ournbrOXWrXbue7Z49vdCeWly1p7u2imjrKerxhnUX1BYCSIAk3KIJFCEkEG4hQ8h9ZjKX/QPIouYyk8xMMsPvcw7ncGae93mfOXmf3zzv87zzviAiIiIiIiIiAoZgVZRlzfMFqy4R8V9T46ER9+MRVaDOLzK2DDcUhrWRAkBkbAs0EIyB7kAhIDL2BdpPAwoChYBI5Aikv/odBAoBkcjjb7/1KwgUAiKRy5/+O2QQKAREIt9Q/XjQIFAIiESPwfrzgEGgEBCJPgP164CXD0Uk+vQbBBoNiESv/vq3RgQioiAQkX6CQKcFItHvi/1cIwIRURCIiIJARFAQiAgKAhFBQSAiKAhEBAWBiKAgEBEUBCKCgkBEUBCICAoCEUFBICIoCEQEBYGIoCAQERQEIoKCQERQEIgICgIRQUEgIigIRAQFgYigIBARFAQigoJARFAQiAgKAhFBQSAiKAhEBAWBiKAgEBEUBCKCgkBEgJjRboCEXm6Gi/wsBzdkOcib4CQ1wUOSxUuyxYvF7MXlNuDsNeLoNdDpMHG23cTZ9hia22I4cS6W+uY46s+Y6XLqeyNahSwInr3/BIuv7wpV9UHR4zKy+N+nful1W0Enq795chRadMGyp3I4bo8dUR1XJXn469ntLJvXhnW8a9CyllgfllgPqUBmqpspmf2XO9MWw8ETFmoaLdQci6e2yYKz1zBgvZF8DEB0HAf+0oggypiMPu63tbKyzI45xhfUujNT3WSmdlKS3wmA22Pgjl9M5mRreA5WCR0FQRSZPN7FqhWnuG6iMyz7izH5MOlsISooCKJE3gQnzz/YRGqCZ7SbIhFIeR4Frkry8Mz9JxQCMmwKgijwxO3NZKa6R7sZEsEUBBGuIMvBX0zvGO1mSITTHEGEu3vR+YDK2zti2Lg/mT1H4zneYuZsuwlHrxGvD5IsXpIsXlITPORkuJiS6SQ3w8X0bIdOO6KcgiCCmYw+ygo6/S7/cvlVPP/R1fR6+l/7P99l4nyXiSZ7LLXHLX2vGwwXJiPnTemmMK+LeVN6MBmDuzQpoytkQfCdlycNe9vV953Elu/fAe5yGyj8t2nD3lcwPLluAh/sTw77fq+b6CQhzutX2feqU/jlxvRh7cfngz+fjOPPJ+N4dds4xiV6uGVGB0tntjNYHFxJxwCM3nEQDBoRRLDczMGvGLzcaxXjgrbf1i4Tr1ek8XpFWtDqlNGlycIIFshKwbEWXf0nA1MQRLAEs3+nBQBpiZrsk4EpCCKYe4BJv/4sm9sewpZIpFMQRLDWbpPfZR8os3NvUStG/cWlH5osjGAt7f4HgdEA//xXZ1lxUyvv70lha10SB05a8Pp/diFRTEEQwfY1xAe8zTVpblaWnWNl2Tm6XUbqjlv4tMlC7fEL/8606ZC4EumvHgSrVpxi1YpTI64n0PXwlo4Y6pvN5Gb4v4x4uQSzl7lTupk7pftzdX56zMK+xnh218dz8IQFr64d8stoHQfBoCCIcG/sSOP7tzcHrb70ZDe2gk5sF69YPN9lorwuiY37kqmuT8CnUIhKmjqKcOurUkM6nE9L9LBsXhvPP9jE2481sGxemy4vjkIKggjncht4ct2EgJYShys73cUP7jrDa4828pVsR8j3J+GjIIgC+xriWfVORthWAHIzXLz48HHuLjwfnh1KyCkIosT66lQeWZtFe4//S4ojYTL6eOL2Zm6bpQuVooGCIIrs+iyBu1ZP5p3K1LCNDn5w5xmmXhOem6VK6CgIosy5ThM/fjuT5f85mde2p9EewNWHwxEX6+ORW1tCug8JPS0fRqmGs2ae+kMGz24Yz6Lruiic1s28qd1Y04d3zcFgim7oYuo1Tg6fjgt63RIeCoIgGMs3pHC5DZTXJlFemwRARoqbmZN7mGHtYcbkC49AC8ZyYGlB5xUfBGP5OBiKguAK09wew4c1yXxYc+GAtcT6mGHtYcG0bmz5nUM+Hm0gc3J7eOFPwWyphJOC4Arn6DWw63ACuw4n8NyGdAqudfCA7VzflYX+CtfTlSQ0NFkon1N73MJjv5vID9/MDOhy4mSLRz9xjmD600m/1lensmFfit/lDQZIidddkCKVgkAGtGFvYBNfxtBf5SwhoiCQAZ0I8HHnPS4lQaRSEEQwa7qLH99zmgnjekNSfyA3R+12Gulx6XCKVFo1iGAGA9w2q50l0ztYX5XKK1vHcSrAb/HBzMnt8bts0zndLj2SKQiigDnGx/LC89y5oI2PPknijYo09jcGfhuzy6Ulevhmcavf5euaLEMXkjFLQRAEwbpF1SWHTsWx4llrwNuZjD6Wzuhg6YwOGs6a2bgvmU2fJnPkjDmgeqZe4+Rnf3OK9GT/H6BSdTgh0OZGnbFyHAyHgiBKTR7v4uGb7Tx8s53m9hj21MdT12Th8Jk4TrfGYO+MwdF7YXIvwexlwjg31090YCvoZPH1XQGtADh6DWw9mBiiTyLhoCC4AmSkuFk6s4OlMztCUv+7Val0OzVRGMn015MR6egxsmbT1aPdDBkhBYGMyM/ezeRcZ3juiiShoyCQYfvVB+lsjNCf3crnaY4ggo3WMwZcbgM/fy+DdypTR6cBEnQKggjW2GJm2VM5lOR3UpLfyUxrT8h/AVhxKJGn3x/P0ebAliRlbFMQRLjj9lhe3TaOV7eNIzXBw4Kp3cyw9jDd6uC6CU5iTCMfNpzvMrG5Nok3d6Vx8MSVfReiaPWl1eIsa54eYxMlzDE+rp/oJHu8i6yrepl08V9qgod4s5d4s494sxeT0YfbY8DhMtLabaKlPYZjLbEcPhNHTaOFg3pqclRqajzU1/81IohiLreBmmMWao7p8l8ZnFYNRERBICIKAhFBQSAiKAhEBAWBiKAgEBEUBCKCgkBEUBCICAoCEUFBICIoCEQEBYGIoCAQERQEIoKCQERQEIgICgIRQUEgIujmpSFlMBiwlZZRWroE6+Qc4uLiOGe3c+rUSSord7KjooL29ra+8rGxZta9/ibd3d3cd+83Aq7L43Hzyu/WBdTGn/zoP9i7d0/fvofy+GOP0nC0/nPlvV4vDz3497S2tva7zdPP/JLs7AuP9/7pqh+xu7qq33J33Pl1/vbe+wB45J/+kdOnTwf0WWT4FAQhYjAYeOzxJ1hYuOhzr2dkZpKRmcmMmbOYPWceP/3JD4NW13PPrA7qZ/CHz+fDaDRSXFLK+nff/tL7ublTyM624vP5MBgGf9Z6ia30sv+X8fprvw96e6V/CoIQKVx0EwsLF+HxeFj3+1epqPiY1nPnSElJZeLEiSxYWIjZ7N/DQvytq6uri6/f+bUvbf/fv36R8eMzWPnA33H+fP/f2pf0NxoZjN3egtfjpcTWfxDYSsvw+XwcqKslv+DGAeuZOnUaWVnXcqCulqnT8iixlfHG6+vwjdZz3a4wCoIQmTVrNgBvvfkG777zVt/rdnsLdnsLn3xSMyp1BZvP52PLls0sv/sb5OTkcvRofd97JpOJxUXFHKirpbm5mfyCgeuxlZYB8Mc/fkRnZyfz5i/ghvwC6mo/DfVHEDRZGDLGiw8hPHXy5JiqKxS2lG8CoORiZ75k9uw5pKSkUn7x/YHExMRw0+Jient7qarcyfbt2wAo/UJ9EjoKghBpaGgA4OZbbiUhIWHM1BUKp0+f5uCBOoqKSjCZTH2vl9jKcLlc7NhRMej2c+bOIzk5mb17dtPd3U11VSUul4uFhTcRF6dnLYaDTg1C5MMPNnDLrUvJL7iRF9a8Ql1dLUcOf8aRw59RV1dLV1fXqNQ1lISEBN58+71+3zt7tplvPbSy3/fKyzfz8Le+zcxZs9ldXUViUhJz5s5j184d9HR3D7pPW+kSgL6RgMPhYM/uahYWLmLBwkK2bikf/gcSvygIQsTpdPLkv/4Ly5ffQ1GxjVmzZved67vdbj7etpWX166hs7MjrHWFSsX2bfzDygex2crYXV3F4sVFxMbGUr558NOClJRUZs+eg9PppPqyZcXt27exsHARttIlCoIwUBCEUEd7Oy+teYG1L71IdraVnNxc8vNvpLBwEbbSMnKnTOGJ732X3t7esNY1mEBXDS7frnLXLuYvWEBiYiI22xJaW1upqdk36HZFxcWYTCYqd+3E6XD0vb5ndzVOh4Pp07/C1VenY7e3BNwm8Z/mCMLA5/PR2NhA+eZN/NevnuORbz9E85kzZGdbWbRo8ajVFWzl5ZuIjTVz1/J7mJaXx7at5XiHeJ76F08LLrk0QjAYDJTYbKFqslykEcEoaGtrY+fOCr52+x1Yc3Jgy+YxUddI7d+3l9bWVr761dsBhlwtyLZaycnJBeDx731/wHI22xLefmvoqx5l+DQiGCWTsq4FwOV0jqm6RsLr9bJtazkGg4GGo/Uca2wctPyl0cBQJk6axLS8vGA0UQagEUGI3P/ASlKSU6is3EnT8ePY7S34fD6umTCR2277S+bMmQtAzf59Ya0r1H77ylp++8raIcsZjUaKi0sAeHr1z6nY/nG/5b7z6HcpKrZhsy3hs0OHgtpW+X8KghBJSkyiuMRGcYltwDIfbNxAXV1tWOsaymDLhwDPPft0UGbxZ86cTVraOFpazrJr544By/3hvfUUFdtYvLiIl9e+OOLJUOmfgiBEXlrzG/bv28vc+fOxZk/m6vR0YmNjaW9v48jhw2z600dUVVWGva6x4tIlxf/7P+/j8XgGLFdff4S6ulry8wuYO3c+O3ZsD1cTryhf+jlYljVPv/IQuQI0NR7q6/+aLBQRBYGIKAhEBAWBiKAgEBEUBCKCgkBEUBCICAoCEUFBICIoCEQEBYGIoCAQERQEIoKCQERQEIgICgIRQUEgIigIRAQFgYigIBARFAQigoJARFAQiAgKAhFBQSAiKAhEBAWBiKAgEBEUBCKCgkBE6CcILn9muohEpy/2c40IRERBICIDBIFOD0SiV3/9WyMCERk4CDQqEIk+A/XrQUcECgOR6DFYfx7y1EBhIBL5hurHfs0RKAxEIpc//dfvyUKFgUjk8bffBrRqoDAQiRyB9NeAlw8VBiJjX6D9dESdOsua5xvJ9iISXMP9og7at7tCQWR0aJQuIiIiIiJB8n9qY1UBKAqdtwAAAABJRU5ErkJggg==";
 
-const SYSTEM_VERSION = '20260928-001';
+const SYSTEM_VERSION = '20260928-002';
 
 /* ------------------------------- BANCO ---------------------------------- */
 const DB_NAME = 'TESTE_SIS_DB';
@@ -1699,7 +1699,7 @@ async function usrAtivar(uid, ativar){
 }
 function usrExcluir(uid, nome){
   confirmar('Excluir usuário', `<b>${esc(nome)}</b> não conseguirá mais entrar no sistema nem no app.
-    Os furos já lançados por ele continuam no histórico. Continuar?`, async ()=>{
+    Os buracos já lançados por ele continuam no histórico. Continuar?`, async ()=>{
     const all = await dbGetAll('usuarios');
     const u = all.find(x=>x.uid===uid); if(!u) return;
     await dbDelete('usuarios', u.id);
@@ -2120,7 +2120,7 @@ async function cfgKpis(){
     const bytes = fur.reduce((s,f)=>s+(f.fotos||[]).filter(Boolean).reduce((a,b)=>a+b.length,0),0)
                 + fts.reduce((s,x)=>s+String(x.arquivo||'').length,0);
     $('cfg-kpis').innerHTML = `
-      ${kpi('Furos lançados', fur.length,'','gn')}
+      ${kpi('Buracos lançados', fur.length,'','gn')}
       ${kpi('Fotos armazenadas', fotos,'','am')}
       ${kpi('Equipes / Funcionários', eqp.length+' / '+fun.length,'','pu')}
       ${kpi('Espaço usado (aprox.)', (bytes/1048576).toFixed(1)+' MB','imagens em base64','rd')}`;
@@ -2294,9 +2294,9 @@ function backupImport(input){
   fr.readAsText(f); input.value='';
 }
 function zerarTudo(){
-  confirmar('Apagar todos os dados','Todas as medições, furos e fotos serão <b>apagados definitivamente</b>. Esta ação não pode ser desfeita. Continuar?',async()=>{
+  confirmar('Apagar todos os dados','Todas as medições, buracos e fotos serão <b>apagados definitivamente</b>. Esta ação não pode ser desfeita. Continuar?',async()=>{
     await dbClear('furos');
-    alerta('cfg-bk','Todos os registros de medições e furos foram apagados.');
+    alerta('cfg-bk','Todos os registros de medições e buracos foram apagados.');
     cfgKpis(); dashRender();
   });
 }
@@ -2451,7 +2451,7 @@ function medKpisDash(lista){
   const valor= lista.reduce((t,f)=>t+medValor(f, MED_SRV.get(f.servico)),0);
   const sem  = lista.filter(f=>!medTem(f)).length;
   return kpi('Área medida', nBR(area,2)+' m²', vol?`${nBR(vol,3)} m³ de volume`:'', 'bl')
-       + kpi('Valor da medição', medRS(valor), sem?`${sem} furo(s) ainda sem medida`:'todos os furos medidos', sem?'am':'gn');
+       + kpi('Valor da medição', medRS(valor), sem?`${sem} buraco(s) ainda sem medida`:'todos os buracos medidos', sem?'am':'gn');
 }
 
 function medLimpar(){
@@ -2498,9 +2498,9 @@ async function medSetCampo(id, campo, valor){
     f[campo] = depois || '';
     await dbPut('furos', f);
     await histLog('Mediu','furo', f.uid,
-      `Furo nº ${f.num} · ${MED_CAMPO_NOME[campo]} ${nBR(antes,2)} → ${nBR(depois,2)} m`, '');
+      `Buraco nº ${f.num} · ${MED_CAMPO_NOME[campo]} ${nBR(antes,2)} → ${nBR(depois,2)} m`, '');
     await medRender();
-    alerta('m-ok', `Furo nº <b>${f.num}</b> — ${MED_CAMPO_NOME[campo]} gravada em <b>${nBR(depois,2)} m</b>.`);
+    alerta('m-ok', `Buraco nº <b>${f.num}</b> — ${MED_CAMPO_NOME[campo]} gravada em <b>${nBR(depois,2)} m</b>.`);
   }catch(err){ alerta('m-err','Não deu para gravar a medida: '+esc(err.message||err)); }
 }
 function medInput(f, campo){
@@ -2526,14 +2526,14 @@ async function medRender(){
       kpi('Buracos no recorte', lista.length, dias?`em ${dias} dia(s) de serviço`:'', 'bl') +
       kpi('Área medida', nBR(area,2)+' m²', lista.length?`média de ${nBR(area/lista.length,2)} m² por buraco`:'', 'gn') +
       kpi('Volume medido', nBR(vol,3)+' m³', '', 'pu') +
-      kpi('Valor da medição', medRS(valor), semPreco?`${semPreco} furo(s) com serviço sem preço`:'todos os serviços com preço', semPreco?'am':'gn') +
+      kpi('Valor da medição', medRS(valor), semPreco?`${semPreco} buraco(s) com serviço sem preço`:'todos os serviços com preço', semPreco?'am':'gn') +
       kpi('Buracos sem medida', sem, sem?'não entram no valor':'nada faltando', sem?'rd':'gn');
 
     $('m-info').innerHTML = `<b>${lista.length}</b> buraco(s) · <b>${nBR(area,2)} m²</b> · <b>${medRS(valor)}</b>`;
 
     if(!lista.length){
       $('m-tb').innerHTML = `<tr><td colspan="12"><div class="empty"><i class="ti ti-ruler-off"></i>
-        Nenhum buraco nesse recorte. Solte os filtros ou lance os furos em “Furos / Serviços”.</div></td></tr>`;
+        Nenhum buraco nesse recorte. Solte os filtros ou lance os buracos em “Buracos / Serviços”.</div></td></tr>`;
       $('m-tot').innerHTML = '';
       return;
     }
@@ -2645,7 +2645,7 @@ function medMontarHTML(lista, periodo){
     }).join('');
     return `<div class="rfpage">${marca}${medCabecalhoFolha(periodo)}
       <table class="medtb"><thead><tr>
-        <th class="ac">Data</th><th class="ac">Furo</th><th>Bairro / Rua</th><th>Serviço</th><th class="ac">Equipe</th>
+        <th class="ac">Data</th><th class="ac">Buraco</th><th>Bairro / Rua</th><th>Serviço</th><th class="ac">Equipe</th>
         <th class="ar">Compr.</th><th class="ar">Larg.</th><th class="ar">Prof.</th>
         <th class="ar">Área m²</th><th class="ar">Vol. m³</th><th class="ar">Medição</th><th class="ar">Valor</th>
       </tr></thead><tbody>${linhas}</tbody></table>
@@ -2701,7 +2701,7 @@ async function medPlanilha(){
     const linhas = MED_LISTA.map(f=>{
       const srv = MED_SRV.get(f.servico);
       return {
-        'Data': fmtData(f.data), 'Furo': f.num, 'Bairro/Rua': f.rua||'', 'Serviço': f.servico||'',
+        'Data': fmtData(f.data), 'Buraco': f.num, 'Bairro/Rua': f.rua||'', 'Serviço': f.servico||'',
         'Equipe': f.equipe||'', 'Comprimento (m)': medNum(f.comp)||'', 'Largura (m)': medNum(f.larg)||'',
         'Profundidade (m)': medNum(f.prof)||'',
         'Área (m²)': medTem(f) ? +medArea(f).toFixed(3) : '',
@@ -3002,7 +3002,7 @@ async function admFolhaEquipamentos(qual){
       </tbody></table>
       <div class="medtit">Como ler</div>
       <div style="font-size:7.6pt;line-height:1.7">
-        <b>Dias</b> e <b>horas</b> vêm do apontamento diário. <b>Buracos</b> e <b>ruas</b> vêm dos furos em que
+        <b>Dias</b> e <b>horas</b> vêm do apontamento diário. <b>Buracos</b> e <b>ruas</b> vêm dos buracos em que
         o equipamento foi indicado no lançamento. O <b>custo</b> é a diária cadastrada multiplicada pelos dias apontados.
       </div>
       <div class="medass"><div>Encarregado da equipe</div><div>${esc(CFG.empresa)}</div><div>Fiscal do contrato</div></div>`;
@@ -3053,7 +3053,7 @@ async function admPlanilha(){
     if(!lista.length){ alerta('a-err','Nenhum buraco nesse período para exportar.'); return; }
     const linhas = lista.map(f=>{
       const srv = MED_SRV.get(f.servico);
-      return {'Data':fmtData(f.data), 'Furo':f.num, 'Bairro/Rua':f.rua||'', 'Serviço':f.servico||'',
+      return {'Data':fmtData(f.data), 'Buraco':f.num, 'Bairro/Rua':f.rua||'', 'Serviço':f.servico||'',
         'Equipe':f.equipe||'', 'Equipamento':f.equipamento||'',
         'Comprimento (m)':medNum(f.comp)||'', 'Largura (m)':medNum(f.larg)||'', 'Profundidade (m)':medNum(f.prof)||'',
         'Área (m²)': medTem(f)?+medArea(f).toFixed(3):'', 'Volume (m³)': medNum(f.prof)?+medVolume(f).toFixed(4):'',
@@ -3068,7 +3068,7 @@ async function admPlanilha(){
     try{
       const XLSX = await carregarXLSX();
       const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(linhas), 'Furos do período');
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(linhas), 'Buracos do período');
       XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(uso), 'Equipamentos');
       const buf = XLSX.write(wb,{bookType:'xlsx', type:'array'});
       baixarArquivo(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), base+'.xlsx');
@@ -3240,7 +3240,7 @@ async function furoSave(seguirProximo){
   const rua = $('f-rua').value.trim();
   const srv = $('f-srv').value;
   const dt  = $('f-data').value;
-  if(!num){ alerta('furo-err','Informe o número do furo.'); return false; }
+  if(!num){ alerta('furo-err','Informe o número do buraco.'); return false; }
   if(!rua){ alerta('furo-err','Informe o Bairro / Rua.'); return false; }
   if(!srv){ alerta('furo-err','Selecione o serviço executado.'); return false; }
   if(!dt){ alerta('furo-err','Informe a data do serviço.'); return false; }
@@ -3248,7 +3248,7 @@ async function furoSave(seguirProximo){
   const furos = await dbGetAll('furos');
   const dup = furos.find(f=>f.data===dt && (f.equipe||'')===($('f-eq').value||'')
                             && parseInt(f.num)===num && f.id!==FURO_EDIT);
-  if(dup){ alerta('furo-err',`Já existe o furo nº <b>${num}</b> neste dia para esta equipe. Altere o número ou edite o registro existente.`); return false; }
+  if(dup){ alerta('furo-err',`Já existe o buraco nº <b>${num}</b> neste dia para esta equipe. Altere o número ou edite o registro existente.`); return false; }
 
   const anterior = FURO_EDIT ? furos.find(f=>f.id===FURO_EDIT) : null;
   const rec = {
@@ -3278,11 +3278,11 @@ async function furoSave(seguirProximo){
     const salvo = FURO_EDIT ? rec : (await dbGetAll('furos'))
       .find(x=>x.data===dt && (x.equipe||'')===(rec.equipe||'') && x.num===num);
     await histLog(FURO_EDIT?'Alterou':'Lançou','furo', (salvo&&salvo.uid)||rec.uid,
-      `Furo nº ${num} · ${rua} · ${fmtData(dt)}`, '');
+      `Buraco nº ${num} · ${rua} · ${fmtData(dt)}`, '');
     if(anterior && anterior.status==='Validado' && rec.status==='Pendente')
-      await histLog('Voltou para pendente','furo', rec.uid, `Furo nº ${num} alterado após validação`, '');
+      await histLog('Voltou para pendente','furo', rec.uid, `Buraco nº ${num} alterado após validação`, '');
     const nFotos = rec.fotos.filter(Boolean).length;
-    alerta('furo-ok', `Furo nº <b>${num}</b> — ${esc(rua)} salvo${FURO_EDIT?' (alterado)':''} com ${nFotos} foto(s).`);
+    alerta('furo-ok', `Buraco nº <b>${num}</b> — ${esc(rua)} salvo${FURO_EDIT?' (alterado)':''} com ${nFotos} foto(s).`);
     const guardaRua = rua, guardaSrv = srv, guardaData = dt;
     furoReset();
     if(seguirProximo){ $('f-rua').value = guardaRua; $('f-srv').value = guardaSrv; $('f-data').value = guardaData; }
@@ -3300,7 +3300,7 @@ function furoReset(){
   medPreviaFuro();
   if(!$('f-data').value) $('f-data').value = hoje();
   $('f-btn-cancel').style.display='none';
-  $('f-btn-save').innerHTML = '<i class="ti ti-device-floppy"></i>Salvar Furo';
+  $('f-btn-save').innerHTML = '<i class="ti ti-device-floppy"></i>Salvar Buraco';
   limpaAlertas('furo-edit');
   furoProxNum();
 }
@@ -3320,11 +3320,11 @@ async function furoEditar(id){
   $('f-btn-cancel').style.display='';
   $('f-btn-save').innerHTML = '<i class="ti ti-device-floppy"></i>Salvar Alterações';
   document.querySelectorAll('#pg-furo .tab')[0].click();
-  alerta('furo-edit','Editando o furo nº <b>'+f.num+'</b>. Clique em “Cancelar edição” para voltar a lançar novos furos.',0);
+  alerta('furo-edit','Editando o buraco nº <b>'+f.num+'</b>. Clique em “Cancelar edição” para voltar a lançar novos buracos.',0);
   window.scrollTo(0,0);
 }
 function furoExcluir(id, num){
-  confirmar('Excluir furo', `O furo nº <b>${num}</b> e suas fotos serão apagados. Continuar?`, async()=>{
+  confirmar('Excluir buraco', `O buraco nº <b>${num}</b> e suas fotos serão apagados. Continuar?`, async()=>{
     await dbDelete('furos', id);
     await furoRenderLista(); dashRender();
   });
@@ -3349,17 +3349,17 @@ async function furoRenderLista(){
     }).sort((a,b)=> String(a.data||'').localeCompare(String(b.data||'')) || (a.num-b.num));
 
     const nFotos = lista.reduce((s,f)=>s+(f.fotos||[]).filter(Boolean).length,0);
-    $('fl-info').innerHTML = `<b>${lista.length}</b> furo(s) · <b>${nFotos}</b> foto(s)` +
+    $('fl-info').innerHTML = `<b>${lista.length}</b> buraco(s) · <b>${nFotos}</b> foto(s)` +
       (lista.length? ` · numeração de ${lista[0].num} a ${lista[lista.length-1].num}` : '');
 
     if(!lista.length){
-      $('fl-grid').innerHTML = `<div class="empty" style="grid-column:1/-1"><i class="ti ti-map-pin-off"></i>Nenhum furo encontrado com esses filtros.</div>`;
+      $('fl-grid').innerHTML = `<div class="empty" style="grid-column:1/-1"><i class="ti ti-map-pin-off"></i>Nenhum buraco encontrado com esses filtros.</div>`;
       return;
     }
     $('fl-grid').innerHTML = lista.map(f=>{
       const fts = (f.fotos||[]);
       return `<div class="furocard">
-        <div class="fh"><b>Furo nº ${f.num}</b>
+        <div class="fh"><b>Buraco nº ${f.num}</b>
           <span style="display:flex;align-items:center;gap:6px">
             <span class="st ${ST_CLS[furoStatus(f)]}">${furoStatus(f)}</span>
             <span style="font-size:11px;color:var(--text2)">${fmtData(f.data)}</span></span></div>
@@ -3380,7 +3380,7 @@ async function furoRenderLista(){
           </div>
         </div></div>`;
     }).join('');
-  }catch(err){ erroRender('fl-grid', err, 'os furos'); }
+  }catch(err){ erroRender('fl-grid', err, 'os buracos'); }
 }
 
 /* ============================ EQUIPES / FUNCIONÁRIOS ==================== */
@@ -3410,7 +3410,7 @@ async function eqSave(){
   await preencherSelects(); await eqRenderEquipes();
 }
 function eqExcluir(id,nome){
-  confirmar('Excluir equipe',`A equipe <b>${esc(nome)}</b> será removida do cadastro. Os furos já lançados mantêm o nome registrado. Continuar?`,async()=>{
+  confirmar('Excluir equipe',`A equipe <b>${esc(nome)}</b> será removida do cadastro. Os buracos já lançados mantêm o nome registrado. Continuar?`,async()=>{
     await dbDelete('equipes', id); await preencherSelects(); await eqRenderEquipes();
   });
 }
@@ -3583,7 +3583,7 @@ async function histRenderDias(){
         <td class="ac" style="white-space:nowrap">
           ${x.pend?`<button class="btn sm bg" title="Validar o dia inteiro" onclick="histValidarDia('${x.chave}')"><i class="ti ti-check"></i>Validar dia</button>`:''}
           <button class="btn ic sm" title="Devolver o dia" onclick="histDevolverDia('${x.chave}')"><i class="ti ti-arrow-back-up"></i></button>
-          <button class="btn ic sm" title="Ver furos deste dia" onclick="histVerDia('${x.chave}')"><i class="ti ti-list-search"></i></button>
+          <button class="btn ic sm" title="Ver buracos deste dia" onclick="histVerDia('${x.chave}')"><i class="ti ti-list-search"></i></button>
         </td></tr>`;
     }).join('');
   }catch(err){ erroRender('h-tb-dia', err, 'o diário'); }
@@ -3598,7 +3598,7 @@ async function histValidarDia(chave){
   const g = grupos.find(x=>x.chave===chave); if(!g) return;
   const alvos = g.furos.filter(f=>furoStatus(f)!=='Validado');
   confirmar('Validar o dia',
-    `Serão validados <b>${alvos.length}</b> furo(s) de <b>${fmtData(g.data)}</b> — ${esc(g.equipe||'sem equipe')}.
+    `Serão validados <b>${alvos.length}</b> buraco(s) de <b>${fmtData(g.data)}</b> — ${esc(g.equipe||'sem equipe')}.
      A partir daí eles passam a contar no relatório do dia. Confirmar?`,
     async()=>{ await histAplicarValidacao(alvos.map(f=>f.id), 'Validado', ''); });
 }
@@ -3606,7 +3606,7 @@ async function histDevolverDia(chave){
   const grupos = await histGrupos();
   const g = grupos.find(x=>x.chave===chave); if(!g) return;
   histAbrirDevolucao(g.furos.map(f=>f.id),
-    `${g.furos.length} furo(s) de ${fmtData(g.data)} — ${g.equipe||'sem equipe'}`);
+    `${g.furos.length} buraco(s) de ${fmtData(g.data)} — ${g.equipe||'sem equipe'}`);
 }
 
 /* ------------------------- Validação por furo --------------------------- */
@@ -3626,11 +3626,11 @@ async function histFurosFiltrados(){
 async function histRenderFuros(){
   try{
     const lista = await histFurosFiltrados();
-    $('hf-info').textContent = `${lista.length} furo(s) na lista`;
+    $('hf-info').textContent = `${lista.length} buraco(s) na lista`;
     const tb = $('h-tb-furo');
     if(!lista.length){
       tb.innerHTML = `<tr><td colspan="10"><div class="empty"><i class="ti ti-checkbox"></i>
-        Nada aqui — nenhum furo com esses filtros.</div></td></tr>`; return;
+        Nada aqui — nenhum buraco com esses filtros.</div></td></tr>`; return;
     }
     tb.innerHTML = lista.map(f=>{
       const st = furoStatus(f);
@@ -3651,11 +3651,11 @@ async function histRenderFuros(){
           ${st==='Devolvido'&&f.motivoDevolucao?`<div style="font-size:10.5px;color:var(--red);margin-top:3px;max-width:150px">${esc(f.motivoDevolucao)}</div>`:''}</td>
         <td class="ac" style="white-space:nowrap">
           ${st!=='Validado'?`<button class="btn ic sm" title="Validar" onclick="histAplicarValidacao([${f.id}],'Validado','')"><i class="ti ti-check"></i></button>`:''}
-          <button class="btn ic sm" title="Devolver" onclick="histAbrirDevolucao([${f.id}],'furo nº ${f.num}')"><i class="ti ti-arrow-back-up"></i></button>
+          <button class="btn ic sm" title="Devolver" onclick="histAbrirDevolucao([${f.id}],'buraco nº ${f.num}')"><i class="ti ti-arrow-back-up"></i></button>
           <button class="btn ic sm" title="Auditoria" onclick="histAuditoria(${f.id})"><i class="ti ti-history"></i></button>
         </td></tr>`;
     }).join('');
-  }catch(err){ erroRender('h-tb-furo', err, 'a validação por furo'); }
+  }catch(err){ erroRender('h-tb-furo', err, 'a validação por buraco'); }
 }
 function histSelTodos(v){
   const marcar = (v===undefined) ? true : !!v;
@@ -3667,14 +3667,14 @@ function histSelecionados(){
 }
 function histValidarSelecao(){
   const ids = histSelecionados();
-  if(!ids.length){ alerta('hist-err','Marque ao menos um furo na lista.'); return; }
-  confirmar('Validar furos', `<b>${ids.length}</b> furo(s) passarão a contar no relatório. Confirmar?`,
+  if(!ids.length){ alerta('hist-err','Marque ao menos um buraco na lista.'); return; }
+  confirmar('Validar buracos', `<b>${ids.length}</b> buraco(s) passarão a contar no relatório. Confirmar?`,
     ()=>histAplicarValidacao(ids,'Validado',''));
 }
 function histDevolverSelecao(){
   const ids = histSelecionados();
-  if(!ids.length){ alerta('hist-err','Marque ao menos um furo na lista.'); return; }
-  histAbrirDevolucao(ids, `${ids.length} furo(s) selecionado(s)`);
+  if(!ids.length){ alerta('hist-err','Marque ao menos um buraco na lista.'); return; }
+  histAbrirDevolucao(ids, `${ids.length} buraco(s) selecionado(s)`);
 }
 function histAbrirDevolucao(ids, rotulo){
   $('dv-sub').textContent = rotulo;
@@ -3701,12 +3701,12 @@ async function histAplicarValidacao(ids, novoStatus, motivo){
         motivoDevolucao: novoStatus==='Devolvido' ? motivo : ''};
       await dbPut('furos', rec);
       await histLog(novoStatus==='Validado'?'Validou':'Devolveu', 'furo', f.uid,
-        `Furo nº ${f.num} · ${f.rua||''} · ${fmtData(f.data)}`, motivo||'');
+        `Buraco nº ${f.num} · ${f.rua||''} · ${fmtData(f.data)}`, motivo||'');
       n++;
     }
     alerta('hist-ok', novoStatus==='Validado'
-      ? `<b>${n}</b> furo(s) validado(s) — já contam no relatório do dia.`
-      : `<b>${n}</b> furo(s) devolvido(s) para correção. O apontador vê o motivo no celular.`);
+      ? `<b>${n}</b> buraco(s) validado(s) — já contam no relatório do dia.`
+      : `<b>${n}</b> buraco(s) devolvido(s) para correção. O apontador vê o motivo no celular.`);
     await histRender(); dashRender();
     if(syncLigado()) syncAgora(true);
   }catch(err){ alerta('hist-err','Erro ao aplicar a validação: '+esc(err.message||err)); }
@@ -3717,7 +3717,7 @@ async function histAuditoria(furoId){
   const [furos, logs] = await Promise.all([dbGetAll('furos'), dbGetAll('historico')]);
   const f = furos.find(x=>x.id===furoId); if(!f) return;
   const st = furoStatus(f);
-  $('au-tit').innerHTML = `Furo nº ${f.num} — ${esc(f.rua||'')}`;
+  $('au-tit').innerHTML = `Buraco nº ${f.num} — ${esc(f.rua||'')}`;
   $('au-sub').innerHTML = `${fmtData(f.data)} · ${esc(f.servico||'')} · ${esc(f.equipe||'')}
      <span class="st ${ST_CLS[st]}" style="margin-left:6px">${st}</span>`;
   const meus = logs.filter(l=>l.refUid===f.uid).sort((a,b)=>String(b.quando).localeCompare(String(a.quando)));
@@ -3730,7 +3730,7 @@ async function histAuditoria(furoId){
     ${fts.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
       ${fts.map((s,i)=>`<div><img src="${s}" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:5px;border:1px solid var(--border)">
         <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:3px">${i===0?'Antes':'Depois'}</div></div>`).join('')}
-    </div>`:'<div class="al aw show"><i class="ti ti-photo-off"></i><span>Este furo não tem nenhuma foto anexada.</span></div>'}
+    </div>`:'<div class="al aw show"><i class="ti ti-photo-off"></i><span>Este buraco não tem nenhuma foto anexada.</span></div>'}
     <div class="audrow"><div class="qd">Lançado por</div><div>${esc(f.lancadoPor||'—')}
       <span class="dtag" style="margin-left:6px"><i class="ti ti-${f.origem==='mobile'?'device-mobile':'device-desktop'}"></i>${esc(furoOrigemTxt(f))}</span></div></div>
     <div class="audrow"><div class="qd">Lançado em</div><div>${f._ts?new Date(f._ts).toLocaleString('pt-BR'):'—'}</div></div>
@@ -3835,7 +3835,7 @@ function galLegenda(l){
     const d = new Date(l.foto.dataHora);
     partes.push(`${p(d.getHours())}:${p(d.getMinutes())}`);
   }
-  partes.push(`Furo ${l.furo.num} · ${fotoRot(l.foto.tipo)}`);
+  partes.push(`Buraco ${l.furo.num} · ${fotoRot(l.foto.tipo)}`);
   return partes.join('  ·  ');
 }
 function galDetalhe(l){
@@ -4009,16 +4009,16 @@ async function galExcluirUma(uid){
   const l = GAL_FOTOS.find(x=>x.foto.uid === uid);
   if(!l) return;
   confirmar('Excluir esta foto',
-    `A foto <b>Furo ${l.furo.num} · ${fotoRot(l.foto.tipo)}</b>
+    `A foto <b>Buraco ${l.furo.num} · ${fotoRot(l.foto.tipo)}</b>
      de <b>${fmtData(l.data)}</b> · ${esc(l.equipe)} será apagada aqui e nos celulares
-     na próxima sincronização. O furo continua no relatório, com o quadro vazio.
+     na próxima sincronização. O buraco continua no relatório, com o quadro vazio.
      <b>Não dá para desfazer.</b>`,
     async()=>{
       const fotos = await dbGetAll('fotos');
       const fo = fotos.find(x=>x.uid === uid);
       if(fo){
         await histLog('Excluiu foto','foto', fo.uid,
-          `Furo ${l.furo.num} ${l.foto.tipo} · ${fmtData(l.data)} · ${l.equipe}`, '');
+          `Buraco ${l.furo.num} ${l.foto.tipo} · ${fmtData(l.data)} · ${l.equipe}`, '');
         await dbDelete('fotos', fo.id);
       }
       if($('g-lupa')) galFechar();
@@ -4034,7 +4034,7 @@ async function galExcluirGrupo(dia, equipe){
   confirmar('Excluir todas as fotos deste dia',
     `<b>${lista.length}</b> foto(s) de <b>${esc(equipe)}</b> em <b>${fmtData(dia)}</b>
      serão apagadas aqui e nos celulares na próxima sincronização.<br><br>
-     Os furos continuam no relatório — só ficam sem foto. <b>Não dá para desfazer.</b>
+     Os buracos continuam no relatório — só ficam sem foto. <b>Não dá para desfazer.</b>
      Se ainda não baixou o pacote, feche isto e baixe antes.`,
     async()=>{
       const fotos = await dbGetAll('fotos');
@@ -4104,7 +4104,7 @@ function galAmpliar(uid){
   const l = GAL_FOTOS.find(x=>x.foto.uid === uid);
   if(!l) return;
   $('g-lupa-img').src = l.cheia || l.src;
-  $('g-lupa-tit').textContent = `${l.equipe} · ${fmtData(l.data)} · Furo ${l.furo.num} ${fotoRot(l.foto.tipo)}`;
+  $('g-lupa-tit').textContent = `${l.equipe} · ${fmtData(l.data)} · Buraco ${l.furo.num} ${fotoRot(l.foto.tipo)}`;
   $('g-lupa-pe').innerHTML = l.temLocal
     ? esc(galDetalhe(l))
     : '<span style="color:#FFB4B4">Esta foto foi guardada sem localização.</span>';
@@ -4198,32 +4198,32 @@ async function paRender(){
   if(!r.sobrando){
     corpo.innerHTML = `<div style="padding:22px;text-align:center;color:var(--text2)">
       Nada a casar neste dia: não há foto de <b>Depois</b> solta.</div>`;
-    $('pa-resumo').textContent = `${r.esperando} furo(s) esperando o Depois.`;
+    $('pa-resumo').textContent = `${r.esperando} buraco(s) esperando o Depois.`;
     return;
   }
   $('pa-resumo').innerHTML = `<b>${r.sobrando}</b> foto(s) de Depois soltas · `
-    + `<b>${r.esperando}</b> furo(s) esperando · <b>${r.propostas.length}</b> proposta(s) dentro de ${raio} m`
+    + `<b>${r.esperando}</b> buraco(s) esperando · <b>${r.propostas.length}</b> proposta(s) dentro de ${raio} m`
     + (r.semPar.length ? ` · <span style="color:var(--red)">${r.semPar.length} sem par</span>` : '');
   corpo.innerHTML = `
     <table class="patab">
       <thead><tr>
         <th style="width:34px"><input type="checkbox" id="pa-todos" onchange="paMarcarTodos(this)"></th>
-        <th>Foto de Depois (solta)</th><th>Vai para o furo</th><th style="width:90px">Distância</th>
+        <th>Foto de Depois (solta)</th><th>Vai para o buraco</th><th style="width:90px">Distância</th>
       </tr></thead>
       <tbody>${r.propostas.map((p,i)=>{
         const longe = p.d > 15;
         return `<tr class="${longe?'longe':''}">
           <td><input type="checkbox" class="pa-ck" data-i="${i}" ${longe?'':'checked'}></td>
-          <td><b>Furo ${p.depois.furo.num}</b> · ${paHora(p.depois.foto.dataHora)}
+          <td><b>Buraco ${p.depois.furo.num}</b> · ${paHora(p.depois.foto.dataHora)}
               <div class="pasub">${esc(p.depois.furo.rua||'sem rua')}</div></td>
-          <td><b>Furo ${p.antes.furo.num}</b> · antes às ${paHora(p.antes.foto.dataHora)}
+          <td><b>Buraco ${p.antes.furo.num}</b> · antes às ${paHora(p.antes.foto.dataHora)}
               <div class="pasub">${esc(p.antes.furo.rua||'sem rua')}</div></td>
           <td class="${longe?'padist longe':'padist'}">${p.d.toFixed(1)} m</td>
         </tr>`;}).join('')}</tbody>
     </table>
     ${r.semPar.length ? `<div class="hint" style="padding:10px 14px">
-      ${r.semPar.length} foto(s) de Depois não acharam furo de Antes dentro de ${raio} m:
-      ${esc(r.semPar.slice(0,12).map(s=>'furo '+s.furo.num).join(', '))}${r.semPar.length>12?'...':''}.
+      ${r.semPar.length} foto(s) de Depois não acharam buraco de Antes dentro de ${raio} m:
+      ${esc(r.semPar.slice(0,12).map(s=>'buraco '+s.furo.num).join(', '))}${r.semPar.length>12?'...':''}.
       Aumente o alcance ou deixe como estão.</div>` : ''}`;
 }
 function paMarcarTodos(el){
@@ -4234,8 +4234,8 @@ async function paAplicar(){
     .filter(c=>c.checked).map(c=>PA_PROPOSTAS[parseInt(c.dataset.i)]).filter(Boolean);
   if(!marcados.length){ alerta('pa-err','Marque pelo menos uma linha.'); return; }
   confirmar('Casar as fotos marcadas',
-    `<b>${marcados.length}</b> foto(s) de Depois passam para o furo do Antes, e o furo
-     vazio que sobrou é excluído. A imagem não muda — só o furo a que ela pertence.`,
+    `<b>${marcados.length}</b> foto(s) de Depois passam para o buraco do Antes, e o buraco
+     vazio que sobrou é excluído. A imagem não muda — só o buraco a que ela pertence.`,
     async()=>{
       let ok = 0;
       for(const p of marcados){
@@ -4246,7 +4246,7 @@ async function paAplicar(){
           await dbPut('fotos', {...fo,
             furoUid: p.antes.furo.uid,
             furoNum: p.antes.furo.num,
-            rotulo: `Furo ${p.antes.furo.num} Depois`});
+            rotulo: `Buraco ${p.antes.furo.num} Depois`});
           /* o furo que ficou sem nenhuma foto some: senão o documento
              imprimiria um bloco "sem foto / sem foto" no fim do dia */
           const sobrou = (await dbGetAll('fotos')).filter(x=>x.furoUid === p.depois.furo.uid);
@@ -4449,7 +4449,7 @@ async function rfColetaDe(dia, equipe, soVal){
     .sort((a,b)=>ordemFuro(a, b, mapR));
   lista = lista.map(f=>({...f, _rel: mapR.get(f.relatorioUid)||null,
     _srcs: furoSrcs(f, mapa), _local: furoLocal(f, mapa), _carimbos: furoCarimbos(f, mapa)}));
-  if(!lista.length) return {erro:'Nenhum furo nesse recorte.'};
+  if(!lista.length) return {erro:'Nenhum buraco nesse recorte.'};
   return {med:{}, lista, mistura:false};
 }
 
@@ -4471,8 +4471,8 @@ async function rfColeta(){
   lista = lista.map(f=>({...f, _rel: mapR.get(f.relatorioUid)||null,
     _srcs: furoSrcs(f, mapa), _local: furoLocal(f, mapa), _carimbos: furoCarimbos(f, mapa)}));
   if(!lista.length) return {erro: soVal
-    ? 'Nenhum furo <b>validado</b> com esses parâmetros. Valide os lançamentos em “Histórico e Validação” ou desmarque “somente validados”.'
-    : 'Nenhum furo lançado com esses parâmetros. Lance os furos em “Furos / Serviços” antes de gerar o relatório.'};
+    ? 'Nenhum buraco <b>validado</b> com esses parâmetros. Valide os lançamentos em “Histórico e Validação” ou desmarque “somente validados”.'
+    : 'Nenhum buraco lançado com esses parâmetros. Lance os buracos em “Buracos / Serviços” antes de gerar o relatório.'};
   return {med:{}, lista, mistura:false};
 }
 
@@ -4624,7 +4624,7 @@ function rfMontarHTML(med, lista, opts){
           return `<div class="rfblk" style="position:relative;outline:.6mm solid ${cor};outline-offset:-.3mm">
             ${tarja}<div class="fotos${inteira?' inteira':''}">${cels}</div>
             <table>
-              <tr><td class="lb">Furo</td><td>${esc(rfRotuloFuro(par, variosRel))}</td></tr>
+              <tr><td class="lb">Buraco</td><td>${esc(rfRotuloFuro(par, variosRel))}</td></tr>
               <tr><td class="lb">Bairro/Rua</td><td>${esc(rfCampoUnico(par,'rua'))}</td></tr>
               <tr><td class="lb">Serviço</td><td>${esc(rfCampoUnico(par,'servico'))}</td></tr>
               ${rfLinhaLocal(par, opts)}
@@ -4634,7 +4634,7 @@ function rfMontarHTML(med, lista, opts){
       return `<div class="rfblk">
         <div class="fotos${inteira?' inteira':''}">${cels}</div>
         <table>
-          <tr><td class="lb">Furo</td><td>${esc(rfRotuloFuro(par, variosRel))}</td></tr>
+          <tr><td class="lb">Buraco</td><td>${esc(rfRotuloFuro(par, variosRel))}</td></tr>
           <tr><td class="lb">Bairro/Rua</td><td>${esc(rfCampoUnico(par,'rua'))}</td></tr>
           <tr><td class="lb">Serviço</td><td>${esc(rfCampoUnico(par,'servico'))}</td></tr>
           ${rfLinhaLocal(par, opts)}
@@ -4683,12 +4683,12 @@ async function rfPreview(){
     const nFotos = r.lista.reduce((s,f)=>s+(f._srcs||[]).filter(Boolean).length,0);
     const semFoto = r.lista.filter(f=>!(f._srcs||[]).filter(Boolean).length).length;
     const naoVal = r.lista.filter(f=>furoStatus(f)!=='Validado').length;
-    alerta('rf-info', (r.mistura?'<b style="color:var(--amber)">Atenção: este documento está juntando furos de medições diferentes.</b> ':'') +
-      `<b>${r.lista.length}</b> furos · <b>${blocos}</b> blocos · <b>${nFotos}</b> fotos · <b>${paginas}</b> página(s) A4.` +
-      (naoVal?` <span style="color:var(--amber)"><b>${naoVal}</b> furo(s) ainda não validado(s) — saem marcados no documento.</span>`:' Todos os furos estão validados.') +
-      (semFoto?` <span style="color:var(--red)">${semFoto} furo(s) sem nenhuma foto anexada.</span>`:'') +
+    alerta('rf-info', (r.mistura?'<b style="color:var(--amber)">Atenção: este documento está juntando buracos de medições diferentes.</b> ':'') +
+      `<b>${r.lista.length}</b> buracos · <b>${blocos}</b> blocos · <b>${nFotos}</b> fotos · <b>${paginas}</b> página(s) A4.` +
+      (naoVal?` <span style="color:var(--amber)"><b>${naoVal}</b> buraco(s) ainda não validado(s) — saem marcados no documento.</span>`:' Todos os buracos estão validados.') +
+      (semFoto?` <span style="color:var(--red)">${semFoto} buraco(s) sem nenhuma foto anexada.</span>`:'') +
       (()=>{ const semLoc = r.lista.filter(f=>(f._srcs||[]).filter(Boolean).length && !f._local).length;
-             return semLoc ? ` <span style="color:var(--red)">${semLoc} furo(s) com foto <b>sem localização</b> — o carimbo do celular não pegou GPS nessas.</span>` : ''; })(), 0);
+             return semLoc ? ` <span style="color:var(--red)">${semLoc} buraco(s) com foto <b>sem localização</b> — o carimbo do celular não pegou GPS nessas.</span>` : ''; })(), 0);
 
     const htmlCompleto = rfMontarHTML(r.med, r.lista, opts);
     const partes = htmlCompleto.split('<div class="rfpage">').filter(Boolean);
@@ -4777,7 +4777,7 @@ async function rfPlanilha(){
           'Código': f._cod,
           'Medição por buraco (R$)': +medValor(f, MED_SRV.get(f.servico)).toFixed(2),
           'Data': fmtData(f.data), 'Equipe': f.equipe||'',
-          'Furo': f.num, 'Foto': fotoRot(tipo),
+          'Buraco': f.num, 'Foto': fotoRot(tipo),
           'Descrição': (fo&&fo.descricao)||'',
           'Bairro/Rua': f.rua||'', 'Bairro': f.bairro||f._bairroFoto||'',
           'Serviço': f.servico||'',
@@ -4802,14 +4802,14 @@ async function rfPlanilha(){
       const fts = fotos.filter(x=>x.furoUid===f.uid);
       const area = fts.reduce((s,x)=>s+(parseFloat(x.area)||0),0);
       const vol  = fts.reduce((s,x)=>s+(parseFloat(x.volume)||0),0);
-      return {'Código':f._cod, 'Data':fmtData(f.data), 'Furo':f.num, 'Equipe':f.equipe||'',
+      return {'Código':f._cod, 'Data':fmtData(f.data), 'Buraco':f.num, 'Equipe':f.equipe||'',
               'Bairro/Rua':f.rua||'', 'Serviço':f.servico||'',
               'Área (m²)': area?+area.toFixed(3):'', 'Volume (m³)': vol?+vol.toFixed(4):'',
               'Fotos': f._nf, 'Situação': furoStatus(f)};
     });
     const totalArea = resumo.reduce((s,r)=>s+(Number(r['Área (m²)'])||0),0);
     const totalVol  = resumo.reduce((s,r)=>s+(Number(r['Volume (m³)'])||0),0);
-    resumo.push({'Código':'TOTAL','Data':'','Furo':resumo.length,'Equipe':'','Bairro/Rua':'','Serviço':'',
+    resumo.push({'Código':'TOTAL','Data':'','Buraco':resumo.length,'Equipe':'','Bairro/Rua':'','Serviço':'',
                  'Área (m²)':+totalArea.toFixed(3),'Volume (m³)':+totalVol.toFixed(4),
                  'Fotos':lista.reduce((s,f)=>s+f._nf,0),'Situação':''});
     const base = 'Planilha_Teste_'+hoje().replace(/-/g,'');
@@ -4817,10 +4817,10 @@ async function rfPlanilha(){
       const XLSX = await carregarXLSX();
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(linhas), 'Fotos');
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumo), 'Resumo por furo');
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumo), 'Resumo por buraco');
       const buf = XLSX.write(wb,{bookType:'xlsx', type:'array'});
       baixarArquivo(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), base+'.xlsx');
-      alerta('rf-ok', `Planilha gerada com <b>${linhas.length}</b> linha(s) de foto e <b>${resumo.length-1}</b> furo(s). Área total: <b>${totalArea.toFixed(2)} m²</b>.`);
+      alerta('rf-ok', `Planilha gerada com <b>${linhas.length}</b> linha(s) de foto e <b>${resumo.length-1}</b> buraco(s). Área total: <b>${totalArea.toFixed(2)} m²</b>.`);
     }catch(e){
       const cab = Object.keys(linhas[0]);
       const csv = '\ufeff' + [cab.join(';')].concat(linhas.map(l=>cab.map(k=>csvEscapa(l[k])).join(';'))).join('\n');
@@ -4889,7 +4889,7 @@ async function pintarCorrigidos(){
         ${r.corrigidoEm?'em '+new Date(r.corrigidoEm).toLocaleString('pt-BR'):''}</span>
       <span style="margin-left:auto;display:flex;gap:6px">
         <button class="btn sm" onclick="imprimirCompleto('${r.data}','${jsArg(r.equipe||'')}')"><i class="ti ti-printer"></i>Ver</button>
-        <button class="btn sm bgo" onclick="abrirEditor('${r.data}','${jsArg(r.equipe||'')}')"><i class="ti ti-edit"></i>Conferir os furos</button>
+        <button class="btn sm bgo" onclick="abrirEditor('${r.data}','${jsArg(r.equipe||'')}')"><i class="ti ti-edit"></i>Conferir os buracos</button>
         <button class="btn sm bg" onclick="relConferir('${r.uid}')"><i class="ti ti-check"></i>Marcar conferido</button>
       </span>
     </div>`).join('');
@@ -4897,7 +4897,7 @@ async function pintarCorrigidos(){
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px">
         <i class="ti ti-pencil-exclamation" style="font-size:20px;color:var(--amber)"></i>
         <b style="font-size:14.5px">${lista.length} relatório(s) corrigido(s) pelo fiscal em campo</b>
-        <span style="font-size:12.5px;color:var(--text2)">os furos voltaram para conferência</span>
+        <span style="font-size:12.5px;color:var(--text2)">os buracos voltaram para conferência</span>
         <button class="btn sm" style="margin-left:auto" onclick="relConferirTodos()"><i class="ti ti-checks"></i>Marcar todos como conferidos</button>
       </div>${linhas}
       ${lista.length>8?`<div style="font-size:12px;color:var(--text2);padding-top:7px">e mais ${lista.length-8}...</div>`:''}
@@ -4939,7 +4939,7 @@ async function rfKpis(){
     const comFoto = furos.filter(f=>furoSrcs(f,mapa).filter(Boolean).length).length;
     const pend = furos.filter(f=>furoStatus(f)!=='Validado').length;
     $('rf-kpis').innerHTML =
-      kpi('Total de furos', furos.length, 'demandas com registro', 'bl') +
+      kpi('Total de buracos', furos.length, 'demandas com registro', 'bl') +
       kpi('Com fotos', comFoto, '', 'gn') +
       kpi('Sem fotos', furos.length-comFoto, (furos.length-comFoto)?'precisam de registro':'tudo documentado', (furos.length-comFoto)?'am':'gn') +
       kpi('Pendentes', pend, pend?'aguardando validação':'tudo validado', pend?'rd':'gn');
@@ -5014,7 +5014,7 @@ function rfAgruparRelatorios(furos){
 }
 function rfRelDetalhe(l){
   return `<div style="overflow-x:auto;background:var(--bg2)"><table class="dt" style="font-size:12px;margin:0">
-    <thead><tr><th class="ac">Furo</th><th>Bairro / Rua</th><th>Serviço</th>
+    <thead><tr><th class="ac">Buraco</th><th>Bairro / Rua</th><th>Serviço</th>
       <th class="ac">Fotos</th><th class="ac">Situação</th><th class="ac">Ações</th></tr></thead><tbody>
     ${l.furos.map(x=>{
       const st = furoStatus(x);
@@ -5025,9 +5025,9 @@ function rfRelDetalhe(l){
         <td class="ac">${x._nf || '—'}</td>
         <td class="ac"><span class="st ${ST_CLS[st]}">${st}</span></td>
         <td class="ac" style="white-space:nowrap">
-          <button class="btn ic sm" title="Editar o furo" onclick="furoEditar(${x.id})"><i class="ti ti-pencil"></i></button>
+          <button class="btn ic sm" title="Editar o buraco" onclick="furoEditar(${x.id})"><i class="ti ti-pencil"></i></button>
           <button class="btn ic sm" title="Ver fotos e auditoria" onclick="histAuditoria(${x.id})"><i class="ti ti-photo"></i></button>
-          <button class="btn ic sm" style="color:var(--red)" title="Excluir só este furo" onclick="rfExcluir(${x.id})"><i class="ti ti-trash"></i></button>
+          <button class="btn ic sm" style="color:var(--red)" title="Excluir só este buraco" onclick="rfExcluir(${x.id})"><i class="ti ti-trash"></i></button>
         </td></tr>`;
     }).join('')}
     </tbody></table></div>`;
@@ -5045,7 +5045,7 @@ async function rfLista(){
     const extra = areaT ? ` · área medida: <b>${areaT.toFixed(2)} m²</b>` : '';
     $('rl-info').innerHTML = (linhas.length>LIM
       ? `Mostrando <b>${LIM}</b> de <b>${linhas.length}</b> relatórios. Use a busca e os filtros para achar um.`
-      : `<b>${linhas.length}</b> relatório(s) · <b>${furos.length}</b> furo(s)`) + extra;
+      : `<b>${linhas.length}</b> relatório(s) · <b>${furos.length}</b> buraco(s)`) + extra;
     const tb = $('rl-tb');
     if(!mostra.length){
       tb.innerHTML = `<tr><td colspan="10"><div class="empty"><i class="ti ti-camera-off"></i>
@@ -5057,7 +5057,7 @@ async function rfLista(){
         <td class="ac"><input type="checkbox" class="rl-ck" value="${l.ids.join(',')}"></td>
         <td><b>${esc(l.cod)}</b>
           <div class="dtag" style="margin-top:2px"><i class="ti ti-${l.origem==='celular'?'device-mobile':'device-desktop'}"></i>${l.origem}</div>
-          <div class="dtag" style="margin-top:2px"><i class="ti ti-map-pin"></i>${l.furos.length} furo(s)</div>
+          <div class="dtag" style="margin-top:2px"><i class="ti ti-map-pin"></i>${l.furos.length} buraco(s)</div>
           ${l.corr?`<div class="dtag" style="margin-top:2px;background:#FDF0D5;color:#8A5A00"><i class="ti ti-pencil"></i>corrigido pelo fiscal</div>`:''}</td>
         <td>${fmtData(l.data)}</td>
         <td>${esc(l.equipe||'—')}</td>
@@ -5068,8 +5068,8 @@ async function rfLista(){
         <td class="ac"><span class="st ${ST_CLS[l.st]}">${l.st}</span></td>
         <td class="ac" style="white-space:nowrap">
           ${l.pendentes.length?`<button class="btn sm bg" onclick="rfValidarRel([${l.pendentes.join(',')}])"><i class="ti ti-check"></i>Validar</button>`:''}
-          <button class="btn ic sm" title="Ver os furos deste relatório" onclick="rfRelDet(${i})"><i class="ti ti-list-details"></i></button>
-          <button class="btn ic sm" title="Editar os furos deste relatório" onclick="abrirEditor('${l.data}','${eqA}')"><i class="ti ti-pencil"></i></button>
+          <button class="btn ic sm" title="Ver os buracos deste relatório" onclick="rfRelDet(${i})"><i class="ti ti-list-details"></i></button>
+          <button class="btn ic sm" title="Editar os buracos deste relatório" onclick="abrirEditor('${l.data}','${eqA}')"><i class="ti ti-pencil"></i></button>
           <button class="btn ic sm" title="Imprimir a medição + o relatório fotográfico" onclick="imprimirCompleto('${l.data}','${eqA}')"><i class="ti ti-printer"></i></button>
           <button class="btn ic sm" title="Abrir a prévia do documento" onclick="rfImprimirRel('${l.data}','${eqA}')"><i class="ti ti-eye"></i></button>
           <button class="btn ic sm" style="color:var(--red)" title="Excluir o relatório inteiro" onclick="rfExcluirRel('${esc(l.cod)}',[${l.ids.join(',')}])"><i class="ti ti-trash"></i></button>
@@ -5086,7 +5086,7 @@ function rfRelDet(i){
    estar pendentes e o documento entra no acervo. */
 function rfValidarRel(ids){
   confirmar('Validar relatório',
-    `<b>${ids.length}</b> furo(s) deste relatório passam a contar como validados. Confirmar?`,
+    `<b>${ids.length}</b> buraco(s) deste relatório passam a contar como validados. Confirmar?`,
     async ()=>{
       await histAplicarValidacao(ids,'Validado','');
       limpaAlertas('rf-err','rf-ok');
@@ -5114,11 +5114,11 @@ async function rfExcluirRel(cod, ids){
   const uids = new Set(furos.filter(f=>ids.includes(f.id)).map(f=>f.uid));
   const nF = fotos.filter(x=>uids.has(x.furoUid)).length;
   confirmar('Excluir relatório',
-    `O relatório <b>${esc(cod)}</b>, seus <b>${ids.length}</b> furo(s)${nF?` e <b>${nF}</b> foto(s)`:''}
+    `O relatório <b>${esc(cod)}</b>, seus <b>${ids.length}</b> buraco(s)${nF?` e <b>${nF}</b> foto(s)`:''}
      serão apagados aqui e nos celulares na próxima sincronização. <b>Não dá para desfazer.</b> Continuar?`,
     async ()=>{
       const n = await rfExcluirFuros(ids);
-      alerta('rf-ok',`Relatório <b>${esc(cod)}</b> excluído (${n} furo(s)).`);
+      alerta('rf-ok',`Relatório <b>${esc(cod)}</b> excluído (${n} buraco(s)).`);
       await rfRefresh();
       if(syncLigado()) syncAgora(true);
     });
@@ -5136,11 +5136,11 @@ function rfValidarSel(){
   limpaAlertas('rf-err','rf-ok');
   if(!ids.length){ alerta('rf-err','Marque pelo menos um registro na lista.'); return; }
   confirmar('Validar selecionados',
-    `<b>${ids.length}</b> furo(s) passam a contar como validados. Confirmar?`,
+    `<b>${ids.length}</b> buraco(s) passam a contar como validados. Confirmar?`,
     async ()=>{
       await histAplicarValidacao(ids,'Validado','');
       limpaAlertas('rf-err','rf-ok');
-      alerta('rf-ok', `<b>${ids.length}</b> furo(s) validados.`);
+      alerta('rf-ok', `<b>${ids.length}</b> buraco(s) validados.`);
       await rfRefresh();
       if(syncLigado()) syncAgora(true);
     });
@@ -5168,7 +5168,7 @@ async function rfExcluirFuros(ids){
   for(const id of ids){
     const f = furos.find(x=>x.id===id); if(!f) continue;
     for(const ft of fotos.filter(x=>x.furoUid===f.uid)) await dbDelete('fotos', ft.id);
-    await histLog('Excluiu furo','furo', f.uid, `Furo ${f.num} · ${fmtData(f.data)} · ${f.equipe||''}`, '');
+    await histLog('Excluiu buraco','furo', f.uid, `Buraco ${f.num} · ${fmtData(f.data)} · ${f.equipe||''}`, '');
     await dbDelete('furos', id);
     n++;
   }
@@ -5179,7 +5179,7 @@ async function rfExcluir(id){
   const f = furos.find(x=>x.id===id); if(!f) return;
   const fotos = (await dbGetAll('fotos')).filter(x=>x.furoUid===f.uid).length;
   confirmar('Excluir registro',
-    `O furo <b>${f.num}</b> de <b>${fmtData(f.data)}</b>${f.equipe?` · ${esc(f.equipe)}`:''}
+    `O buraco <b>${f.num}</b> de <b>${fmtData(f.data)}</b>${f.equipe?` · ${esc(f.equipe)}`:''}
      ${fotos?`e as <b>${fotos}</b> foto(s) dele `:''}serão apagados aqui e nos celulares na próxima
      sincronização. <b>Não dá para desfazer.</b> Continuar?`,
     async ()=>{
@@ -5238,7 +5238,7 @@ async function rfLoteAplicar(){
     if(eq) novo.equipe = eq;
     await dbPut('furos', novo); n++;
   }
-  await histLog('Preencheu em lote','furo', null, `${n} furo(s) alterados`, '');
+  await histLog('Preencheu em lote','furo', null, `${n} buraco(s) alterados`, '');
   $('lote-modal').style.display='none';
   alerta('rf-ok', `<b>${n}</b> registro(s) atualizados.`);
   await rfRefresh();
@@ -5268,7 +5268,7 @@ async function rfPintarCabDia(r){
 let ED_DIA = '', ED_EQ = '';
 async function abrirEditor(dia, equipe){
   ED_DIA = dia || ''; ED_EQ = equipe || '';
-  $('ed-tit').textContent = ED_DIA ? `Furos de ${fmtData(ED_DIA)}` : 'Furos lançados';
+  $('ed-tit').textContent = ED_DIA ? `Buracos de ${fmtData(ED_DIA)}` : 'Buracos lançados';
   $('ed-sub').textContent = ED_EQ ? ED_EQ : 'todas as equipes do dia';
   limpaAlertas('rf-ed-ok','rf-ed-err','ed-f-dica');
   ED_PEGOU = null;
@@ -5316,7 +5316,7 @@ async function edFotosRender(){
     const alvo = $('ed-fotos');
     if(!ordenada.length){
       alvo.innerHTML = `<div class="empty"><i class="ti ti-pencil-off"></i>
-        Nenhum furo neste dia. Use <b>Adicionar furo neste dia</b> para lançar manualmente.</div>`;
+        Nenhum buraco neste dia. Use <b>Adicionar buraco neste dia</b> para lançar manualmente.</div>`;
       $('rf-ed-info').textContent = '';
       return;
     }
@@ -5343,7 +5343,7 @@ async function edFotosRender(){
       const rel = mapR.get(f.relatorioUid) || null;
       return `<div class="edfuro">
         <div class="edcab">
-          <b>Furo ${esc(f.num)}</b>
+          <b>Buraco ${esc(f.num)}</b>
           ${varios && rel ? `<span style="font-size:11px;color:var(--text2)">${esc(relCod(rel))}</span>` : ''}
           <span class="edrua">${esc(f.rua || 'sem rua')}</span>
           <span style="margin-left:auto;font-size:11px;color:var(--text2)">${esc(furoStatus(f))}</span>
@@ -5352,7 +5352,7 @@ async function edFotosRender(){
       </div>`;}).join('')}</div>`;
     const comFoto = ordenada.filter(f=>{
       const p = porFuro.get(f.uid)||{}; return FOTO_TIPOS.some(t=>p[t] && p[t].url); }).length;
-    $('rf-ed-info').innerHTML = `<b>${ordenada.length}</b> furo(s) neste dia · <b>${comFoto}</b> com foto`;
+    $('rf-ed-info').innerHTML = `<b>${ordenada.length}</b> buraco(s) neste dia · <b>${comFoto}</b> com foto`;
   }catch(err){ erroRender('ed-fotos', err, 'as fotos do dia'); }
 }
 /* ---- acrescentar uma foto pelo computador ---- */
@@ -5422,7 +5422,7 @@ async function edRecebeuArquivo(input){
                                       : new Date(furo.data + 'T12:00:00').toISOString();
       const base = {
         furoUid: furo.uid, furoNum: furo.num, tipo: alvo.tipo,
-        rotulo: `Furo ${furo.num} ${fotoRot(alvo.tipo)}`,
+        rotulo: `Buraco ${furo.num} ${fotoRot(alvo.tipo)}`,
         dataHora: quando, url, arquivo: caminho, enviada: true,
         lat:null, lng:null, alt:null, precisao:null, heading:null, direcao:'',
         indice:'', endereco:null, enderecoOk:false, temMapa:false,
@@ -5431,15 +5431,15 @@ async function edRecebeuArquivo(input){
       if(jaTem) await dbPut('fotos', {...jaTem, ...base});
       else      await dbAdd('fotos', base);
       await histLog(jaTem?'Trocou foto':'Anexou foto','foto', (jaTem&&jaTem.uid)||null,
-        `Furo ${furo.num} ${alvo.tipo} · ${fmtData(furo.data)} · ${furo.equipe||''} · pelo escritório`, '');
+        `Buraco ${furo.num} ${alvo.tipo} · ${fmtData(furo.data)} · ${furo.equipe||''} · pelo escritório`, '');
       await edRefazer(); await edAtualizarTelas();
-      alerta('rf-ed-ok', `Foto anexada ao <b>${fotoRot(alvo.tipo)}</b> do furo <b>${furo.num}</b>.
+      alerta('rf-ed-ok', `Foto anexada ao <b>${fotoRot(alvo.tipo)}</b> do buraco <b>${furo.num}</b>.
         Ela entra no documento sem carimbo de localização — o carimbo só existe na foto tirada pelo app.`, 0);
       if(syncLigado()) syncAgora(true);
     };
     if(jaTem){
       confirmar('Trocar a foto deste quadro',
-        `O <b>${fotoRot(alvo.tipo)}</b> do furo <b>${furo.num}</b> já tem foto.
+        `O <b>${fotoRot(alvo.tipo)}</b> do buraco <b>${furo.num}</b> já tem foto.
          A nova entra no lugar dela. <b>Não dá para desfazer.</b>`, gravar);
     } else await gravar();
   }catch(err){
@@ -5492,19 +5492,19 @@ async function edMoverFoto(uid, furoUid, tipo){
     const origem  = furos.find(x=>x.uid === foto.furoUid) || null;
     const ocupa   = fotos.find(x=>x.furoUid === furoUid && x.tipo === tipo && x.uid !== uid);
     const marca = (ft, furo, tp)=>({...ft, furoUid:furo.uid, furoNum:furo.num, tipo:tp,
-      rotulo:`Furo ${furo.num} ${fotoRot(tp)}`});
+      rotulo:`Buraco ${furo.num} ${fotoRot(tp)}`});
     await dbPut('fotos', marca(foto, destino, tipo));
     /* quadro ocupado: as duas trocam de lugar, nenhuma se perde */
     if(ocupa && origem) await dbPut('fotos', marca(ocupa, origem, foto.tipo));
     else if(ocupa)      await dbPut('fotos', {...ocupa, tipo: foto.tipo,
-      rotulo:`Furo ${ocupa.furoNum} ${fotoRot(foto.tipo)}`});
+      rotulo:`Buraco ${ocupa.furoNum} ${fotoRot(foto.tipo)}`});
     await histLog('Moveu foto','foto', foto.uid,
-      `de furo ${origem?origem.num:'?'} ${foto.tipo} para furo ${destino.num} ${tipo}`, '');
+      `de buraco ${origem?origem.num:'?'} ${foto.tipo} para buraco ${destino.num} ${tipo}`, '');
     ED_PEGOU = null;
     await edFotosRender(); await edAtualizarTelas();
     alerta('rf-ed-ok', ocupa
       ? `Fotos trocadas de quadro.`
-      : `Foto movida para o <b>${fotoRot(tipo)}</b> do furo <b>${destino.num}</b>.`);
+      : `Foto movida para o <b>${fotoRot(tipo)}</b> do buraco <b>${destino.num}</b>.`);
     if(syncLigado()) syncAgora(true);
   }catch(err){ alerta('rf-ed-err','Não deu para mover a foto: '+esc(err.message||err)); }
 }
@@ -5514,12 +5514,12 @@ async function edApagarFoto(uid){
   const furos = await dbGetAll('furos');
   const furo = furos.find(x=>x.uid === fo.furoUid);
   confirmar('Apagar esta foto',
-    `A foto do <b>${fotoRot(fo.tipo)}</b> do furo
+    `A foto do <b>${fotoRot(fo.tipo)}</b> do buraco
      <b>${furo?furo.num:'?'}</b> será apagada aqui e nos celulares na próxima sincronização.
-     O furo continua no relatório, com o quadro vazio. <b>Não dá para desfazer.</b>`,
+     O buraco continua no relatório, com o quadro vazio. <b>Não dá para desfazer.</b>`,
     async()=>{
       await histLog('Excluiu foto','foto', fo.uid,
-        `Furo ${furo?furo.num:'?'} ${fo.tipo} · ${fmtData(ED_DIA)} · ${ED_EQ}`, '');
+        `Buraco ${furo?furo.num:'?'} ${fo.tipo} · ${fmtData(ED_DIA)} · ${ED_EQ}`, '');
       await dbDelete('fotos', fo.id);
       ED_PEGOU = null;
       await edFotosRender(); await edAtualizarTelas();
@@ -5539,7 +5539,7 @@ async function rfEdRender(){
     const tb = $('rf-ed-tb');
     if(!lista.length){
       tb.innerHTML = `<tr><td colspan="6"><div class="empty"><i class="ti ti-pencil-off"></i>
-        Nenhum furo neste dia. Use <b>Adicionar furo neste dia</b> para lançar manualmente.</div></td></tr>`;
+        Nenhum buraco neste dia. Use <b>Adicionar buraco neste dia</b> para lançar manualmente.</div></td></tr>`;
       $('rf-ed-info').textContent = '';
       return;
     }
@@ -5557,15 +5557,15 @@ async function rfEdRender(){
         <td class="ac">${nf?`<b style="color:var(--green)">${nf}</b>`:'<span style="color:var(--red)">—</span>'}</td>
         <td class="ac" style="white-space:nowrap">
           <button class="btn ic sm" title="Ver fotos" onclick="histAuditoria(${f.id})"><i class="ti ti-photo"></i></button>
-          <button class="btn ic sm" title="Excluir furo" onclick="rfEdExcluir('${f.uid}',${f.num})"><i class="ti ti-trash"></i></button>
+          <button class="btn ic sm" title="Excluir buraco" onclick="rfEdExcluir('${f.uid}',${f.num})"><i class="ti ti-trash"></i></button>
         </td></tr>`;
     }).join('');
     const comFoto = lista.filter(f=>{
       const p = porFuro.get(f.uid) || {};
       return [p.antes,p.depois].filter(x=>x && (x.url || x.dataHora)).length;
     }).length;
-    $('rf-ed-info').innerHTML = `<b>${lista.length}</b> furo(s) neste dia · <b>${comFoto}</b> com foto`;
-  }catch(err){ erroRender('rf-ed-tb', err, 'os furos do dia'); }
+    $('rf-ed-info').innerHTML = `<b>${lista.length}</b> buraco(s) neste dia · <b>${comFoto}</b> com foto`;
+  }catch(err){ erroRender('rf-ed-tb', err, 'os buracos do dia'); }
 }
 /* O editor pode estar aberto a partir de duas telas: atualiza a que estiver visível. */
 async function edAtualizarTelas(){
@@ -5583,7 +5583,7 @@ async function rfEdCampo(uid, campo, valor){
     if(campo==='num'){
       const fts = (await dbGetAll('fotos')).filter(x=>x.furoUid===uid);
       for(const ft of fts) await dbPut('fotos', {...ft, furoNum:novo.num,
-        rotulo:`Furo ${novo.num} ${fotoRot(ft.tipo)}`});
+        rotulo:`Buraco ${novo.num} ${fotoRot(ft.tipo)}`});
     }
     await edRefazer(); await edAtualizarTelas();
     if(syncLigado()) syncAgora(true);
@@ -5604,21 +5604,21 @@ async function rfDiaAddFuro(){
       validadoPor:(CU==='g'?usuarioNome():''), validadoEm:(CU==='g'?new Date().toISOString():''),
       motivoDevolucao:'', fotos:[null,null]
     });
-    await histLog('Lançou','furo', null, `Furo ${max+1} lançado manualmente em ${fmtData(dia)}`, '');
-    alerta('rf-ed-ok', `Furo <b>${max+1}</b> criado.`);
+    await histLog('Lançou','furo', null, `Buraco ${max+1} lançado manualmente em ${fmtData(dia)}`, '');
+    alerta('rf-ed-ok', `Buraco <b>${max+1}</b> criado.`);
     await edRefazer(); await edAtualizarTelas();
     if(syncLigado()) syncAgora(true);
-  }catch(err){ alerta('rf-ed-err','Não deu para criar o furo: '+esc(err.message||err)); }
+  }catch(err){ alerta('rf-ed-err','Não deu para criar o buraco: '+esc(err.message||err)); }
 }
 function rfEdExcluir(uid, num){
-  confirmar('Excluir furo', `O furo <b>${num}</b> e as medidas dele saem da medição e do relatório. Continuar?`,
+  confirmar('Excluir buraco', `O buraco <b>${num}</b> e as medidas dele saem da medição e do relatório. Continuar?`,
     async ()=>{
       const furos = await dbGetAll('furos');
       const f = furos.find(x=>x.uid===uid); if(!f) return;
       const fotos = (await dbGetAll('fotos')).filter(x=>x.furoUid===uid);
       for(const ft of fotos) await dbDelete('fotos', ft.id);
       await dbDelete('furos', f.id);
-      await histLog('Excluiu','furo', uid, `Furo ${num} de ${fmtData(f.data)}`, '');
+      await histLog('Excluiu','furo', uid, `Buraco ${num} de ${fmtData(f.data)}`, '');
       await edRefazer(); await edAtualizarTelas();
       if(syncLigado()) syncAgora(true);
     });
@@ -5653,11 +5653,11 @@ async function dashRender(){
     const val  = lista.filter(f=>furoStatus(f)==='Validado').length;
 
     $('d-kpis').innerHTML =
-      kpi('Furos executados', lista.length, dias?`em ${dias} dia(s) de serviço`:'', 'bl') +
+      kpi('Buracos executados', lista.length, dias?`em ${dias} dia(s) de serviço`:'', 'bl') +
       kpi('Validados', val, lista.length?`${Math.round(val/lista.length*100)}% do total`:'', 'gn') +
       kpi('Aguardando validação', pend, pend?'não contam no relatório do dia':'nada parado', pend?'am':'gn') +
-      kpi('Fotos anexadas', nFotos, lista.length?`média de ${(nFotos/lista.length).toFixed(1)} por furo`:'', 'pu') +
-      kpi('Furos sem foto', semFoto, semFoto?'pendentes de registro':'tudo registrado', semFoto?'rd':'gn') +
+      kpi('Fotos anexadas', nFotos, lista.length?`média de ${(nFotos/lista.length).toFixed(1)} por buraco`:'', 'pu') +
+      kpi('Buracos sem foto', semFoto, semFoto?'pendentes de registro':'tudo registrado', semFoto?'rd':'gn') +
       medKpisDash(lista);
     histBadge(pend);
 
