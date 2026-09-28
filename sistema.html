@@ -321,7 +321,14 @@ table.dt .ar{text-align:right}
    grava o carimbo, o mapa e a bussola), a imagem e esticada ate o tamanho do
    quadro. Sai levemente achatada, mas vai completa para o documento. */
 .rfblk .fotos.inteira img{object-fit:fill}
-.rfblk .fotos .vz{height:24mm;background:#EFEFEF;display:flex;align-items:center;justify-content:center;color:#B0B0B0;font-size:6pt}
+.rfblk .fotos .vz{height:24mm;background:#EFEFEF;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:.6mm;color:#B0B0B0;font-size:6pt}
+.rfblk .fotos .vz b{font-size:5.4pt;letter-spacing:.3px;color:#9A9A9A}
+/* Com quatro fotos do mesmo buraco no quadro, cada uma precisa dizer quem e. */
+.rfblk .fotos .cel .rotf{position:absolute;top:0;left:0;z-index:2;
+  background:rgba(28,31,38,.78);color:#fff;font-size:4.4pt;font-weight:700;
+  letter-spacing:.3px;padding:.3mm .8mm;border-bottom-right-radius:.8mm;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
 .rfblk table{width:100%;border-collapse:collapse;font-size:6.6pt;margin-top:.8mm}
 .rfblk table td{border:.5px solid #6E6E6E;padding:.7mm 1.2mm;line-height:1.25}
 .rfblk table td.lb{width:16mm;text-align:center;font-weight:700;background:#F2F2F2}
@@ -493,14 +500,25 @@ table.dt .ar{text-align:right}
 
     <div class="fcard">
       <div class="fhead"><i class="ti ti-camera"></i>Registro Fotográfico do Furo</div>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:11px">Duas fotos por furo (ANTES e DEPOIS) — é exatamente o par que ocupa uma linha do bloco impresso. As imagens são reduzidas automaticamente para não pesar o arquivo.</p>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:11px">De duas a quatro fotos por buraco.
+        <b>Antes</b> e <b>Concluído</b> são as obrigatórias; as duas de <b>Durante</b> são opcionais.
+        É exatamente o quadro que sai no relatório impresso. As imagens são reduzidas automaticamente
+        para não pesar o arquivo.</p>
       <div class="fgrid" style="max-width:520px">
         <div class="fslot" id="f-slot-0" onclick="document.getElementById('f-file-0').click()">
-          <i class="ti ti-photo-plus"></i><span>Foto 1 · Antes</span>
+          <i class="ti ti-photo-plus"></i><span>Antes</span>
           <input type="file" id="f-file-0" accept="image/*" onchange="furoLoadFoto(0,this)">
         </div>
+        <div class="fslot" id="f-slot-2" onclick="document.getElementById('f-file-2').click()">
+          <i class="ti ti-photo-plus"></i><span>Durante</span>
+          <input type="file" id="f-file-2" accept="image/*" onchange="furoLoadFoto(2,this)">
+        </div>
+        <div class="fslot" id="f-slot-3" onclick="document.getElementById('f-file-3').click()">
+          <i class="ti ti-photo-plus"></i><span>Durante</span>
+          <input type="file" id="f-file-3" accept="image/*" onchange="furoLoadFoto(3,this)">
+        </div>
         <div class="fslot" id="f-slot-1" onclick="document.getElementById('f-file-1').click()">
-          <i class="ti ti-photo-plus"></i><span>Foto 2 · Depois</span>
+          <i class="ti ti-photo-plus"></i><span>Concluído</span>
           <input type="file" id="f-file-1" accept="image/*" onchange="furoLoadFoto(1,this)">
         </div>
       </div>
@@ -1411,7 +1429,7 @@ const LOGO_ORGAO_PADRAO = '';   /* sem brasao: quem usa poe o do proprio cliente
 const PIXEL_VAZIO = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 const LOGO_EMPRESA_PADRAO = "data:image/png;base64,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";
 
-const SYSTEM_VERSION = '20260922-001';
+const SYSTEM_VERSION = '20260928-001';
 
 /* ------------------------------- BANCO ---------------------------------- */
 const DB_NAME = 'TESTE_SIS_DB';
@@ -3168,7 +3186,7 @@ async function admDemoLimpar(){
 }
 
 /* ================================== FUROS =============================== */
-let FURO_FOTOS = [null,null];
+let FURO_FOTOS = [null,null,null,null];
 let FURO_EDIT = null;
 
 async function furoRefresh(){ await preencherSelects(); await furoProxNum(); await furoRuasSugeridas(); await furoRenderLista(); }
@@ -3200,9 +3218,10 @@ async function furoLoadFoto(idx, input){
   }
   input.value = '';
 }
+const FURO_SLOT_ROT = {0:'Antes', 1:'Concluído', 2:'Durante', 3:'Durante'};
 function furoPintaSlot(idx){
-  const slot = $('f-slot-'+idx);
-  const rot = idx===0 ? 'Foto 1 · Antes' : 'Foto 2 · Depois';
+  const slot = $('f-slot-'+idx); if(!slot) return;
+  const rot = FURO_SLOT_ROT[idx] || ('Foto '+(idx+1));
   if(FURO_FOTOS[idx]){
     slot.innerHTML = `<img src="${FURO_FOTOS[idx]}" alt="${rot}">
       <div class="tag">${rot}</div>
@@ -3237,7 +3256,7 @@ async function furoSave(seguirProximo){
     equipe:$('f-eq').value,
     comp:medNum($('f-comp').value)||'', larg:medNum($('f-larg').value)||'', prof:medNum($('f-prof').value)||'',
     equipamento:$('f-eqp').value,
-    obs:$('f-obs').value.trim(), fotos:[FURO_FOTOS[0], FURO_FOTOS[1]],
+    obs:$('f-obs').value.trim(), fotos:[FURO_FOTOS[0], FURO_FOTOS[1], FURO_FOTOS[2], FURO_FOTOS[3]],
     origem: anterior ? (anterior.origem||'desktop') : 'desktop',
     dispositivo: anterior ? (anterior.dispositivo||'') : '',
     lancadoPor: anterior ? (anterior.lancadoPor || usuarioNome()) : usuarioNome(),
@@ -3274,8 +3293,8 @@ async function furoSave(seguirProximo){
 function furoSaveENovo(){ furoSave(true); }
 function furoReset(){
   FURO_EDIT = null;
-  FURO_FOTOS = [null,null];
-  furoPintaSlot(0); furoPintaSlot(1);
+  FURO_FOTOS = [null,null,null,null];
+  [0,1,2,3].forEach(furoPintaSlot);
   ['f-rua','f-obs','f-comp','f-larg','f-prof'].forEach(i=>$(i).value='');
   if($('f-eqp')) $('f-eqp').value = '';
   medPreviaFuro();
@@ -3296,8 +3315,8 @@ async function furoEditar(id){
   $('f-eqp').value = f.equipamento||'';
   $('f-comp').value = medNum(f.comp)||''; $('f-larg').value = medNum(f.larg)||'';
   $('f-prof').value = medNum(f.prof)||''; medPreviaFuro();
-  FURO_FOTOS = [ (f.fotos||[])[0]||null, (f.fotos||[])[1]||null ];
-  furoPintaSlot(0); furoPintaSlot(1);
+  FURO_FOTOS = [0,1,2,3].map(i=>(f.fotos||[])[i]||null);
+  [0,1,2,3].forEach(furoPintaSlot);
   $('f-btn-cancel').style.display='';
   $('f-btn-save').innerHTML = '<i class="ti ti-device-floppy"></i>Salvar Alterações';
   document.querySelectorAll('#pg-furo .tab')[0].click();
@@ -3345,7 +3364,7 @@ async function furoRenderLista(){
             <span class="st ${ST_CLS[furoStatus(f)]}">${furoStatus(f)}</span>
             <span style="font-size:11px;color:var(--text2)">${fmtData(f.data)}</span></span></div>
         <div class="thumbs">
-          ${[0,1].map(i=> fts[i] ? `<img src="${fts[i]}" alt="Foto ${i+1}">` : `<div class="ph0">sem foto</div>`).join('')}
+          ${FOTO_ORDEM_IDX.map((i,p)=> fts[i] ? `<img src="${fts[i]}" alt="${esc(FOTO_ROTULO[FOTO_TIPOS[p]])}">` : `<div class="ph0">sem foto</div>`).join('')}
         </div>
         <div class="fb">
           <div class="ln"><span>Rua</span><b>${esc(f.rua)}</b></div>
@@ -3816,7 +3835,7 @@ function galLegenda(l){
     const d = new Date(l.foto.dataHora);
     partes.push(`${p(d.getHours())}:${p(d.getMinutes())}`);
   }
-  partes.push(`Furo ${l.furo.num} · ${l.foto.tipo==='antes'?'Antes':'Depois'}`);
+  partes.push(`Furo ${l.furo.num} · ${fotoRot(l.foto.tipo)}`);
   return partes.join('  ·  ');
 }
 function galDetalhe(l){
@@ -3869,15 +3888,15 @@ async function galRender(){
     const [eq, dia] = ch.split('||');
     const lista = grupos.get(ch).sort((a,b)=>
       ordemFuro(a.furo, b.furo, null) === 0
-        ? (a.foto.tipo === b.foto.tipo ? 0 : (a.foto.tipo==='antes' ? -1 : 1))
+        ? (fotoPos(a.foto.tipo) - fotoPos(b.foto.tipo))
         : (relOrdem(a.rel)[0] - relOrdem(b.rel)[0])
           || String(relOrdem(a.rel)[1]).localeCompare(String(relOrdem(b.rel)[1]))
           || ((parseInt(a.furo.num)||0) - (parseInt(b.furo.num)||0))
-          || (a.foto.tipo==='antes' ? -1 : 1));
+          || (fotoPos(a.foto.tipo) - fotoPos(b.foto.tipo)));
     const semLoc = lista.filter(l=>!l.temLocal).length;
     /* foto de Depois em furo que não tem Antes: está solta, dá para casar */
     const comAntes = new Set(lista.filter(l=>l.foto.tipo==='antes').map(l=>l.furo.uid));
-    const soltas = lista.filter(l=>l.foto.tipo==='depois' && !comAntes.has(l.furo.uid)).length;
+    const soltas = lista.filter(l=>l.foto.tipo!=='antes' && !comAntes.has(l.furo.uid)).length;
     const eqJS = esc(eq).replace(/'/g, "\\'");
     const rels = [...new Set(lista.map(l=>l.rel ? relCod(l.rel) : '')).values()].filter(Boolean);
     return `<div class="card" style="padding:0;overflow:hidden;margin-bottom:14px">
@@ -3990,7 +4009,7 @@ async function galExcluirUma(uid){
   const l = GAL_FOTOS.find(x=>x.foto.uid === uid);
   if(!l) return;
   confirmar('Excluir esta foto',
-    `A foto <b>Furo ${l.furo.num} · ${l.foto.tipo==='antes'?'Antes':'Depois'}</b>
+    `A foto <b>Furo ${l.furo.num} · ${fotoRot(l.foto.tipo)}</b>
      de <b>${fmtData(l.data)}</b> · ${esc(l.equipe)} será apagada aqui e nos celulares
      na próxima sincronização. O furo continua no relatório, com o quadro vazio.
      <b>Não dá para desfazer.</b>`,
@@ -4085,7 +4104,7 @@ function galAmpliar(uid){
   const l = GAL_FOTOS.find(x=>x.foto.uid === uid);
   if(!l) return;
   $('g-lupa-img').src = l.cheia || l.src;
-  $('g-lupa-tit').textContent = `${l.equipe} · ${fmtData(l.data)} · Furo ${l.furo.num} ${l.foto.tipo==='antes'?'Antes':'Depois'}`;
+  $('g-lupa-tit').textContent = `${l.equipe} · ${fmtData(l.data)} · Furo ${l.furo.num} ${fotoRot(l.foto.tipo)}`;
   $('g-lupa-pe').innerHTML = l.temLocal
     ? esc(galDetalhe(l))
     : '<span style="color:#FFB4B4">Esta foto foi guardada sem localização.</span>';
@@ -4282,6 +4301,23 @@ function rfFecharDoc(){
    é aberto várias vezes, é essa escolha que segura a conta de tráfego da nuvem.
    A imagem cheia fica para ampliar, baixar e para as fotos antigas, que foram
    enviadas antes de existir miniatura. */
+/* ==================== AS FOTOS DE UM BURACO ============================
+   Cada furo leva de duas a quatro fotos. ANTES e CONCLUÍDO são obrigatórias;
+   as duas do meio (DURANTE) entram quando a equipe toca no + no celular.
+   No papel, cada quadro é UM buraco, com os quatro espaços sempre à vista —
+   o que faltar sai marcado "sem foto". */
+const FOTO_TIPOS = ['antes','durante1','durante2','depois'];
+const FOTO_ROTULO = {antes:'Antes', durante1:'Durante', durante2:'Durante', depois:'Concluído'};
+const FOTO_CURTO  = {antes:'ANTES', durante1:'DURANTE', durante2:'DURANTE', depois:'CONCLUÍDO'};
+const FOTO_OBRIGATORIAS = ['antes','depois'];
+/* A foto lançada pelo computador mora dentro do próprio furo. Os dois
+   primeiros lugares continuam sendo Antes e Concluído, como desde a primeira
+   versão — mexer nisso embaralharia o que já está lançado. */
+const FOTO_IDX = {antes:0, depois:1, durante1:2, durante2:3};
+const FOTO_ORDEM_IDX = FOTO_TIPOS.map(t=>FOTO_IDX[t]);      /* [0,2,3,1] */
+function fotoRot(t){ return FOTO_ROTULO[t] || t; }
+function fotoPos(t){ const i = FOTO_TIPOS.indexOf(t); return i<0 ? 9 : i; }
+
 function fotoLeve(fo){ return (fo && (fo.urlMini || fo.url)) || ''; }
 function fotoCheia(fo){ return (fo && (fo.url || fo.urlMini)) || ''; }
 
@@ -4291,10 +4327,10 @@ async function rfMapaFotos(){
   const fs = await dbGetAll('fotos');
   const m = new Map();
   fs.forEach(x=>{
-    if(!m.has(x.furoUid)) m.set(x.furoUid, {antes:null, depois:null, endereco:null, dados:[]});
+    if(!m.has(x.furoUid)) m.set(x.furoUid, {antes:null, durante1:null, durante2:null,
+                                            depois:null, endereco:null, dados:[]});
     const alvo = m.get(x.furoUid);
-    if(x.tipo==='antes') alvo.antes = fotoLeve(x) || null;
-    if(x.tipo==='depois') alvo.depois = fotoLeve(x) || null;
+    if(FOTO_TIPOS.includes(x.tipo)) alvo[x.tipo] = fotoLeve(x) || null;
     if(!alvo.endereco && x.endereco) alvo.endereco = x.endereco;
     /* Guarda a localização de cada foto: no papel a foto sai pequena e o
        carimbo de dentro dela fica ilegível, então a informação também é
@@ -4305,10 +4341,13 @@ async function rfMapaFotos(){
   });
   return m;
 }
+/* As quatro fotos do furo, sempre na ordem do papel: antes, durante,
+   durante, concluído. O lugar que não tem foto volta nulo. */
 function furoSrcs(f, mapa){
-  const doMapa = mapa.get(f.uid);
-  if(doMapa && (doMapa.antes || doMapa.depois)) return [doMapa.antes, doMapa.depois];
-  return [(f.fotos||[])[0]||null, (f.fotos||[])[1]||null];
+  const doMapa = mapa && mapa.get(f.uid);
+  if(doMapa && FOTO_TIPOS.some(t=>doMapa[t])) return FOTO_TIPOS.map(t=>doMapa[t]||null);
+  const dentro = f.fotos||[];
+  return FOTO_ORDEM_IDX.map(i=>dentro[i]||null);
 }
 /* Grau/minuto/segundo, do mesmo jeito que sai carimbado na foto — assim o
    texto do relatório e o carimbo da imagem falam a mesma língua. */
@@ -4374,7 +4413,7 @@ function furoCarimbos(f, mapa){
   const doMapa = mapa.get(f.uid);
   const lista = (doMapa && doMapa.dados) || [];
   const de = t => rfCarimbo(lista.find(x=>x.tipo===t));
-  return [de('antes'), de('depois')];
+  return FOTO_TIPOS.map(de);
 }
 /* A linha de localização de um furo: endereço do carimbo + coordenada.
    Usa a primeira foto que tiver posição — antes e depois são o mesmo ponto. */
@@ -4456,18 +4495,11 @@ function ordemFuro(a, b, mapR){
       || ((parseInt(a.num)||0) - (parseInt(b.num)||0));
 }
 /* Agrupa os furos em blocos de 2 (padrão do documento: “1 e 2”, “3 e 4”...). */
+/* Um buraco por quadro. Antes eram dois furos dividindo o mesmo quadro, com
+   duas fotos cada; agora o quadro inteiro é de um furo só, com os quatro
+   espaços dele — antes, durante, durante e concluído. */
 function rfBlocos(lista){
-  const blocos = [];
-  let atual = [];
-  for(const f of lista){
-    /* Dois furos só dividem um bloco se forem do mesmo relatório — senão o
-       quadro diria "Furo 1 e 1" com duas ruas diferentes na mesma linha. */
-    const mesmoRel = atual.length && String(atual[0].relatorioUid||'') === String(f.relatorioUid||'');
-    if(atual.length === 2 || (atual.length && !mesmoRel)){ blocos.push(atual); atual = []; }
-    atual.push(f);
-  }
-  if(atual.length) blocos.push(atual);
-  return blocos;
+  return lista.map(f=>[f]);
 }
 function rfRotuloFuro(par, varios){
   const n = par.length===2 ? `${par[0].num} e ${par[1].num}` : `${par[0].num}`;
@@ -4563,9 +4595,9 @@ function rfMontarHTML(med, lista, opts){
     const grid = pag.map(par=>{
       const fotos = [];
       par.forEach(f=>{
-        const ft = f._srcs || [(f.fotos||[])[0]||null,(f.fotos||[])[1]||null];
-        const cs = f._carimbos || [null, null];
-        fotos.push({src:ft[0]||null, car:cs[0]}, {src:ft[1]||null, car:cs[1]});
+        const ft = f._srcs || furoSrcs(f, null);
+        const cs = f._carimbos || [];
+        FOTO_TIPOS.forEach((t,i)=> fotos.push({src:ft[i]||null, car:cs[i]||null, tipo:t}));
       });
       /* Bloco com um único furo ocupa só uma linha de fotos — nunca imprime linha vazia. */
       /* Modo "foto inteira": mesma casinha, mesmo tamanho — muda so o
@@ -4574,8 +4606,9 @@ function rfMontarHTML(med, lista, opts){
       const inteira = opts.inteira !== false;
       const cels = fotos.map(ft => ft.src
         ? `<div class="cel"><img src="${ft.src}" style="height:${hFoto}mm" alt="">`
+          + `<div class="rotf">${esc(FOTO_CURTO[ft.tipo]||'')}</div>`
           + `${rfCarimboHTML(ft.car, opts, inteira)}</div>`
-        : `<div class="vz" style="height:${hFoto}mm">sem foto</div>`).join('');
+        : `<div class="vz" style="height:${hFoto}mm"><b>${esc(FOTO_CURTO[ft.tipo]||'')}</b>sem foto</div>`).join('');
       /* Tarja de pendência: o bloco entra no documento, mas sinalizado. */
       let tarja = '';
       if(opts.tarja !== false){
@@ -4585,7 +4618,7 @@ function rfMontarHTML(med, lista, opts){
           const cor = devolvido ? '#A32D2D' : '#8A5A00';
           const fundo = devolvido ? 'rgba(163,45,45,.90)' : 'rgba(138,90,0,.90)';
           const txt = devolvido ? 'DEVOLVIDO PARA CORREÇÃO' : 'AGUARDANDO VALIDAÇÃO';
-          const quais = par.length>1 && naoVal.length===1 ? ` (furo ${naoVal[0].num})` : '';
+          const quais = '';
           tarja = `<div style="position:absolute;top:0;left:0;right:0;background:${fundo};color:#fff;
             font-size:5.8pt;font-weight:700;letter-spacing:.4px;text-align:center;padding:.5mm 0;z-index:2">${txt}${quais}</div>`;
           return `<div class="rfblk" style="position:relative;outline:.6mm solid ${cor};outline-offset:-.3mm">
@@ -4737,14 +4770,14 @@ async function rfPlanilha(){
     const fotos = await dbGetAll('fotos');
     const linhas = [];
     lista.forEach(f=>{
-      ['antes','depois'].forEach(tipo=>{
+      FOTO_TIPOS.forEach(tipo=>{
         const fo = fotos.find(x=>x.furoUid===f.uid && x.tipo===tipo);
         const e = (fo && fo.endereco) || {};
         linhas.push({
           'Código': f._cod,
           'Medição por buraco (R$)': +medValor(f, MED_SRV.get(f.servico)).toFixed(2),
           'Data': fmtData(f.data), 'Equipe': f.equipe||'',
-          'Furo': f.num, 'Foto': tipo==='antes'?'Antes':'Depois',
+          'Furo': f.num, 'Foto': fotoRot(tipo),
           'Descrição': (fo&&fo.descricao)||'',
           'Bairro/Rua': f.rua||'', 'Bairro': f.bairro||f._bairroFoto||'',
           'Serviço': f.servico||'',
@@ -5290,7 +5323,7 @@ async function edFotosRender(){
     const varios = new Set(ordenada.map(f=>String(f.relatorioUid||''))).size > 1;
     const quadro = (f, tipo)=>{
       const fo = (porFuro.get(f.uid)||{})[tipo];
-      const rot = tipo==='antes' ? 'ANTES' : 'DEPOIS';
+      const rot = FOTO_CURTO[tipo] || tipo;
       const dentro = fo && fotoLeve(fo)
         ? `<img src="${fotoLeve(fo)}" alt="" loading="lazy" draggable="true"
               ondragstart="edArrastarInicio(event,'${esc(fo.uid)}')" ondragend="edArrastarFim()"
@@ -5315,10 +5348,10 @@ async function edFotosRender(){
           <span class="edrua">${esc(f.rua || 'sem rua')}</span>
           <span style="margin-left:auto;font-size:11px;color:var(--text2)">${esc(furoStatus(f))}</span>
         </div>
-        <div class="edpar">${quadro(f,'antes')}${quadro(f,'depois')}</div>
+        <div class="edpar">${FOTO_TIPOS.map(t=>quadro(f,t)).join('')}</div>
       </div>`;}).join('')}</div>`;
     const comFoto = ordenada.filter(f=>{
-      const p = porFuro.get(f.uid)||{}; return (p.antes&&p.antes.url) || (p.depois&&p.depois.url); }).length;
+      const p = porFuro.get(f.uid)||{}; return FOTO_TIPOS.some(t=>p[t] && p[t].url); }).length;
     $('rf-ed-info').innerHTML = `<b>${ordenada.length}</b> furo(s) neste dia · <b>${comFoto}</b> com foto`;
   }catch(err){ erroRender('ed-fotos', err, 'as fotos do dia'); }
 }
@@ -5389,7 +5422,7 @@ async function edRecebeuArquivo(input){
                                       : new Date(furo.data + 'T12:00:00').toISOString();
       const base = {
         furoUid: furo.uid, furoNum: furo.num, tipo: alvo.tipo,
-        rotulo: `Furo ${furo.num} ${alvo.tipo==='antes'?'Antes':'Depois'}`,
+        rotulo: `Furo ${furo.num} ${fotoRot(alvo.tipo)}`,
         dataHora: quando, url, arquivo: caminho, enviada: true,
         lat:null, lng:null, alt:null, precisao:null, heading:null, direcao:'',
         indice:'', endereco:null, enderecoOk:false, temMapa:false,
@@ -5400,13 +5433,13 @@ async function edRecebeuArquivo(input){
       await histLog(jaTem?'Trocou foto':'Anexou foto','foto', (jaTem&&jaTem.uid)||null,
         `Furo ${furo.num} ${alvo.tipo} · ${fmtData(furo.data)} · ${furo.equipe||''} · pelo escritório`, '');
       await edRefazer(); await edAtualizarTelas();
-      alerta('rf-ed-ok', `Foto anexada ao <b>${alvo.tipo==='antes'?'Antes':'Depois'}</b> do furo <b>${furo.num}</b>.
+      alerta('rf-ed-ok', `Foto anexada ao <b>${fotoRot(alvo.tipo)}</b> do furo <b>${furo.num}</b>.
         Ela entra no documento sem carimbo de localização — o carimbo só existe na foto tirada pelo app.`, 0);
       if(syncLigado()) syncAgora(true);
     };
     if(jaTem){
       confirmar('Trocar a foto deste quadro',
-        `O <b>${alvo.tipo==='antes'?'Antes':'Depois'}</b> do furo <b>${furo.num}</b> já tem foto.
+        `O <b>${fotoRot(alvo.tipo)}</b> do furo <b>${furo.num}</b> já tem foto.
          A nova entra no lugar dela. <b>Não dá para desfazer.</b>`, gravar);
     } else await gravar();
   }catch(err){
@@ -5459,19 +5492,19 @@ async function edMoverFoto(uid, furoUid, tipo){
     const origem  = furos.find(x=>x.uid === foto.furoUid) || null;
     const ocupa   = fotos.find(x=>x.furoUid === furoUid && x.tipo === tipo && x.uid !== uid);
     const marca = (ft, furo, tp)=>({...ft, furoUid:furo.uid, furoNum:furo.num, tipo:tp,
-      rotulo:`Furo ${furo.num} ${tp==='antes'?'Antes':'Depois'}`});
+      rotulo:`Furo ${furo.num} ${fotoRot(tp)}`});
     await dbPut('fotos', marca(foto, destino, tipo));
     /* quadro ocupado: as duas trocam de lugar, nenhuma se perde */
     if(ocupa && origem) await dbPut('fotos', marca(ocupa, origem, foto.tipo));
     else if(ocupa)      await dbPut('fotos', {...ocupa, tipo: foto.tipo,
-      rotulo:`Furo ${ocupa.furoNum} ${foto.tipo==='antes'?'Antes':'Depois'}`});
+      rotulo:`Furo ${ocupa.furoNum} ${fotoRot(foto.tipo)}`});
     await histLog('Moveu foto','foto', foto.uid,
       `de furo ${origem?origem.num:'?'} ${foto.tipo} para furo ${destino.num} ${tipo}`, '');
     ED_PEGOU = null;
     await edFotosRender(); await edAtualizarTelas();
     alerta('rf-ed-ok', ocupa
       ? `Fotos trocadas de quadro.`
-      : `Foto movida para o <b>${tipo==='antes'?'Antes':'Depois'}</b> do furo <b>${destino.num}</b>.`);
+      : `Foto movida para o <b>${fotoRot(tipo)}</b> do furo <b>${destino.num}</b>.`);
     if(syncLigado()) syncAgora(true);
   }catch(err){ alerta('rf-ed-err','Não deu para mover a foto: '+esc(err.message||err)); }
 }
@@ -5481,7 +5514,7 @@ async function edApagarFoto(uid){
   const furos = await dbGetAll('furos');
   const furo = furos.find(x=>x.uid === fo.furoUid);
   confirmar('Apagar esta foto',
-    `A foto do <b>${fo.tipo==='antes'?'Antes':'Depois'}</b> do furo
+    `A foto do <b>${fotoRot(fo.tipo)}</b> do furo
      <b>${furo?furo.num:'?'}</b> será apagada aqui e nos celulares na próxima sincronização.
      O furo continua no relatório, com o quadro vazio. <b>Não dá para desfazer.</b>`,
     async()=>{
@@ -5550,7 +5583,7 @@ async function rfEdCampo(uid, campo, valor){
     if(campo==='num'){
       const fts = (await dbGetAll('fotos')).filter(x=>x.furoUid===uid);
       for(const ft of fts) await dbPut('fotos', {...ft, furoNum:novo.num,
-        rotulo:`Furo ${novo.num} ${ft.tipo==='antes'?'Antes':'Depois'}`});
+        rotulo:`Furo ${novo.num} ${fotoRot(ft.tipo)}`});
     }
     await edRefazer(); await edAtualizarTelas();
     if(syncLigado()) syncAgora(true);
@@ -5659,7 +5692,7 @@ async function abrirSessao(){
   }
 
   $('f-data').value = hoje();
-  furoPintaSlot(0); furoPintaSlot(1);
+  [0,1,2,3].forEach(furoPintaSlot);
   await furoProxNum();
   aplicarPerfil(CU);
   await histLog('Entrou no sistema','sessao', null, '', '');

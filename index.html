@@ -145,6 +145,10 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
 .medres{margin-top:9px;background:var(--blue-bg);color:var(--blue);border-radius:var(--r2);
   padding:8px 11px;font-size:12.5px;font-weight:600}
 .medres.vazio{background:var(--bg3);color:var(--text3);font-weight:500}
+/* O quadro do + : mesma casinha das fotos, só que convidando a somar mais uma. */
+.slotp.mais{border-style:dashed;border-color:var(--blue);background:var(--blue-bg)}
+.slotp.mais i{font-size:30px;color:var(--blue)}
+.slotp.mais .rot{color:var(--blue)}
 .eqprow{margin-top:11px}
 .eqprow label{display:block;font-size:11px;font-weight:700;color:var(--text2);
   text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
@@ -451,7 +455,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text
    Companheiro do sistema de Relatório Fotográfico. Funciona offline e
    sincroniza pela mesma tabela na nuvem usada pelo computador.
    ====================================================================== */
-const APP_VERSION = '20260922-001';
+const APP_VERSION = '20260928-001';
 
 /* ======================================================================
    CONFIGURAÇÃO DA NUVEM — preencha UMA VEZ, antes de publicar o app.
@@ -1655,7 +1659,7 @@ async function seqRecebeuFoto(input){
     const ja = fotosDoFuro.find(x=>x.tipo===tipo);
     const registro = {
       relatorioUid:furo.relatorioUid, furoUid, furoNum:furo.num, tipo,
-      rotulo:`Furo ${furo.num} ${tipo==='antes'?'Antes':'Depois'}`,
+      rotulo:`Furo ${furo.num} ${fotoRot(tipo)}`,
       dataHora:meta.dataHora, lat:meta.lat, lng:meta.lng, alt:meta.alt, precisao:meta.precisao,
       heading:meta.heading, direcao:meta.direcao, indice:meta.indice,
       endereco:meta.endereco, enderecoOk, temMapa:!!meta.mapa,
@@ -1692,6 +1696,16 @@ function seqMarcarOcupado(furoUid, tipo, txt){
    campo: quem está na rua tira as duas fotos e pronto. As medidas passaram a ser
    lançadas no escritório, ao conferir o relatório. Os campos continuam existindo
    no registro da foto — só não são mais preenchidos aqui. */
+/* ==================== AS FOTOS DE UM BURACO ============================
+   Duas são obrigatórias — ANTES e CONCLUÍDO. O + acrescenta até duas fotos
+   de DURANTE, e aí o buraco fecha com quatro. É a mesma ordem que sai no
+   quadro do relatório. */
+const FOTO_TIPOS = ['antes','durante1','durante2','depois'];
+const FOTO_ROTULO = {antes:'Antes', durante1:'Durante', durante2:'Durante', depois:'Concluído'};
+const FOTO_CURTO  = {antes:'ANTES', durante1:'DURANTE', durante2:'DURANTE', depois:'CONCLUÍDO'};
+const FOTO_OBRIGATORIAS = ['antes','depois'];
+function fotoRot(t){ return FOTO_ROTULO[t] || t; }
+
 /* ====================== MEDIÇÃO POR BURACO (campo) =====================
    A equipe mede o buraco na rua e digita os três números aqui. O escritório
    recebe pela sincronização e fecha o valor com o preço do serviço — quem
@@ -1786,9 +1800,12 @@ async function seqRender(){
 
     let nFotos = 0, semEnd = 0, aEnviar = 0, semGps = 0;
     const html = furos.map(f=>{
-      const cels = ['antes','depois'].map(tipo=>{
+      /* Os obrigatórios sempre aparecem; os de DURANTE só depois de tirados. */
+      const tiposDoFuro = FOTO_TIPOS.filter(t => FOTO_OBRIGATORIAS.includes(t) || mapaF.has(f.uid+'|'+t));
+      const livre = FOTO_TIPOS.find(t => !FOTO_OBRIGATORIAS.includes(t) && !mapaF.has(f.uid+'|'+t));
+      const cels = tiposDoFuro.map(tipo=>{
         const fo = mapaF.get(f.uid+'|'+tipo);
-        const rot = `FURO ${f.num}<br>${tipo==='antes'?'ANTES':'DEPOIS'}`;
+        const rot = `FURO ${f.num}<br>${FOTO_CURTO[tipo]}`;
         if(!fo) return `<div class="slotp" data-slot="${f.uid}|${tipo}" onclick="seqTirar('${f.uid}','${tipo}')">
             <i class="ti ti-camera-plus"></i><div class="rot">${rot}</div></div>`;
         nFotos++;
@@ -1803,12 +1820,15 @@ async function seqRender(){
             ${src?`<img src="${src}" alt="">`:''}
             <div class="gps${gpsCls}">${gpsTxt}</div>
             <div class="tag">${esc(fo.rotulo)}${fo.enviada?' ✓':''}</div></div>`;
-      }).join('');
+      }).join('')
+      + (livre ? `<div class="slotp mais" onclick="seqTirar('${f.uid}','${livre}')">
+            <i class="ti ti-plus"></i><div class="rot">MAIS UMA FOTO<br>até 4 no buraco</div></div>` : '');
       const completo = mapaF.has(f.uid+'|antes') && mapaF.has(f.uid+'|depois');
+      const nDoFuro = FOTO_TIPOS.filter(t=>mapaF.has(f.uid+'|'+t)).length;
       return `<div class="fcard-furo${completo?' ok':''}">
         <div class="fh"><b>Furo ${f.num}</b>
           ${f.rua?`<span style="font-size:11.5px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.rua)}</span>`:'<span style="flex:1"></span>'}
-          <span class="st ${completo?'s-ok':'s-wn'}">${completo?'2 fotos':'incompleto'}</span>
+          <span class="st ${completo?'s-ok':'s-wn'}">${completo?nDoFuro+' fotos':'faltam as 2 obrigatórias'}</span>
           <button class="btn sm" style="width:auto;padding:6px 9px" onclick="seqExcluirFuro('${f.uid}',${f.num})"><i class="ti ti-trash"></i></button></div>
         <div class="fb">
           <div class="fotos">${cels}</div>
@@ -1835,7 +1855,7 @@ async function seqRender(){
     $('s-lista').innerHTML = html || `<div class="empty"><i class="ti ti-camera-off"></i>
       Nenhum furo lançado neste relatório. Toque em <b>Adicionar furo</b> para começar.</div>`;
     $('s-add-txt').textContent = furos.length
-      ? `Adicionar furo ${furos.length+1} (2 fotos)` : 'Adicionar furo 1 (2 fotos)';
+      ? `Adicionar furo ${furos.length+1} (2 a 4 fotos)` : 'Adicionar furo 1 (2 a 4 fotos)';
     const rua = $('s-rua').value.trim();
     $('s-rua-txt').innerHTML = rua ? `Trocar rua — hoje: <b>${esc(rua)}</b>` : 'Definir a rua';
 
@@ -2048,8 +2068,8 @@ async function seqGerarPDF(compartilhar){
     const mapaI = new Map(imgs.map(i=>[i.fotoUid,i]));
     const mapaF = new Map(); fotos.forEach(x=>mapaF.set(x.furoUid+'|'+x.tipo,x));
 
-    const pares = [];
-    for(let i=0;i<furos.length;i+=2) pares.push(furos.slice(i,i+2));
+    /* Um buraco por quadro, com os quatro espaços dele. */
+    const pares = furos.map(f=>[f]);
 
     const M = 8, LARG = 210, COL = (LARG - M*2 - 6)/2, HF = 24, BPP = 8;
     const dataTxt = fmtData($('s-data').value);
@@ -2078,7 +2098,7 @@ async function seqGerarPDF(compartilhar){
         const y0 = y + lin*(HF*2 + 12 + 4);
         const par = daPagina[b];
         const cel = [];
-        par.forEach(f=>{ ['antes','depois'].forEach(t=>{
+        par.forEach(f=>{ FOTO_TIPOS.forEach(t=>{
           const fo = mapaF.get(f.uid+'|'+t);
           const im = fo && mapaI.get(fo.uid);
           cel.push(im ? im.carimbada : null);
@@ -2152,12 +2172,12 @@ async function seqLinhas(){
   const fotos = await dbGetAll('fotos');
   const linhas = [];
   furos.forEach(f=>{
-    ['antes','depois'].forEach(tipo=>{
+    FOTO_TIPOS.forEach(tipo=>{
       const fo = fotos.find(x=>x.furoUid===f.uid && x.tipo===tipo);
       const e = (fo && fo.endereco) || {};
       linhas.push({
         'Data': fmtData(f.data), 'Equipe': f.equipe||'',
-        'Furo': f.num, 'Foto': tipo==='antes'?'Antes':'Depois',
+        'Furo': f.num, 'Foto': fotoRot(tipo),
         'Bairro/Rua': f.rua||'', 'Bairro (carimbo)': e.bairro||'',
         'Serviço': f.servico||'', 'Equipamento': f.equipamento||'',
         'Comprimento (m)': medNum(f.comp)||'', 'Largura (m)': medNum(f.larg)||'',
@@ -2265,7 +2285,7 @@ async function seqConcluir(){
   };
   if(semFoto.length){
     confirmarSheet('Furos incompletos',
-      `Os furos <b>${semFoto.slice(0,12).join(', ')}</b>${semFoto.length>12?'...':''} estão sem as duas fotos.
+      `Os furos <b>${semFoto.slice(0,12).join(', ')}</b>${semFoto.length>12?'...':''} estão sem as duas fotos obrigatórias (Antes e Concluído).
        Eles entram no relatório com o espaço vazio. Continuar mesmo assim?`, seguir);
   } else seguir();
 }
